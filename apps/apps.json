@@ -1,0 +1,71 @@
+[
+  {
+    "id": "dify",
+    "name": "Dify",
+    "icon": "linear-gradient(135deg, #1C64F2, #7C3AED)",
+    "iconLetter": "D",
+    "shortDesc": "开源 AI 应用开发平台",
+    "fullDesc": "Dify 是一个开源的 LLM 应用开发平台，支持可视化编排 AI 工作流、RAG 管道、Agent 智能体等功能。",
+    "category": "ai-platform",
+    "tags": ["LLM", "RAG", "Agent", "Workflow"],
+    "version": "0.8.3",
+    "latestVersion": "0.8.3",
+    "author": "Dify.AI",
+    "githubUrl": "https://github.com/langgenius/dify",
+    "stars": 56200,
+    "installStatus": "not_installed",
+    "requirements": {
+      "docker": true,
+      "minMemory": "4GB",
+      "minDisk": "10GB",
+      "ports": [3000, 5001]
+    },
+    "configNeeded": ["Docker 运行环境", "OpenAI API Key（可选）"]
+  },
+  {
+    "id": "ragflow",
+    "name": "RagFlow",
+    "icon": "linear-gradient(135deg, #34C759, #30D158)",
+    "iconLetter": "R",
+    "shortDesc": "深度文档理解的 RAG 引擎",
+    "fullDesc": "RagFlow 是一款基于深度文档理解的开源 RAG 引擎，支持复杂格式文档解析和多级检索。",
+    "category": "rag",
+    "tags": ["RAG", "文档理解", "检索", "DeepDoc"],
+    "version": "0.15.0",
+    "latestVersion": "0.15.0",
+    "author": "InfiniFlow",
+    "githubUrl": "https://github.com/infiniflow/ragflow",
+    "stars": 35800,
+    "installStatus": "not_installed",
+    "requirements": {
+      "docker": true,
+      "minMemory": "8GB",
+      "minDisk": "20GB",
+      "ports": [9380]
+    },
+    "configNeeded": ["Docker 运行环境"]
+  },
+  {
+    "id": "open-webui",
+    "name": "Open WebUI",
+    "icon": "linear-gradient(135deg, #FF9500, #FF6B00)",
+    "iconLetter": "O",
+    "shortDesc": "OpenAI 兼容的 Web 界面",
+    "fullDesc": "Open WebUI 是一个功能丰富的自托管 WebUI，支持 Ollama 和 OpenAI 兼容 API。",
+    "category": "chat",
+    "tags": ["Chat", "WebUI", "Ollama", "OpenAI"],
+    "version": "0.3.35",
+    "latestVersion": "0.3.35",
+    "author": "Open WebUI",
+    "githubUrl": "https://github.com/open-webui/open-webui",
+    "stars": 48500,
+    "installStatus": "not_installed",
+    "requirements": {
+      "docker": true,
+      "minMemory": "2GB",
+      "minDisk": "5GB",
+      "ports": [8080]
+    },
+    "configNeeded": ["Docker 运行环境", "Ollama 或 OpenAI API"]
+  }
+]

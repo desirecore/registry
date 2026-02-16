@@ -1,0 +1,34 @@
+[
+  {
+    "id": "language",
+    "label": "语言模型",
+    "icon": "message-circle",
+    "order": 1,
+    "description": "文本对话、推理、翻译等语言处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "voice",
+    "label": "语音模型",
+    "icon": "volume-2",
+    "order": 2,
+    "description": "语音合成、识别、复刻等语音处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "vision",
+    "label": "视觉模型",
+    "icon": "eye",
+    "order": 3,
+    "description": "图像理解、OCR、图像/视频生成等视觉处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "vector",
+    "label": "向量模型",
+    "icon": "bar-chart-3",
+    "order": 4,
+    "description": "文本向量化和检索重排序",
+    "origin": "builtin"
+  }
+]

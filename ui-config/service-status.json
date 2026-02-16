@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "statusConfig": {
+    "online": {
+      "label": "在线",
+      "color": "green",
+      "icon": "check-circle"
+    },
+    "offline": {
+      "label": "离线",
+      "color": "gray",
+      "icon": "minus-circle"
+    },
+    "error": {
+      "label": "错误",
+      "color": "red",
+      "icon": "alert-circle"
+    },
+    "starting": {
+      "label": "启动中",
+      "color": "blue",
+      "icon": "loader"
+    }
+  },
+  "protocolConfig": {
+    "mcp": {
+      "label": "MCP",
+      "description": "Model Context Protocol"
+    },
+    "http": {
+      "label": "HTTP",
+      "description": "RESTful HTTP API"
+    },
+    "websocket": {
+      "label": "WebSocket",
+      "description": "WebSocket 实时通信"
+    }
+  }
+}

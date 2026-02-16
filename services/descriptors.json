@@ -1,0 +1,47 @@
+[
+  {
+    "id": "chat",
+    "version": "1.0.0",
+    "category": "language",
+    "display": {
+      "label": "主对话",
+      "shortLabel": "Chat",
+      "groupLabel": "Chat 模型",
+      "icon": "message-circle",
+      "description": "通用对话服务，Agent 核心交互能力"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "reasoning",
+    "version": "1.0.0",
+    "category": "language",
+    "display": {
+      "label": "推理",
+      "shortLabel": "Reason",
+      "groupLabel": "推理模型",
+      "icon": "brain",
+      "description": "复杂推理服务，适合深度思考和分析任务"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "embedding",
+    "version": "1.0.0",
+    "category": "vector",
+    "display": {
+      "label": "向量化",
+      "shortLabel": "Embed",
+      "groupLabel": "Embedding",
+      "icon": "bar-chart-3",
+      "description": "文本向量化，用于语义搜索和检索"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  }
+]

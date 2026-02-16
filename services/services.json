@@ -1,0 +1,26 @@
+[
+  {
+    "id": "fs-mcp",
+    "name": "Filesystem MCP",
+    "description": "本地文件系统操作，支持读写、搜索、监控文件变化",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "manual",
+    "endpoint": "stdio:///usr/local/bin/fs-mcp",
+    "transport": "stdio",
+    "capabilities": ["file_read", "file_write", "file_search", "file_watch"],
+    "tags": ["文件系统", "本地"]
+  },
+  {
+    "id": "github-mcp",
+    "name": "GitHub MCP",
+    "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "manual",
+    "endpoint": "stdio:///usr/local/bin/github-mcp",
+    "transport": "stdio",
+    "capabilities": ["repo_read", "pr_manage", "issue_manage", "code_search"],
+    "tags": ["代码", "Git", "PR"]
+  }
+]

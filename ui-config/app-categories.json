@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "categories": [
+    {
+      "id": "ai-platform",
+      "label": "AI 平台",
+      "icon": "cpu",
+      "order": 1,
+      "description": "AI 应用开发与编排平台"
+    },
+    {
+      "id": "rag",
+      "label": "RAG",
+      "icon": "database",
+      "order": 2,
+      "description": "检索增强生成系统"
+    },
+    {
+      "id": "chat",
+      "label": "对话",
+      "icon": "message-circle",
+      "order": 3,
+      "description": "对话界面与聊天工具"
+    },
+    {
+      "id": "tools",
+      "label": "工具",
+      "icon": "wrench",
+      "order": 4,
+      "description": "实用工具与辅助软件"
+    }
+  ]
+}

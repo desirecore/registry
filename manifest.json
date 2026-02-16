@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "desirecore-registry-manifest",
+  "version": "1.0.0",
+  "name": "DesireCore Registry",
+  "description": "DesireCore 官方应用商店与服务注册表",
+  "maintainer": "DesireCore Team",
+  "repository": "https://github.com/desirecore/registry",
+  "lastUpdated": "2026-02-16",
+  "dataVersion": {
+    "apps": "1.0.0",
+    "services": "1.0.0",
+    "descriptors": "1.0.0",
+    "categories": "1.0.0"
+  }
+}
