@@ -3,37 +3,62 @@
   "statusConfig": {
     "online": {
       "label": "在线",
-      "color": "green",
+      "color": "var(--accent-green)",
+      "bg": "var(--accent-green)",
       "icon": "check-circle"
     },
     "offline": {
       "label": "离线",
-      "color": "gray",
+      "color": "var(--sys-tertiary)",
+      "bg": "var(--sys-tertiary)",
       "icon": "minus-circle"
     },
+    "degraded": {
+      "label": "降级",
+      "color": "var(--accent-orange)",
+      "bg": "var(--accent-orange)",
+      "icon": "alert-triangle"
+    },
     "error": {
-      "label": "错误",
-      "color": "red",
+      "label": "异常",
+      "color": "var(--accent-red)",
+      "bg": "var(--accent-red)",
       "icon": "alert-circle"
     },
-    "starting": {
-      "label": "启动中",
-      "color": "blue",
-      "icon": "loader"
+    "disabled": {
+      "label": "已禁用",
+      "color": "var(--sys-tertiary)",
+      "bg": "var(--sys-fill)",
+      "icon": "slash"
     }
   },
   "protocolConfig": {
     "mcp": {
       "label": "MCP",
+      "color": "var(--accent-purple)",
+      "icon": "plug",
       "description": "Model Context Protocol"
     },
     "http": {
       "label": "HTTP",
+      "color": "var(--accent-blue)",
+      "icon": "globe",
       "description": "RESTful HTTP API"
     },
     "websocket": {
       "label": "WebSocket",
+      "icon": "radio",
       "description": "WebSocket 实时通信"
+    }
+  },
+  "originConfig": {
+    "app": {
+      "label": "应用提供",
+      "color": "var(--accent-green)"
+    },
+    "manual": {
+      "label": "手动注册",
+      "color": "var(--accent-blue)"
     }
   }
 }

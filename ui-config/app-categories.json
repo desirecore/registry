@@ -4,30 +4,42 @@
     {
       "id": "ai-platform",
       "label": "AI 平台",
-      "icon": "cpu",
+      "color": "var(--accent-purple)",
+      "icon": "bot",
       "order": 1,
       "description": "AI 应用开发与编排平台"
     },
     {
       "id": "rag",
       "label": "RAG",
-      "icon": "database",
+      "color": "var(--accent-orange)",
+      "icon": "book-open",
       "order": 2,
       "description": "检索增强生成系统"
     },
     {
-      "id": "chat",
-      "label": "对话",
-      "icon": "message-circle",
+      "id": "workflow",
+      "label": "工作流",
+      "color": "var(--accent-green)",
+      "icon": "zap",
       "order": 3,
-      "description": "对话界面与聊天工具"
+      "description": "工作流自动化与编排"
     },
     {
       "id": "tools",
       "label": "工具",
+      "color": "var(--accent-blue)",
       "icon": "wrench",
       "order": 4,
       "description": "实用工具与辅助软件"
+    },
+    {
+      "id": "chat",
+      "label": "对话",
+      "color": "var(--accent-green)",
+      "icon": "message-circle",
+      "order": 5,
+      "description": "对话界面与聊天工具"
     }
   ]
 }

@@ -6,11 +6,18 @@
   "description": "DesireCore 官方应用商店与服务注册表",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
-  "lastUpdated": "2026-02-16",
+  "lastUpdated": "2026-02-17",
+  "stats": {
+    "apps": 8,
+    "services": 10,
+    "descriptors": 18,
+    "serviceCategories": 6,
+    "appCategories": 5
+  },
   "dataVersion": {
-    "apps": "1.0.0",
-    "services": "1.0.0",
-    "descriptors": "1.0.0",
-    "categories": "1.0.0"
+    "apps": "1.1.0",
+    "services": "1.1.0",
+    "descriptors": "1.1.0",
+    "categories": "1.1.0"
   }
 }

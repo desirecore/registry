@@ -30,6 +30,298 @@
     "mutable": false
   },
   {
+    "id": "fast",
+    "version": "1.0.0",
+    "category": "language",
+    "display": {
+      "label": "快速",
+      "shortLabel": "Fast",
+      "groupLabel": "快速模型",
+      "icon": "zap",
+      "description": "低延迟响应，适合简单快速任务"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "responses",
+    "version": "1.0.0",
+    "category": "language",
+    "display": {
+      "label": "Responses",
+      "shortLabel": "Resp.",
+      "groupLabel": "Responses",
+      "icon": "circle-help",
+      "description": "OpenAI Responses API，高级推理与工具使用"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "translation",
+    "version": "1.0.0",
+    "category": "language",
+    "display": {
+      "label": "翻译",
+      "shortLabel": "Trans",
+      "groupLabel": "翻译模型",
+      "icon": "languages",
+      "description": "多语种互译服务"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "tts",
+    "version": "1.0.0",
+    "category": "voice",
+    "display": {
+      "label": "语音合成",
+      "shortLabel": "TTS",
+      "groupLabel": "TTS 语音合成",
+      "icon": "volume-2",
+      "description": "将文本转换为语音音频"
+    },
+    "modelFields": [
+      {
+        "name": "voices",
+        "type": "array",
+        "items": "string",
+        "label": "可选音色",
+        "description": "该模型支持的音色列表",
+        "required": true
+      },
+      {
+        "name": "supportedAudioFormats",
+        "type": "array",
+        "items": "string",
+        "label": "支持的音频格式",
+        "description": "支持的输出格式列表",
+        "required": true
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "asr",
+    "version": "1.0.0",
+    "category": "voice",
+    "display": {
+      "label": "语音识别",
+      "shortLabel": "ASR",
+      "groupLabel": "ASR 语音识别",
+      "icon": "mic",
+      "description": "将语音音频转换为文本"
+    },
+    "modelFields": [
+      {
+        "name": "maxAudioLength",
+        "type": "number",
+        "label": "最大音频时长",
+        "description": "支持的最大音频时长（秒）",
+        "required": false
+      },
+      {
+        "name": "supportedInputFormats",
+        "type": "array",
+        "items": "string",
+        "label": "支持的输入格式",
+        "description": "支持的音频输入格式列表",
+        "required": false
+      },
+      {
+        "name": "streamingSupported",
+        "type": "boolean",
+        "label": "流式支持",
+        "description": "是否支持流式语音识别",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "voice_clone",
+    "version": "1.0.0",
+    "category": "voice",
+    "display": {
+      "label": "声音复刻",
+      "shortLabel": "VClone",
+      "groupLabel": "声音复刻",
+      "icon": "audio-lines",
+      "description": "通过少量样本克隆声音"
+    },
+    "modelFields": [
+      {
+        "name": "maxCloneSamples",
+        "type": "number",
+        "label": "最大参考音频数",
+        "description": "允许的最大参考音频样本数",
+        "required": false
+      },
+      {
+        "name": "minCloneDuration",
+        "type": "number",
+        "label": "最短参考时长",
+        "description": "最短参考音频时长（秒）",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "realtime_voice",
+    "version": "1.0.0",
+    "category": "voice",
+    "display": {
+      "label": "实时语音",
+      "shortLabel": "RtVoice",
+      "groupLabel": "实时语音交互",
+      "icon": "phone",
+      "description": "低延迟实时语音交互"
+    },
+    "modelFields": [
+      {
+        "name": "supportedModes",
+        "type": "array",
+        "items": "string",
+        "label": "支持的模式",
+        "description": "支持的交互模式列表",
+        "required": false
+      },
+      {
+        "name": "latencyMs",
+        "type": "number",
+        "label": "典型延迟",
+        "description": "典型延迟（毫秒）",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "simultaneous_interpret",
+    "version": "1.0.0",
+    "category": "voice",
+    "display": {
+      "label": "同声传译",
+      "shortLabel": "SimInterp",
+      "groupLabel": "同声传译",
+      "icon": "globe",
+      "description": "实时同声传译服务"
+    },
+    "modelFields": [
+      {
+        "name": "streamingSupported",
+        "type": "boolean",
+        "label": "流式支持",
+        "description": "是否支持流式传译",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "vision",
+    "version": "1.0.0",
+    "category": "vision",
+    "display": {
+      "label": "视觉",
+      "shortLabel": "Vision",
+      "groupLabel": "视觉模型",
+      "icon": "eye",
+      "description": "图像理解与分析"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "ocr",
+    "version": "1.0.0",
+    "category": "vision",
+    "display": {
+      "label": "OCR",
+      "shortLabel": "OCR",
+      "groupLabel": "OCR",
+      "icon": "pen-line",
+      "description": "光学字符识别"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "image_gen",
+    "version": "1.0.0",
+    "category": "vision",
+    "display": {
+      "label": "文生图",
+      "shortLabel": "ImgGen",
+      "groupLabel": "文生图",
+      "icon": "palette",
+      "description": "根据文本描述生成图像"
+    },
+    "modelFields": [
+      {
+        "name": "supportedImageSizes",
+        "type": "array",
+        "items": "string",
+        "label": "支持的图像尺寸",
+        "description": "支持的输出图像尺寸列表",
+        "required": false
+      },
+      {
+        "name": "supportedStyles",
+        "type": "array",
+        "items": "string",
+        "label": "支持的风格",
+        "description": "支持的生成风格列表",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "video_gen",
+    "version": "1.0.0",
+    "category": "vision",
+    "display": {
+      "label": "文生视频",
+      "shortLabel": "VidGen",
+      "groupLabel": "文生视频",
+      "icon": "clapperboard",
+      "description": "根据文本描述生成视频"
+    },
+    "modelFields": [
+      {
+        "name": "maxVideoDuration",
+        "type": "number",
+        "label": "最大视频时长",
+        "description": "支持的最大视频时长（秒）",
+        "required": false
+      },
+      {
+        "name": "supportedResolutions",
+        "type": "array",
+        "items": "string",
+        "label": "支持的分辨率",
+        "description": "支持的视频分辨率列表",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
     "id": "embedding",
     "version": "1.0.0",
     "category": "vector",
@@ -41,6 +333,90 @@
       "description": "文本向量化，用于语义搜索和检索"
     },
     "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "rerank",
+    "version": "1.0.0",
+    "category": "vector",
+    "display": {
+      "label": "重排序",
+      "shortLabel": "Rerank",
+      "groupLabel": "Rerank",
+      "icon": "search",
+      "description": "检索结果重排序，提升搜索精度"
+    },
+    "modelFields": [],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "omni",
+    "version": "1.0.0",
+    "category": "omni",
+    "display": {
+      "label": "全能模型",
+      "shortLabel": "Omni",
+      "groupLabel": "全能模型",
+      "icon": "globe",
+      "description": "原生多模态模型，同时具备文本、视觉、语音能力"
+    },
+    "modelFields": [
+      {
+        "name": "supportedModes",
+        "type": "array",
+        "items": "string",
+        "label": "支持的模式",
+        "description": "支持的交互模式列表",
+        "required": false
+      },
+      {
+        "name": "latencyMs",
+        "type": "number",
+        "label": "典型延迟",
+        "description": "典型延迟（毫秒）",
+        "required": false
+      }
+    ],
+    "origin": "builtin",
+    "mutable": false
+  },
+  {
+    "id": "computer_use",
+    "version": "1.0.0",
+    "category": "action",
+    "display": {
+      "label": "桌面操控",
+      "shortLabel": "CmpUse",
+      "groupLabel": "桌面操控",
+      "icon": "monitor",
+      "description": "通过截屏和鼠标/键盘控制实现桌面自动化"
+    },
+    "modelFields": [
+      {
+        "name": "supportedActions",
+        "type": "array",
+        "items": "string",
+        "label": "支持的操作",
+        "description": "该模型支持的桌面操作列表",
+        "required": true
+      },
+      {
+        "name": "toolVersion",
+        "type": "string",
+        "label": "Tool 版本",
+        "description": "该模型对应的 computer tool 版本标识",
+        "required": true
+      },
+      {
+        "name": "betaFlag",
+        "type": "string",
+        "label": "Beta 请求头",
+        "description": "该模型需要的 beta header 值",
+        "required": true
+      }
+    ],
     "origin": "builtin",
     "mutable": false
   }
