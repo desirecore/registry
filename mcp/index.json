@@ -1,0 +1,175 @@
+[
+  {
+    "id": "fs-mcp",
+    "name": "Filesystem MCP",
+    "description": "本地文件系统操作，支持读写、搜索、监控文件变化",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["file_read", "file_write", "file_search", "file_watch"],
+    "toolCount": 11,
+    "version": "1.2.0",
+    "author": "Anthropic",
+    "tags": ["文件系统", "本地"],
+    "install": {
+      "method": "npx",
+      "packageName": "@modelcontextprotocol/server-filesystem",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/dir"]
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/dir"]
+    }
+  },
+  {
+    "id": "github-mcp",
+    "name": "GitHub MCP",
+    "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["repo_read", "pr_manage", "issue_manage", "code_search"],
+    "toolCount": 35,
+    "version": "0.9.1",
+    "author": "GitHub",
+    "tags": ["代码", "Git", "PR"],
+    "install": {
+      "method": "npx",
+      "packageName": "@modelcontextprotocol/server-github",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-token>"
+      }
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    }
+  },
+  {
+    "id": "playwright-mcp",
+    "name": "Playwright MCP",
+    "description": "浏览器自动化 — 网页导航、截图、表单填写、DOM 操作、PDF 生成",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["page_navigate", "screenshot", "dom_query", "form_fill", "pdf_generate", "content_extract"],
+    "toolCount": 33,
+    "version": "0.0.68",
+    "author": "Microsoft",
+    "tags": ["浏览器", "自动化", "Playwright"],
+    "install": {
+      "method": "npx",
+      "packageName": "@playwright/mcp",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "postInstall": ["npx playwright install chromium"]
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  },
+  {
+    "id": "dify-mcp",
+    "name": "Dify MCP Bridge",
+    "description": "Dify 平台 Agent 工具集桥接，支持调用 Dify 内置工具和自定义工具",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "app",
+    "sourceAppId": "dify",
+    "sourceAppName": "Dify",
+    "transport": "streamable-http",
+    "capabilities": ["tool_invoke", "workflow_trigger", "knowledge_query"],
+    "version": "0.8.3",
+    "author": "Dify.AI",
+    "tags": ["Agent", "工具集", "Workflow"],
+    "connection": {
+      "transport": "streamable-http",
+      "url": "http://localhost:3000/mcp"
+    }
+  },
+  {
+    "id": "db-mcp",
+    "name": "Database MCP",
+    "description": "PostgreSQL 数据库查询与管理，支持 SQL 执行和 Schema 浏览",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["sql_query", "schema_browse", "data_export"],
+    "toolCount": 8,
+    "version": "0.5.2",
+    "author": "Community",
+    "tags": ["数据库", "PostgreSQL", "SQL"],
+    "install": {
+      "method": "npx",
+      "packageName": "@modelcontextprotocol/server-postgres",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"]
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/mydb"]
+    }
+  },
+  {
+    "id": "memory-mcp",
+    "name": "Memory MCP",
+    "description": "基于知识图谱的持久化记忆服务，支持实体和关系的存取",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["entity_store", "relation_store", "graph_query"],
+    "toolCount": 7,
+    "version": "0.6.2",
+    "author": "Anthropic",
+    "tags": ["记忆", "知识图谱", "持久化"],
+    "install": {
+      "method": "npx",
+      "packageName": "@modelcontextprotocol/server-memory",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  },
+  {
+    "id": "fetch-mcp",
+    "name": "Fetch MCP",
+    "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
+    "protocol": "mcp",
+    "status": "offline",
+    "origin": "registry",
+    "transport": "stdio",
+    "capabilities": ["url_fetch", "html_to_markdown", "content_extract"],
+    "toolCount": 2,
+    "version": "0.6.2",
+    "author": "Anthropic",
+    "tags": ["网页", "抓取", "Markdown"],
+    "install": {
+      "method": "uvx",
+      "packageName": "mcp-server-fetch",
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    "connection": {
+      "transport": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    }
+  }
+]

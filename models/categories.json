@@ -1,0 +1,50 @@
+[
+  {
+    "id": "language",
+    "label": "语言模型",
+    "icon": "message-circle",
+    "order": 1,
+    "description": "文本对话、推理、翻译等语言处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "voice",
+    "label": "语音模型",
+    "icon": "volume-2",
+    "order": 2,
+    "description": "语音合成、识别、复刻等语音处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "vision",
+    "label": "视觉模型",
+    "icon": "eye",
+    "order": 3,
+    "description": "图像理解、OCR、图像/视频生成等视觉处理服务",
+    "origin": "builtin"
+  },
+  {
+    "id": "vector",
+    "label": "向量模型",
+    "icon": "bar-chart-3",
+    "order": 4,
+    "description": "文本向量化和检索重排序",
+    "origin": "builtin"
+  },
+  {
+    "id": "omni",
+    "label": "全能模型",
+    "icon": "globe",
+    "order": 5,
+    "description": "原生多模态模型，同时具备文本、视觉、语音能力",
+    "origin": "builtin"
+  },
+  {
+    "id": "action",
+    "label": "操控模型",
+    "icon": "monitor",
+    "order": 6,
+    "description": "桌面操控、代码执行等需要 Agent Loop 编排的交互式服务",
+    "origin": "builtin"
+  }
+]
