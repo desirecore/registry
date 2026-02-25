@@ -10,15 +10,11 @@ DesireCore 官方应用商店与服务注册表数据仓库。
 ├── SCHEMA_VERSION               # 数据格式版本（2.0.0）
 ├── manifest.json                # 仓库元数据
 ├── apps/
-│   ├── index.json               # StoreApp[] 应用列表（v2: 含 install 字段）
-│   └── apps.json                # [旧版兼容] 应用列表
+│   └── index.json               # StoreApp[] 应用列表（含 install 字段）
 ├── mcp/
 │   └── index.json               # RegisteredService[] MCP 服务（含 install + connection）
 ├── services/
-│   ├── index.json               # RegisteredService[] HTTP 服务
-│   ├── services.json            # [旧版兼容] 所有服务（MCP + HTTP 混合）
-│   ├── descriptors.json         # [旧版兼容] → models/descriptors.json
-│   └── categories.json          # [旧版兼容] → models/categories.json
+│   └── index.json               # RegisteredService[] HTTP 服务
 ├── models/
 │   ├── descriptors.json         # ServiceDescriptor[] 模型能力描述符
 │   └── categories.json          # ServiceCategoryDescriptor[] 模型分类
@@ -26,15 +22,6 @@ DesireCore 官方应用商店与服务注册表数据仓库。
     ├── app-categories.json      # 应用分类配置
     └── service-status.json      # 服务状态 UI 配置
 ```
-
-## v2 新增
-
-- **`mcp/index.json`**：MCP 服务独立目录，每个条目包含 `install`（安装方式）和 `connection`（连接配置）
-- **`models/`**：AI 模型描述符从 `services/` 移出
-- **`apps/index.json`**：应用增加 `install` 字段
-- **`services/index.json`**：仅 HTTP 服务
-
-旧路径文件保留用于向后兼容，新版客户端优先读取新路径。
 
 ## 数据格式
 
