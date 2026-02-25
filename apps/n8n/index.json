@@ -12,11 +12,9 @@
     "Integration"
   ],
   "version": "1.64.0",
-  "latestVersion": "1.64.0",
   "author": "n8n-io",
   "githubUrl": "https://github.com/n8n-io/n8n",
   "stars": 50600,
-  "installStatus": "not_installed",
   "install": {
     "method": "docker",
     "requirements": {
@@ -26,18 +24,10 @@
       "ports": [
         5678
       ]
-    }
-  },
-  "requirements": {
-    "docker": true,
-    "minMemory": "2GB",
-    "minDisk": "5GB",
-    "ports": [
-      5678
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "数据库（SQLite / PostgreSQL）"
     ]
-  },
-  "configNeeded": [
-    "Docker 运行环境",
-    "数据库（SQLite / PostgreSQL）"
-  ]
+  }
 }

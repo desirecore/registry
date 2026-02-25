@@ -13,15 +13,11 @@
     "Workflow"
   ],
   "version": "0.8.3",
-  "latestVersion": "0.8.3",
   "author": "Dify.AI",
   "githubUrl": "https://github.com/langgenius/dify",
   "stars": 56200,
-  "installStatus": "not_installed",
   "install": {
     "method": "docker-compose",
-    "composePath": "dify/docker-compose.yml",
-    "envTemplatePath": "dify/.env.example",
     "requirements": {
       "docker": true,
       "minMemory": "4GB",
@@ -30,19 +26,10 @@
         3000,
         5001
       ]
-    }
-  },
-  "requirements": {
-    "docker": true,
-    "minMemory": "4GB",
-    "minDisk": "10GB",
-    "ports": [
-      3000,
-      5001
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "OpenAI API Key（可选）"
     ]
-  },
-  "configNeeded": [
-    "Docker 运行环境",
-    "OpenAI API Key（可选）"
-  ]
+  }
 }

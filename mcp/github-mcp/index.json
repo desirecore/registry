@@ -2,10 +2,6 @@
   "id": "github-mcp",
   "name": "GitHub MCP",
   "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "registry",
-  "transport": "stdio",
   "capabilities": [
     "repo_read",
     "pr_manage",

@@ -12,11 +12,9 @@
     "插件"
   ],
   "version": "0.5.0",
-  "latestVersion": "0.5.0",
   "author": "Coze",
   "githubUrl": "https://github.com/coze-dev/coze",
   "stars": 12300,
-  "installStatus": "not_installed",
   "install": {
     "method": "docker",
     "requirements": {
@@ -26,18 +24,10 @@
       "ports": [
         8800
       ]
-    }
-  },
-  "requirements": {
-    "docker": true,
-    "minMemory": "4GB",
-    "minDisk": "8GB",
-    "ports": [
-      8800
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "API Key 配置"
     ]
-  },
-  "configNeeded": [
-    "Docker 运行环境",
-    "API Key 配置"
-  ]
+  }
 }

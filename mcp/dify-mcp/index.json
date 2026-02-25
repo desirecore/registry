@@ -2,12 +2,8 @@
   "id": "dify-mcp",
   "name": "Dify MCP Bridge",
   "description": "Dify 平台 Agent 工具集桥接，支持调用 Dify 内置工具和自定义工具",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "app",
   "sourceAppId": "dify",
   "sourceAppName": "Dify",
-  "transport": "streamable-http",
   "capabilities": [
     "tool_invoke",
     "workflow_trigger",

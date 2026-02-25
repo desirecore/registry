@@ -2,10 +2,6 @@
   "id": "fs-mcp",
   "name": "Filesystem MCP",
   "description": "本地文件系统操作，支持读写、搜索、监控文件变化",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "registry",
-  "transport": "stdio",
   "capabilities": [
     "file_read",
     "file_write",

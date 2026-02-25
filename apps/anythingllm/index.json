@@ -12,11 +12,9 @@
     "文档对话"
   ],
   "version": "1.6.2",
-  "latestVersion": "1.6.2",
   "author": "Mintplex Labs",
   "githubUrl": "https://github.com/Mintplex-Labs/anything-llm",
   "stars": 30200,
-  "installStatus": "not_installed",
   "install": {
     "method": "docker",
     "requirements": {
@@ -26,18 +24,10 @@
       "ports": [
         3001
       ]
-    }
-  },
-  "requirements": {
-    "docker": true,
-    "minMemory": "2GB",
-    "minDisk": "5GB",
-    "ports": [
-      3001
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "LLM API Key"
     ]
-  },
-  "configNeeded": [
-    "Docker 运行环境",
-    "LLM API Key"
-  ]
+  }
 }

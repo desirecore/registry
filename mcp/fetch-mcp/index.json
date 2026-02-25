@@ -2,10 +2,6 @@
   "id": "fetch-mcp",
   "name": "Fetch MCP",
   "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "registry",
-  "transport": "stdio",
   "capabilities": [
     "url_fetch",
     "html_to_markdown",

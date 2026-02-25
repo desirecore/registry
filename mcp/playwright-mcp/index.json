@@ -2,10 +2,6 @@
   "id": "playwright-mcp",
   "name": "Playwright MCP",
   "description": "浏览器自动化 — 网页导航、截图、表单填写、DOM 操作、PDF 生成",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "registry",
-  "transport": "stdio",
   "capabilities": [
     "page_navigate",
     "screenshot",

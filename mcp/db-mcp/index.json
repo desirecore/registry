@@ -2,10 +2,6 @@
   "id": "db-mcp",
   "name": "Database MCP",
   "description": "PostgreSQL 数据库查询与管理，支持 SQL 执行和 Schema 浏览",
-  "protocol": "mcp",
-  "status": "offline",
-  "origin": "registry",
-  "transport": "stdio",
   "capabilities": [
     "sql_query",
     "schema_browse",

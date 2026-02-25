@@ -13,11 +13,9 @@
     "Sandbox"
   ],
   "version": "0.9.0",
-  "latestVersion": "0.9.0",
   "author": "OpenClaw",
   "githubUrl": "https://github.com/openclaw/openclaw",
   "stars": 8500,
-  "installStatus": "not_installed",
   "install": {
     "method": "docker-compose",
     "requirements": {
@@ -28,20 +26,11 @@
         8080,
         3000
       ]
-    }
-  },
-  "requirements": {
-    "docker": true,
-    "minMemory": "4GB",
-    "minDisk": "10GB",
-    "ports": [
-      8080,
-      3000
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "Node.js 18+",
+      "API Key 配置"
     ]
-  },
-  "configNeeded": [
-    "Docker 运行环境",
-    "Node.js 18+",
-    "API Key 配置"
-  ]
+  }
 }

@@ -2,9 +2,6 @@
   "id": "wecom-webhook",
   "name": "企业微信 Webhook",
   "description": "企业微信机器人消息通知，支持文本、Markdown 和卡片消息",
-  "protocol": "http",
-  "status": "offline",
-  "origin": "manual",
   "endpoint": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send",
   "capabilities": [
     "text_message",

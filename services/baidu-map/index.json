@@ -2,9 +2,6 @@
   "id": "baidu-map",
   "name": "百度地图 API",
   "description": "地理位置服务，支持地理编码、路线规划和 POI 搜索",
-  "protocol": "http",
-  "status": "offline",
-  "origin": "manual",
   "endpoint": "https://api.map.baidu.com/v3",
   "capabilities": [
     "geocoding",
