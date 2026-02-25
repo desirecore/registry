@@ -1,0 +1,43 @@
+{
+  "id": "open-webui",
+  "name": "Open WebUI",
+  "icon": "linear-gradient(135deg, #6366F1, #8B5CF6)",
+  "iconLetter": "O",
+  "shortDesc": "自托管的 AI 对话界面，支持 Ollama 和 OpenAI 兼容 API",
+  "fullDesc": "Open WebUI 是一个可扩展的自托管 AI 界面，支持完全离线操作。支持多种 LLM 运行器，包括 Ollama 和 OpenAI 兼容 API，内置 RAG 集成、网页浏览、代码执行等功能。",
+  "category": "chat",
+  "tags": [
+    "Chat",
+    "Ollama",
+    "WebUI"
+  ],
+  "version": "0.4.8",
+  "latestVersion": "0.4.8",
+  "author": "Open WebUI",
+  "githubUrl": "https://github.com/open-webui/open-webui",
+  "stars": 52800,
+  "installStatus": "not_installed",
+  "install": {
+    "method": "docker",
+    "requirements": {
+      "docker": true,
+      "minMemory": "2GB",
+      "minDisk": "5GB",
+      "ports": [
+        8080
+      ]
+    }
+  },
+  "requirements": {
+    "docker": true,
+    "minMemory": "2GB",
+    "minDisk": "5GB",
+    "ports": [
+      8080
+    ]
+  },
+  "configNeeded": [
+    "Docker 运行环境",
+    "Ollama 或 OpenAI API Key"
+  ]
+}

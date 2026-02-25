@@ -1,0 +1,23 @@
+{
+  "id": "dify-rag",
+  "name": "Dify RAG API",
+  "description": "Dify 知识库检索服务，支持语义搜索和多知识库联合检索",
+  "protocol": "http",
+  "status": "offline",
+  "origin": "app",
+  "sourceAppId": "dify",
+  "sourceAppName": "Dify",
+  "endpoint": "http://localhost:3000/api/v1/datasets",
+  "capabilities": [
+    "semantic_search",
+    "multi_dataset",
+    "relevance_ranking"
+  ],
+  "version": "0.8.3",
+  "author": "Dify.AI",
+  "tags": [
+    "RAG",
+    "知识库",
+    "检索"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "fetch-mcp",
+  "name": "Fetch MCP",
+  "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
+  "protocol": "mcp",
+  "status": "offline",
+  "origin": "registry",
+  "transport": "stdio",
+  "capabilities": [
+    "url_fetch",
+    "html_to_markdown",
+    "content_extract"
+  ],
+  "toolCount": 2,
+  "version": "0.6.2",
+  "author": "Anthropic",
+  "tags": [
+    "网页",
+    "抓取",
+    "Markdown"
+  ],
+  "install": {
+    "method": "uvx",
+    "packageName": "mcp-server-fetch",
+    "command": "uvx",
+    "args": [
+      "mcp-server-fetch"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "uvx",
+    "args": [
+      "mcp-server-fetch"
+    ]
+  }
+}

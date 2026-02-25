@@ -1,0 +1,23 @@
+{
+  "id": "ragflow-pipeline",
+  "name": "RagFlow Pipeline",
+  "description": "深度文档理解 RAG 引擎，支持复杂格式文档解析和多级检索",
+  "protocol": "http",
+  "status": "offline",
+  "origin": "app",
+  "sourceAppId": "ragflow",
+  "sourceAppName": "RagFlow",
+  "endpoint": "http://localhost:9380/api/v1",
+  "capabilities": [
+    "doc_parsing",
+    "deep_retrieval",
+    "citation"
+  ],
+  "version": "0.14.0",
+  "author": "InfiniFlow",
+  "tags": [
+    "RAG",
+    "文档理解",
+    "Pipeline"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "anythingllm",
+  "name": "AnythingLLM",
+  "icon": "linear-gradient(135deg, #10B981, #059669)",
+  "iconLetter": "A",
+  "shortDesc": "全能型 AI 桌面应用，支持 RAG、Agent 和文档对话",
+  "fullDesc": "AnythingLLM 是一个全能型 AI 应用，可以将任何文档、资源或内容转化为上下文，供任何 LLM 在聊天中使用。支持多用户管理、权限控制和嵌入式对话。",
+  "category": "tools",
+  "tags": [
+    "RAG",
+    "Desktop",
+    "文档对话"
+  ],
+  "version": "1.6.2",
+  "latestVersion": "1.6.2",
+  "author": "Mintplex Labs",
+  "githubUrl": "https://github.com/Mintplex-Labs/anything-llm",
+  "stars": 30200,
+  "installStatus": "not_installed",
+  "install": {
+    "method": "docker",
+    "requirements": {
+      "docker": true,
+      "minMemory": "2GB",
+      "minDisk": "5GB",
+      "ports": [
+        3001
+      ]
+    }
+  },
+  "requirements": {
+    "docker": true,
+    "minMemory": "2GB",
+    "minDisk": "5GB",
+    "ports": [
+      3001
+    ]
+  },
+  "configNeeded": [
+    "Docker 运行环境",
+    "LLM API Key"
+  ]
+}

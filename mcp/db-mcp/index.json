@@ -1,0 +1,41 @@
+{
+  "id": "db-mcp",
+  "name": "Database MCP",
+  "description": "PostgreSQL 数据库查询与管理，支持 SQL 执行和 Schema 浏览",
+  "protocol": "mcp",
+  "status": "offline",
+  "origin": "registry",
+  "transport": "stdio",
+  "capabilities": [
+    "sql_query",
+    "schema_browse",
+    "data_export"
+  ],
+  "toolCount": 8,
+  "version": "0.5.2",
+  "author": "Community",
+  "tags": [
+    "数据库",
+    "PostgreSQL",
+    "SQL"
+  ],
+  "install": {
+    "method": "npx",
+    "packageName": "@modelcontextprotocol/server-postgres",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres",
+      "postgresql://localhost/mydb"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres",
+      "postgresql://localhost/mydb"
+    ]
+  }
+}

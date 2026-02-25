@@ -10,11 +10,14 @@ DesireCore 官方应用商店与服务注册表数据仓库。
 ├── SCHEMA_VERSION               # 数据格式版本（2.0.0）
 ├── manifest.json                # 仓库元数据
 ├── apps/
-│   └── index.json               # StoreApp[] 应用列表（含 install 字段）
+│   └── <app-id>/
+│       └── index.json           # StoreApp 单个应用配置（含 install 字段）
 ├── mcp/
-│   └── index.json               # RegisteredService[] MCP 服务（含 install + connection）
+│   └── <service-id>/
+│       └── index.json           # RegisteredService 单个 MCP 服务（含 install + connection）
 ├── services/
-│   └── index.json               # RegisteredService[] HTTP 服务
+│   └── <service-id>/
+│       └── index.json           # RegisteredService 单个 HTTP 服务
 ├── models/
 │   ├── descriptors.json         # ServiceDescriptor[] 模型能力描述符
 │   └── categories.json          # ServiceCategoryDescriptor[] 模型分类
@@ -25,13 +28,32 @@ DesireCore 官方应用商店与服务注册表数据仓库。
 
 ## 数据格式
 
-所有 JSON 文件遵循 DesireCore 定义的 JSON Schema：
+每个应用/服务为独立目录，目录名即 ID，包含 `index.json` 单对象文件：
 
-- `apps/index.json` → `StoreApp` schema（含 `install`）
-- `mcp/index.json` → `RegisteredService` schema（含 `install` + `connection`）
-- `services/index.json` → `RegisteredService` schema
-- `models/descriptors.json` → `ServiceDescriptor` schema
-- `models/categories.json` → `ServiceCategoryDescriptor` schema
+- `apps/<id>/index.json` → `StoreApp` schema（含 `install`）
+- `mcp/<id>/index.json` → `RegisteredService` schema（含 `install` + `connection`）
+- `services/<id>/index.json` → `RegisteredService` schema
+- `models/descriptors.json` → `ServiceDescriptor[]` 数组
+- `models/categories.json` → `ServiceCategoryDescriptor[]` 数组
+
+## 添加新条目
+
+以添加 MCP 服务为例：
+
+```bash
+mkdir mcp/my-service
+cat > mcp/my-service/index.json << 'EOF'
+{
+  "id": "my-service",
+  "name": "My Service",
+  "description": "服务描述",
+  "protocol": "mcp",
+  "status": "offline",
+  "origin": "registry",
+  ...
+}
+EOF
+```
 
 ## 同步策略
 
@@ -45,9 +67,10 @@ DesireCore 客户端会：
 ## 贡献指南
 
 1. Fork 本仓库
-2. 修改相应的 JSON 文件
-3. 提交 PR 并描述变更内容
-4. 等待审核合并
+2. 在对应类型目录下创建以 ID 命名的子目录
+3. 添加 `index.json`（单对象，遵循对应 Schema）
+4. 提交 PR 并描述变更内容
+5. 等待审核合并
 
 ## 镜像
 

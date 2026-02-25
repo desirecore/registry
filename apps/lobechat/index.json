@@ -1,0 +1,43 @@
+{
+  "id": "lobechat",
+  "name": "LobeChat",
+  "icon": "linear-gradient(135deg, #000000, #333333)",
+  "iconLetter": "L",
+  "shortDesc": "开源高性能聊天机器人框架，支持多模型和插件",
+  "fullDesc": "LobeChat 是一个开源的现代设计 ChatGPT/LLM UI 框架，支持多模型服务提供商（OpenAI / Claude / Gemini / Ollama 等），多模态和可扩展的插件系统。一键免费部署私有 ChatGPT/Claude 应用。",
+  "category": "chat",
+  "tags": [
+    "Chat",
+    "多模型",
+    "插件"
+  ],
+  "version": "1.20.0",
+  "latestVersion": "1.20.0",
+  "author": "LobeHub",
+  "githubUrl": "https://github.com/lobehub/lobe-chat",
+  "stars": 48900,
+  "installStatus": "not_installed",
+  "install": {
+    "method": "docker",
+    "requirements": {
+      "docker": true,
+      "minMemory": "1GB",
+      "minDisk": "3GB",
+      "ports": [
+        3210
+      ]
+    }
+  },
+  "requirements": {
+    "docker": true,
+    "minMemory": "1GB",
+    "minDisk": "3GB",
+    "ports": [
+      3210
+    ]
+  },
+  "configNeeded": [
+    "Docker 运行环境",
+    "OpenAI API Key（可选）"
+  ]
+}
