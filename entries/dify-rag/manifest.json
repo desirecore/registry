@@ -15,5 +15,13 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "endpoint": "http://localhost:3000/api/v1/datasets",
+  "capabilities": [
+    "semantic_search",
+    "multi_dataset",
+    "relevance_ranking"
+  ],
+  "sourceAppId": "dify",
+  "sourceAppName": "Dify"
 }

@@ -15,5 +15,32 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "page_navigate",
+    "screenshot",
+    "dom_query",
+    "form_fill",
+    "pdf_generate",
+    "content_extract"
+  ],
+  "toolCount": 33,
+  "install": {
+    "method": "npx",
+    "packageName": "@playwright/mcp",
+    "command": "npx",
+    "args": [
+      "@playwright/mcp@latest"
+    ],
+    "postInstall": [
+      "npx playwright install chromium"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "@playwright/mcp@latest"
+    ]
+  }
 }

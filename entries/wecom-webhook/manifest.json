@@ -15,5 +15,11 @@
     "macos",
     "windows",
     "linux"
+  ],
+  "endpoint": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send",
+  "capabilities": [
+    "text_message",
+    "markdown_message",
+    "card_message"
   ]
 }

@@ -15,5 +15,32 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "repo_read",
+    "pr_manage",
+    "issue_manage",
+    "code_search"
+  ],
+  "toolCount": 35,
+  "install": {
+    "method": "npx",
+    "packageName": "@modelcontextprotocol/server-github",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-github"
+    ],
+    "env": {
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-token>"
+    }
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-github"
+    ]
+  }
 }

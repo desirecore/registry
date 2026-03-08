@@ -15,5 +15,12 @@
     "macos",
     "windows",
     "linux"
+  ],
+  "endpoint": "https://api.map.baidu.com/v3",
+  "capabilities": [
+    "geocoding",
+    "route_plan",
+    "poi_search",
+    "distance_calc"
   ]
 }

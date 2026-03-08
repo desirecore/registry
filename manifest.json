@@ -3,25 +3,15 @@
   "id": "desirecore-registry-manifest",
   "version": "3.0.0",
   "name": "DesireCore Registry",
-  "description": "DesireCore 官方应用商店与服务注册表",
+  "description": "DesireCore 官方注册表 — 应用、MCP 服务和 HTTP API 的统一仓库",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
   "lastUpdated": "2026-03-08",
   "stats": {
-    "apps": 8,
+    "totalEntries": 20,
+    "dockerApps": 8,
     "mcpServices": 7,
-    "httpServices": 5,
-    "descriptors": 18,
-    "serviceCategories": 6,
-    "appCategories": 5,
-    "entries": 20
+    "httpApis": 5
   },
-  "dataVersion": {
-    "apps": "2.0.0",
-    "mcp": "2.0.0",
-    "services": "2.0.0",
-    "descriptors": "1.1.0",
-    "categories": "1.1.0",
-    "entries": "1.0.0"
-  }
+  "dataVersion": "3.0.0"
 }

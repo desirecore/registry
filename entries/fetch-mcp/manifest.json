@@ -15,5 +15,26 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "url_fetch",
+    "html_to_markdown",
+    "content_extract"
+  ],
+  "toolCount": 2,
+  "install": {
+    "method": "uvx",
+    "packageName": "mcp-server-fetch",
+    "command": "uvx",
+    "args": [
+      "mcp-server-fetch"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "uvx",
+    "args": [
+      "mcp-server-fetch"
+    ]
+  }
 }

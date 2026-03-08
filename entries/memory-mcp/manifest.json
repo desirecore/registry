@@ -15,5 +15,28 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "entity_store",
+    "relation_store",
+    "graph_query"
+  ],
+  "toolCount": 7,
+  "install": {
+    "method": "npx",
+    "packageName": "@modelcontextprotocol/server-memory",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-memory"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-memory"
+    ]
+  }
 }

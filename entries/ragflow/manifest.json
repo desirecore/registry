@@ -16,5 +16,27 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "category": "rag",
+  "fullDesc": "RagFlow 是一款基于深度文档理解构建的开源 RAG 引擎。可以为各种规模的企业及个人提供流畅的 RAG 工作流，结合大语言模型（LLM）针对用户各类不同的复杂格式数据提供可靠的问答以及有理有据的引用。",
+  "stars": 28400,
+  "githubUrl": "https://github.com/infiniflow/ragflow",
+  "shortDesc": "基于深度文档理解的开源 RAG 引擎",
+  "install": {
+    "method": "docker-compose",
+    "requirements": {
+      "docker": true,
+      "minMemory": "8GB",
+      "minDisk": "20GB",
+      "ports": [
+        9380,
+        443,
+        80
+      ]
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "Elasticsearch / Infinity 数据库"
+    ]
+  }
 }

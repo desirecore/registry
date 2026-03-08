@@ -15,5 +15,30 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "sql_query",
+    "schema_browse",
+    "data_export"
+  ],
+  "toolCount": 8,
+  "install": {
+    "method": "npx",
+    "packageName": "@modelcontextprotocol/server-postgres",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres",
+      "postgresql://localhost/mydb"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-postgres",
+      "postgresql://localhost/mydb"
+    ]
+  }
 }

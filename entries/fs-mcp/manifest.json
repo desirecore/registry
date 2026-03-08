@@ -14,5 +14,31 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "file_read",
+    "file_write",
+    "file_search",
+    "file_watch"
+  ],
+  "toolCount": 11,
+  "install": {
+    "method": "npx",
+    "packageName": "@modelcontextprotocol/server-filesystem",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-filesystem",
+      "/path/to/allowed/dir"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@modelcontextprotocol/server-filesystem",
+      "/path/to/allowed/dir"
+    ]
+  }
 }

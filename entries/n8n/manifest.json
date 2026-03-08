@@ -16,5 +16,25 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "category": "workflow",
+  "fullDesc": "n8n 是一个可扩展的工作流自动化工具。使用公平代码许可，拥有原生 AI 能力，可以连接任何东西。支持自托管，提供丰富的第三方服务集成节点。",
+  "stars": 50600,
+  "githubUrl": "https://github.com/n8n-io/n8n",
+  "shortDesc": "可视化工作流自动化平台，支持 400+ 集成",
+  "install": {
+    "method": "docker",
+    "requirements": {
+      "docker": true,
+      "minMemory": "2GB",
+      "minDisk": "5GB",
+      "ports": [
+        5678
+      ]
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "数据库（SQLite / PostgreSQL）"
+    ]
+  }
 }

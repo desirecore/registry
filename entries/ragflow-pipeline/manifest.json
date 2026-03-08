@@ -15,5 +15,13 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "endpoint": "http://localhost:9380/api/v1",
+  "capabilities": [
+    "doc_parsing",
+    "deep_retrieval",
+    "citation"
+  ],
+  "sourceAppId": "ragflow",
+  "sourceAppName": "RagFlow"
 }

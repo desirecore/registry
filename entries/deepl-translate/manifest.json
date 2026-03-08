@@ -15,5 +15,11 @@
     "macos",
     "windows",
     "linux"
+  ],
+  "endpoint": "https://api-free.deepl.com/v2",
+  "capabilities": [
+    "text_translate",
+    "doc_translate",
+    "language_detect"
   ]
 }

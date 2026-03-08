@@ -16,5 +16,25 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "category": "chat",
+  "fullDesc": "LobeChat 是一个开源的现代设计 ChatGPT/LLM UI 框架，支持多模型服务提供商（OpenAI / Claude / Gemini / Ollama 等），多模态和可扩展的插件系统。一键免费部署私有 ChatGPT/Claude 应用。",
+  "stars": 48900,
+  "githubUrl": "https://github.com/lobehub/lobe-chat",
+  "shortDesc": "开源高性能聊天机器人框架，支持多模型和插件",
+  "install": {
+    "method": "docker",
+    "requirements": {
+      "docker": true,
+      "minMemory": "1GB",
+      "minDisk": "3GB",
+      "ports": [
+        3210
+      ]
+    },
+    "configNeeded": [
+      "Docker 运行环境",
+      "OpenAI API Key（可选）"
+    ]
+  }
 }

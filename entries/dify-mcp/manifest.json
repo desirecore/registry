@@ -15,5 +15,16 @@
     "macos",
     "windows",
     "linux"
-  ]
+  ],
+  "capabilities": [
+    "tool_invoke",
+    "workflow_trigger",
+    "knowledge_query"
+  ],
+  "connection": {
+    "transport": "streamable-http",
+    "url": "http://localhost:3000/mcp"
+  },
+  "sourceAppId": "dify",
+  "sourceAppName": "Dify"
 }
