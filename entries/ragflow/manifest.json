@@ -1,0 +1,20 @@
+{
+  "id": "ragflow",
+  "name": "RagFlow",
+  "type": "docker-app",
+  "version": "0.14.0",
+  "author": "InfiniFlow",
+  "description": "基于深度文档理解的开源 RAG 引擎",
+  "tags": [
+    "RAG",
+    "文档理解",
+    "知识库"
+  ],
+  "icon": "linear-gradient(135deg, #F97316, #EF4444)",
+  "iconLetter": "R",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "open-webui",
+  "name": "Open WebUI",
+  "type": "docker-app",
+  "version": "0.4.8",
+  "author": "Open WebUI",
+  "description": "自托管的 AI 对话界面，支持 Ollama 和 OpenAI 兼容 API",
+  "tags": [
+    "Chat",
+    "Ollama",
+    "WebUI"
+  ],
+  "icon": "linear-gradient(135deg, #6366F1, #8B5CF6)",
+  "iconLetter": "O",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "dify-rag",
+  "name": "Dify RAG API",
+  "type": "http-api",
+  "version": "0.8.3",
+  "author": "Dify.AI",
+  "description": "Dify 知识库检索服务，支持语义搜索和多知识库联合检索",
+  "tags": [
+    "RAG",
+    "知识库",
+    "检索"
+  ],
+  "icon": "globe",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

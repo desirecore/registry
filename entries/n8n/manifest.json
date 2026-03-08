@@ -1,0 +1,20 @@
+{
+  "id": "n8n",
+  "name": "n8n",
+  "type": "docker-app",
+  "version": "1.64.0",
+  "author": "n8n-io",
+  "description": "可视化工作流自动化平台，支持 400+ 集成",
+  "tags": [
+    "Automation",
+    "Workflow",
+    "Integration"
+  ],
+  "icon": "linear-gradient(135deg, #EA4B71, #D93668)",
+  "iconLetter": "n",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

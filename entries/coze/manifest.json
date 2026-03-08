@@ -1,0 +1,20 @@
+{
+  "id": "coze",
+  "name": "Coze",
+  "type": "docker-app",
+  "version": "0.5.0",
+  "author": "Coze",
+  "description": "字节跳动 AI Bot 开发平台（开源社区版）",
+  "tags": [
+    "Bot",
+    "LLM",
+    "插件"
+  ],
+  "icon": "linear-gradient(135deg, #3B82F6, #1D4ED8)",
+  "iconLetter": "C",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

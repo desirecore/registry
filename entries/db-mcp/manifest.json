@@ -1,0 +1,19 @@
+{
+  "id": "db-mcp",
+  "name": "Database MCP",
+  "type": "mcp",
+  "version": "0.5.2",
+  "author": "Community",
+  "description": "PostgreSQL 数据库查询与管理，支持 SQL 执行和 Schema 浏览",
+  "tags": [
+    "数据库",
+    "PostgreSQL",
+    "SQL"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

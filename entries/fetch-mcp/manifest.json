@@ -1,0 +1,19 @@
+{
+  "id": "fetch-mcp",
+  "name": "Fetch MCP",
+  "type": "mcp",
+  "version": "0.6.2",
+  "author": "Anthropic",
+  "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
+  "tags": [
+    "网页",
+    "抓取",
+    "Markdown"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

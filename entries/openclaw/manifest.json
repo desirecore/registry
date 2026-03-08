@@ -1,0 +1,21 @@
+{
+  "id": "openclaw",
+  "name": "OpenClaw",
+  "type": "docker-app",
+  "version": "0.9.0",
+  "author": "OpenClaw",
+  "description": "开源 Agent 运行时平台，支持多 Agent 编排和工具策略",
+  "tags": [
+    "Agent",
+    "Runtime",
+    "Multi-Agent",
+    "Sandbox"
+  ],
+  "icon": "linear-gradient(135deg, #F59E0B, #DC2626)",
+  "iconLetter": "O",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "playwright-mcp",
+  "name": "Playwright MCP",
+  "type": "mcp",
+  "version": "0.0.68",
+  "author": "Microsoft",
+  "description": "浏览器自动化 — 网页导航、截图、表单填写、DOM 操作、PDF 生成",
+  "tags": [
+    "浏览器",
+    "自动化",
+    "Playwright"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

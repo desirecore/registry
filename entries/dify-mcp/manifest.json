@@ -1,0 +1,19 @@
+{
+  "id": "dify-mcp",
+  "name": "Dify MCP Bridge",
+  "type": "mcp",
+  "version": "0.8.3",
+  "author": "Dify.AI",
+  "description": "Dify 平台 Agent 工具集桥接，支持调用 Dify 内置工具和自定义工具",
+  "tags": [
+    "Agent",
+    "工具集",
+    "Workflow"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

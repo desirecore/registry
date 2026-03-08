@@ -1,0 +1,19 @@
+{
+  "id": "baidu-map",
+  "name": "百度地图 API",
+  "type": "http-api",
+  "version": "3.0",
+  "author": "百度",
+  "description": "地理位置服务，支持地理编码、路线规划和 POI 搜索",
+  "tags": [
+    "地图",
+    "地理位置",
+    "POI"
+  ],
+  "icon": "globe",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

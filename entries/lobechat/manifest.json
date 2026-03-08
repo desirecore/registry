@@ -1,0 +1,20 @@
+{
+  "id": "lobechat",
+  "name": "LobeChat",
+  "type": "docker-app",
+  "version": "1.20.0",
+  "author": "LobeHub",
+  "description": "开源高性能聊天机器人框架，支持多模型和插件",
+  "tags": [
+    "Chat",
+    "多模型",
+    "插件"
+  ],
+  "icon": "linear-gradient(135deg, #000000, #333333)",
+  "iconLetter": "L",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

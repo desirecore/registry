@@ -1,25 +1,27 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "id": "desirecore-registry-manifest",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "name": "DesireCore Registry",
   "description": "DesireCore 官方应用商店与服务注册表",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
-  "lastUpdated": "2026-02-24",
+  "lastUpdated": "2026-03-08",
   "stats": {
     "apps": 8,
     "mcpServices": 7,
     "httpServices": 5,
     "descriptors": 18,
     "serviceCategories": 6,
-    "appCategories": 5
+    "appCategories": 5,
+    "entries": 20
   },
   "dataVersion": {
     "apps": "2.0.0",
     "mcp": "2.0.0",
     "services": "2.0.0",
     "descriptors": "1.1.0",
-    "categories": "1.1.0"
+    "categories": "1.1.0",
+    "entries": "1.0.0"
   }
 }

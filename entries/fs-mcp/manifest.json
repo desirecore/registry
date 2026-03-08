@@ -1,0 +1,18 @@
+{
+  "id": "fs-mcp",
+  "name": "Filesystem MCP",
+  "type": "mcp",
+  "version": "1.2.0",
+  "author": "Anthropic",
+  "description": "本地文件系统操作，支持读写、搜索、监控文件变化",
+  "tags": [
+    "文件系统",
+    "本地"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

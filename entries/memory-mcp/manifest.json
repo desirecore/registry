@@ -1,0 +1,19 @@
+{
+  "id": "memory-mcp",
+  "name": "Memory MCP",
+  "type": "mcp",
+  "version": "0.6.2",
+  "author": "Anthropic",
+  "description": "基于知识图谱的持久化记忆服务，支持实体和关系的存取",
+  "tags": [
+    "记忆",
+    "知识图谱",
+    "持久化"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}

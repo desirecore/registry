@@ -1,0 +1,19 @@
+{
+  "id": "github-mcp",
+  "name": "GitHub MCP",
+  "type": "mcp",
+  "version": "0.9.1",
+  "author": "GitHub",
+  "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
+  "tags": [
+    "代码",
+    "Git",
+    "PR"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ]
+}
