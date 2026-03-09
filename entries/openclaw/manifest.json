@@ -2,14 +2,14 @@
   "id": "openclaw",
   "name": "OpenClaw",
   "type": "docker-app",
-  "version": "0.9.0",
+  "version": "2026.3.8",
   "author": "OpenClaw",
-  "description": "开源 Agent 运行时平台，支持多 Agent 编排和工具策略",
+  "description": "开源个人 AI 助手，支持多渠道网关和本地优先架构",
   "tags": [
     "Agent",
-    "Runtime",
-    "Multi-Agent",
-    "Sandbox"
+    "Gateway",
+    "Multi-Channel",
+    "Local-First"
   ],
   "icon": "linear-gradient(135deg, #F59E0B, #DC2626)",
   "iconLetter": "O",
@@ -19,10 +19,10 @@
     "linux"
   ],
   "category": "ai-platform",
-  "fullDesc": "OpenClaw 是一个开源的 Agent 运行时平台，提供嵌入式运行时、会话管理、工具策略控制、多 Agent 编排、Sandbox 隔离执行等能力。支持流式输出、对话压缩、队列管理和 hooks 扩展，适合构建企业级 AI 应用。",
-  "stars": 8500,
+  "fullDesc": "OpenClaw 是一个开源的个人 AI 助手平台，提供多渠道网关（WhatsApp、Telegram、Slack、Discord 等）、本地优先架构、会话管理和工具策略控制等能力。支持流式输出、对话压缩和 hooks 扩展。",
+  "stars": 287700,
   "githubUrl": "https://github.com/openclaw/openclaw",
-  "shortDesc": "开源 Agent 运行时平台，支持多 Agent 编排和工具策略",
+  "shortDesc": "开源个人 AI 助手，支持多渠道网关和本地优先架构",
   "install": {
     "method": "docker-compose",
     "requirements": {
@@ -30,13 +30,12 @@
       "minMemory": "4GB",
       "minDisk": "10GB",
       "ports": [
-        8080,
-        3000
+        18789
       ]
     },
     "configNeeded": [
       "Docker 运行环境",
-      "Node.js 18+",
+      "Node.js 22+",
       "API Key 配置"
     ]
   }

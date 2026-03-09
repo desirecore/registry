@@ -2,8 +2,8 @@
   "id": "db-mcp",
   "name": "Database MCP",
   "type": "mcp",
-  "version": "0.5.2",
-  "author": "Community",
+  "version": "0.6.2",
+  "author": "Anthropic",
   "description": "PostgreSQL 数据库查询与管理，支持 SQL 执行和 Schema 浏览",
   "tags": [
     "数据库",
@@ -21,7 +21,7 @@
     "schema_browse",
     "data_export"
   ],
-  "toolCount": 8,
+  "toolCount": 1,
   "install": {
     "method": "npx",
     "packageName": "@modelcontextprotocol/server-postgres",

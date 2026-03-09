@@ -4,7 +4,7 @@
   "type": "http-api",
   "version": "1.0",
   "author": "腾讯",
-  "description": "企业微信机器人消息通知，支持文本、Markdown 和卡片消息",
+  "description": "企业微信机器人消息通知，支持文本、Markdown、图片、图文、文件、语音和卡片消息",
   "tags": [
     "通知",
     "企业微信",
@@ -20,6 +20,10 @@
   "capabilities": [
     "text_message",
     "markdown_message",
+    "image_message",
+    "news_message",
+    "file_message",
+    "voice_message",
     "card_message"
   ]
 }

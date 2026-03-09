@@ -2,7 +2,7 @@
   "id": "github-mcp",
   "name": "GitHub MCP",
   "type": "mcp",
-  "version": "0.9.1",
+  "version": "0.32.0",
   "author": "GitHub",
   "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
   "tags": [
@@ -22,14 +22,18 @@
     "issue_manage",
     "code_search"
   ],
-  "toolCount": 35,
+  "toolCount": 51,
   "install": {
-    "method": "npx",
-    "packageName": "@modelcontextprotocol/server-github",
-    "command": "npx",
+    "method": "docker",
+    "packageName": "ghcr.io/github/github-mcp-server",
+    "command": "docker",
     "args": [
-      "-y",
-      "@modelcontextprotocol/server-github"
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "ghcr.io/github/github-mcp-server"
     ],
     "env": {
       "GITHUB_PERSONAL_ACCESS_TOKEN": "<your-token>"
@@ -37,10 +41,14 @@
   },
   "connection": {
     "transport": "stdio",
-    "command": "npx",
+    "command": "docker",
     "args": [
-      "-y",
-      "@modelcontextprotocol/server-github"
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "ghcr.io/github/github-mcp-server"
     ]
   }
 }

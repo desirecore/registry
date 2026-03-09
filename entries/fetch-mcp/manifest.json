@@ -2,7 +2,7 @@
   "id": "fetch-mcp",
   "name": "Fetch MCP",
   "type": "mcp",
-  "version": "0.6.2",
+  "version": "2025.4.7",
   "author": "Anthropic",
   "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
   "tags": [
@@ -21,7 +21,7 @@
     "html_to_markdown",
     "content_extract"
   ],
-  "toolCount": 2,
+  "toolCount": 1,
   "install": {
     "method": "uvx",
     "packageName": "mcp-server-fetch",

@@ -16,7 +16,7 @@
     "windows",
     "linux"
   ],
-  "endpoint": "https://api.map.baidu.com/v3",
+  "endpoint": "https://api.map.baidu.com",
   "capabilities": [
     "geocoding",
     "route_plan",

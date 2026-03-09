@@ -24,7 +24,7 @@
     "pdf_generate",
     "content_extract"
   ],
-  "toolCount": 33,
+  "toolCount": 34,
   "install": {
     "method": "npx",
     "packageName": "@playwright/mcp",

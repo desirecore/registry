@@ -2,7 +2,7 @@
   "id": "dify-mcp",
   "name": "Dify MCP Bridge",
   "type": "mcp",
-  "version": "0.8.3",
+  "version": "1.13.0",
   "author": "Dify.AI",
   "description": "Dify 平台 Agent 工具集桥接，支持调用 Dify 内置工具和自定义工具",
   "tags": [
@@ -23,7 +23,7 @@
   ],
   "connection": {
     "transport": "streamable-http",
-    "url": "http://localhost:3000/mcp"
+    "url": "http://localhost/mcp"
   },
   "sourceAppId": "dify",
   "sourceAppName": "Dify"

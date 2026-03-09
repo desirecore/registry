@@ -2,7 +2,7 @@
   "id": "ragflow-pipeline",
   "name": "RagFlow Pipeline",
   "type": "http-api",
-  "version": "0.14.0",
+  "version": "0.24.0",
   "author": "InfiniFlow",
   "description": "深度文档理解 RAG 引擎，支持复杂格式文档解析和多级检索",
   "tags": [

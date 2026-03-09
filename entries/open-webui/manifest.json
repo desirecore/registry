@@ -2,7 +2,7 @@
   "id": "open-webui",
   "name": "Open WebUI",
   "type": "docker-app",
-  "version": "0.4.8",
+  "version": "0.8.10",
   "author": "Open WebUI",
   "description": "自托管的 AI 对话界面，支持 Ollama 和 OpenAI 兼容 API",
   "tags": [
@@ -19,7 +19,7 @@
   ],
   "category": "chat",
   "fullDesc": "Open WebUI 是一个可扩展的自托管 AI 界面，支持完全离线操作。支持多种 LLM 运行器，包括 Ollama 和 OpenAI 兼容 API，内置 RAG 集成、网页浏览、代码执行等功能。",
-  "stars": 52800,
+  "stars": 126300,
   "githubUrl": "https://github.com/open-webui/open-webui",
   "shortDesc": "自托管的 AI 对话界面，支持 Ollama 和 OpenAI 兼容 API",
   "install": {

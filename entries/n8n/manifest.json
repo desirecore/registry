@@ -2,7 +2,7 @@
   "id": "n8n",
   "name": "n8n",
   "type": "docker-app",
-  "version": "1.64.0",
+  "version": "2.10.4",
   "author": "n8n-io",
   "description": "可视化工作流自动化平台，支持 400+ 集成",
   "tags": [
@@ -19,7 +19,7 @@
   ],
   "category": "workflow",
   "fullDesc": "n8n 是一个可扩展的工作流自动化工具。使用公平代码许可，拥有原生 AI 能力，可以连接任何东西。支持自托管，提供丰富的第三方服务集成节点。",
-  "stars": 50600,
+  "stars": 178200,
   "githubUrl": "https://github.com/n8n-io/n8n",
   "shortDesc": "可视化工作流自动化平台，支持 400+ 集成",
   "install": {

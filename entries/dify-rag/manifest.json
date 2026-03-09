@@ -2,7 +2,7 @@
   "id": "dify-rag",
   "name": "Dify RAG API",
   "type": "http-api",
-  "version": "0.8.3",
+  "version": "1.13.0",
   "author": "Dify.AI",
   "description": "Dify 知识库检索服务，支持语义搜索和多知识库联合检索",
   "tags": [
@@ -16,7 +16,7 @@
     "windows",
     "linux"
   ],
-  "endpoint": "http://localhost:3000/api/v1/datasets",
+  "endpoint": "http://localhost/api/v1/datasets",
   "capabilities": [
     "semantic_search",
     "multi_dataset",

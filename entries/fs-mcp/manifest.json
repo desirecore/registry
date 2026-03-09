@@ -2,7 +2,7 @@
   "id": "fs-mcp",
   "name": "Filesystem MCP",
   "type": "mcp",
-  "version": "1.2.0",
+  "version": "2026.1.14",
   "author": "Anthropic",
   "description": "本地文件系统操作，支持读写、搜索、监控文件变化",
   "tags": [
@@ -21,7 +21,7 @@
     "file_search",
     "file_watch"
   ],
-  "toolCount": 11,
+  "toolCount": 13,
   "install": {
     "method": "npx",
     "packageName": "@modelcontextprotocol/server-filesystem",

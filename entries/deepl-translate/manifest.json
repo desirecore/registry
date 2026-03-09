@@ -4,7 +4,7 @@
   "type": "http-api",
   "version": "2.0",
   "author": "DeepL",
-  "description": "高质量多语言翻译服务，支持 30+ 语言互译和文档翻译",
+  "description": "高质量多语言翻译服务，支持 35+ 语言互译和文档翻译",
   "tags": [
     "翻译",
     "多语言",
