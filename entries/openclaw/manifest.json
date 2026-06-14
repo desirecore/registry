@@ -38,5 +38,13 @@
       "Node.js 22+",
       "API Key 配置"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 18789,
+      "path": "/",
+      "name": "OpenClaw Gateway"
+    }
+  ]
 }

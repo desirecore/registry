@@ -37,5 +37,13 @@
       "Docker 运行环境",
       "OpenAI API Key（可选）"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 3210,
+      "path": "/api",
+      "name": "LobeChat API"
+    }
+  ]
 }

@@ -36,5 +36,13 @@
       "Docker 运行环境",
       "数据库（SQLite / PostgreSQL）"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 5678,
+      "path": "/api/v1",
+      "name": "n8n REST API"
+    }
+  ]
 }

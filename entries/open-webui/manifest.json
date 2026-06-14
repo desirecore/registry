@@ -36,5 +36,13 @@
       "Docker 运行环境",
       "Ollama 或 OpenAI API Key"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 8080,
+      "path": "/api",
+      "name": "Open WebUI API"
+    }
+  ]
 }

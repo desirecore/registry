@@ -38,5 +38,13 @@
       "Docker 运行环境",
       "Elasticsearch / Infinity 数据库"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 9380,
+      "path": "/api/v1",
+      "name": "RagFlow API"
+    }
+  ]
 }

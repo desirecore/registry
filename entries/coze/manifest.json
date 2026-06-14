@@ -36,5 +36,13 @@
       "Docker 运行环境",
       "API Key 配置"
     ]
-  }
+  },
+  "exposes": [
+    {
+      "type": "http-api",
+      "port": 8888,
+      "path": "/api",
+      "name": "Coze API"
+    }
+  ]
 }
