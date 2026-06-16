@@ -6,7 +6,7 @@ OpenClaw 是一个开源的 Agent 运行时平台，提供嵌入式运行时、�
 - Docker 已安装并运行
 - 内存：≥ 4GB
 - 磁盘空间：≥ 10GB
-- 端口：8080, 3000
+- 端口：18789
 
 ## 安装方式
 使用 `docker-compose` 部署。
@@ -25,4 +25,4 @@ docker compose up -d
 - API Key 配置
 
 ## 验证
-访问 `http://localhost:8080` 确认服务已启动。
+访问 `http://localhost:18789` 确认服务已启动。

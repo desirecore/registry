@@ -6,7 +6,7 @@ Dify 是一个开源的 LLM 应用开发平台，提供从 Agent 构建到 AI Wo
 - Docker 已安装并运行
 - 内存：≥ 4GB
 - 磁盘空间：≥ 10GB
-- 端口：3000, 5001
+- 端口：80
 
 ## 安装方式
 使用 `docker-compose` 部署。
@@ -24,4 +24,4 @@ docker compose up -d
 - OpenAI API Key（可选）
 
 ## 验证
-访问 `http://localhost:3000` 确认服务已启动。
+访问 `http://localhost`（API 基址 `http://localhost/v1`）确认服务已启动。
