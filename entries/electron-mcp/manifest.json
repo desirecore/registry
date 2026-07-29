@@ -1,0 +1,53 @@
+{
+  "id": "electron-mcp",
+  "name": "Electron MCP",
+  "type": "mcp",
+  "version": "1.5.0",
+  "author": "halilural",
+  "description": "Electron 桌面应用自动化 — 经 CDP 发现窗口、执行 JS、点击填表、截图、读日志",
+  "tags": [
+    "Electron",
+    "桌面应用",
+    "自动化",
+    "调试",
+    "CDP"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "capabilities": [
+    "window_discover",
+    "js_evaluate",
+    "ui_interact",
+    "element_inspect",
+    "screenshot",
+    "log_read"
+  ],
+  "toolCount": 4,
+  "install": {
+    "method": "npx",
+    "packageName": "electron-mcp-server",
+    "command": "npx",
+    "args": [
+      "-y",
+      "electron-mcp-server@1.5.0"
+    ],
+    "env": {
+      "SCREENSHOT_ENCRYPTION_KEY": "{{secrets.SCREENSHOT_ENCRYPTION_KEY}}"
+    }
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "electron-mcp-server@1.5.0"
+    ],
+    "env": {
+      "SCREENSHOT_ENCRYPTION_KEY": "{{secrets.SCREENSHOT_ENCRYPTION_KEY}}"
+    }
+  }
+}
