@@ -1,17 +1,18 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "id": "desirecore-registry-manifest",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "name": "DesireCore Registry",
-  "description": "DesireCore 官方注册表 — 应用、MCP 服务和 HTTP API 的统一仓库",
+  "description": "DesireCore 官方注册表 — Docker 应用、MCP 服务、HTTP API 和第三方外部集成的统一目录",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
-  "lastUpdated": "2026-07-29",
+  "lastUpdated": "2026-08-30",
   "stats": {
-    "totalEntries": 21,
+    "totalEntries": 22,
     "dockerApps": 8,
     "mcpServices": 8,
-    "httpApis": 5
+    "httpApis": 5,
+    "externalIntegrations": 1
   },
-  "dataVersion": "3.0.0"
+  "dataVersion": "4.0.0"
 }
