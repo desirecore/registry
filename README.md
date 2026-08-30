@@ -323,6 +323,10 @@ DesireCore 客户端的同步流程：
 门禁校验后再打包，**绝不执行本 checkout 携带的脚本**。两侧任一校验失败都不能生成新的
 `defaults/registry.zip`。
 
+`.gitattributes` 将所有文本固定为 LF；这是跨平台信任边界的一部分。主仓固定 authored Schema
+与受审内容摘要，Windows checkout 不得把已审核的 JSON/Markdown 改写为 CRLF，否则运行时会
+按哈希不匹配失败关闭整个官方 v4 目录。
+
 ## 贡献指南
 
 1. Fork 本仓库
