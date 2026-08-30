@@ -2,7 +2,7 @@
   "id": "kimi-webbridge",
   "name": "Kimi WebBridge",
   "type": "external-integration",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Moonshot AI",
   "description": "连接本机 Chrome 或 Edge 的第三方浏览器桥接集成目录入口",
   "category": "tools",
@@ -19,7 +19,7 @@
     "macos",
     "windows"
   ],
-  "requiredClientVersion": "10.0.132",
+  "requiredClientVersion": "10.0.133",
   "stewardship": "pointer",
   "availability": "listing-only",
   "redistribution": "source-pointer-only",

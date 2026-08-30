@@ -318,7 +318,10 @@ DesireCore 客户端的同步流程：
 
 客户端读取 `entries/` 目录下所有 `manifest.json`，按 `type` 字段分类为应用、MCP 服务、HTTP 服务和第三方外部集成展示在商店中。旧三类条目的 `install.md` 和 `usage.md` 可供 AI Agent 执行安装和配置时使用；external integration 只有结构化 manifest，且 listing-only 条目不会被派生为 Docker 应用、installed-entry、ready 连接或 Browser Provider。
 
-主仓库的 `npm run sync-registry` 在打包前执行本 checkout 的 `scripts/validate-registry.mjs`。validator 缺失或失败时同步必须失败关闭，不能生成新的 `defaults/registry.zip`。
+本仓库的 `scripts/validate-registry.mjs` 只服务 Registry 自身的 CI 与贡献者本地检查。主仓库
+`npm run sync-registry` 把 checkout 视为待验证数据，使用主仓受审的固定 Schema、策略与 commit
+门禁校验后再打包，**绝不执行本 checkout 携带的脚本**。两侧任一校验失败都不能生成新的
+`defaults/registry.zip`。
 
 ## 贡献指南
 
