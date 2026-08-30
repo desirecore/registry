@@ -396,3 +396,18 @@ test('--require-sidecars 等价策略会让 legacy-only 失败', () => {
   assert.equal(report.ok, false)
   assert.ok(codes(report).includes('missing-sidecar'))
 })
+
+test('根 manifest 声明 required 时默认拒绝缺失 sidecar', () => {
+  const root = makeRegistry([legacyApp()], new Map(), {
+    catalogMetadata: {
+      version: '1.0.0',
+      schema: 'schemas/catalog-metadata.v1.schema.json',
+      sidecarPath: 'entries/<id>/catalog-metadata.v1.json',
+      required: true,
+      legacyFallback: true,
+    },
+  })
+  const report = validateRegistry(root)
+  assert.equal(report.ok, false)
+  assert.ok(codes(report).includes('missing-sidecar'))
+})

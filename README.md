@@ -269,8 +269,9 @@ cat > entries/my-app/usage.md << 'EOF'
 EOF
 ```
 
-新条目还应添加 `catalog-metadata.v1.json`。在 3.1 迁移窗口内缺失 sidecar 不阻断 legacy 客户端，
-但 CI 会给出逐条 warning；完成全量迁移后根 `manifest.json#catalogMetadata.required` 将改为 `true`。
+新条目必须添加 `catalog-metadata.v1.json`。3.1 的全量迁移已经完成，根
+`manifest.json#catalogMetadata.required` 为 `true`，CI 会阻断缺失 sidecar 的条目；
+`legacyFallback` 继续保留，供尚未退出兼容窗口的旧客户端读取原始 manifest。
 
 ### 添加 MCP 服务
 
