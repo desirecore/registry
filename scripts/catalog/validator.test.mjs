@@ -197,18 +197,22 @@ function codes(report) {
   return report.errors.map((item) => item.code)
 }
 
-test('当前 21 个 legacy 条目保持可读，并报告缺失 sidecar', () => {
+test('当前 21 个条目保持可读，并按实际迁移进度报告 sidecar', () => {
   const report = validateRegistry(repoRoot)
   assert.equal(report.ok, true, JSON.stringify(report.errors, null, 2))
-  assert.deepEqual(report.counts, {
+  assert.deepEqual({
+    totalEntries: report.counts.totalEntries,
+    dockerApps: report.counts.dockerApps,
+    mcpServices: report.counts.mcpServices,
+    httpApis: report.counts.httpApis,
+  }, {
     totalEntries: 21,
     dockerApps: 8,
     mcpServices: 8,
     httpApis: 5,
-    sidecars: 0,
-    legacyOnly: 21,
   })
-  assert.equal(report.warnings.filter((item) => item.code === 'missing-sidecar').length, 21)
+  assert.equal(report.counts.sidecars + report.counts.legacyOnly, report.counts.totalEntries)
+  assert.equal(report.warnings.filter((item) => item.code === 'missing-sidecar').length, report.counts.legacyOnly)
 })
 
 test('合法 listing-only App sidecar 通过', () => {
