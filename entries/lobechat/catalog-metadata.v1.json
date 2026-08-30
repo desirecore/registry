@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "lobechat"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "LobeChat",
+        "summary": "开源多 Agent 协作工作空间，支持多模型和插件",
+        "description": "LobeChat 是一个开源的多 Agent 协作工作空间，支持多模型服务提供商（OpenAI / Claude / Gemini / Ollama 等），多模态和可扩展的插件系统。一键免费部署私有 ChatGPT/Claude 应用。"
+      },
+      "en-US": {
+        "name": "LobeChat",
+        "summary": "Open-source multi-agent collaboration workspace with multi-model and plugin support",
+        "description": "LobeChat is an open-source multi-agent collaboration workspace that supports multiple model providers (OpenAI, Claude, Gemini, Ollama, and more), multimodal interactions, and an extensible plugin system. It enables one-click deployment of private ChatGPT or Claude applications."
+      }
+    },
+    "tags": [
+      "Chat",
+      "多模型",
+      "Agent",
+      "插件"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.1.38",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-14",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/lobehub/lobe-chat"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "LobeHub",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "chat"
+  }
+}

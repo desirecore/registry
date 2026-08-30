@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "open-webui"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Open WebUI",
+        "summary": "自托管的 AI 对话界面，支持 Ollama 和 OpenAI 兼容 API",
+        "description": "Open WebUI 是一个可扩展的自托管 AI 界面，支持完全离线操作。支持多种 LLM 运行器，包括 Ollama 和 OpenAI 兼容 API，内置 RAG 集成、网页浏览、代码执行等功能。"
+      },
+      "en-US": {
+        "name": "Open WebUI",
+        "summary": "Self-hosted AI chat interface for Ollama and OpenAI-compatible APIs",
+        "description": "Open WebUI is an extensible, self-hosted AI interface that can operate fully offline. It supports multiple LLM runners, including Ollama and OpenAI-compatible APIs, and includes RAG integration, web browsing, code execution, and more."
+      }
+    },
+    "tags": [
+      "Chat",
+      "Ollama",
+      "WebUI"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.8.10",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-14",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/open-webui/open-webui"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Open WebUI",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "chat"
+  }
+}
