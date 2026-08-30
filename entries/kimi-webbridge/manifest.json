@@ -1,0 +1,175 @@
+{
+  "id": "kimi-webbridge",
+  "name": "Kimi WebBridge",
+  "type": "external-integration",
+  "version": "1.0.0",
+  "author": "Moonshot AI",
+  "description": "连接本机 Chrome 或 Edge 的第三方浏览器桥接集成目录入口",
+  "category": "tools",
+  "shortDesc": "第三方浏览器桥接集成，仅提供官方来源和合规披露",
+  "fullDesc": "Kimi WebBridge 由上游浏览器扩展和本地桥接服务组成，可让兼容的本地 Agent 使用现有 Chrome 或 Edge 会话执行导航、点击、填写、截图和内容提取。本条目由 DesireCore 独立收录，仅提供官方来源、权限和数据边界披露；当前不提供安装、连接或 DesireCore 原生执行能力。",
+  "tags": [
+    "browser",
+    "chrome",
+    "edge",
+    "webbridge"
+  ],
+  "icon": "monitor",
+  "platformSupport": [
+    "macos",
+    "windows"
+  ],
+  "requiredClientVersion": "10.0.132",
+  "stewardship": "pointer",
+  "availability": "listing-only",
+  "redistribution": "source-pointer-only",
+  "branding": {
+    "relationship": "independent-listing",
+    "nameUsage": "nominative",
+    "logoStatus": "not-used"
+  },
+  "listingMaintainer": {
+    "name": "DesireCore Registry",
+    "url": "https://github.com/desirecore/registry",
+    "verified": true
+  },
+  "upstreamMaintainer": {
+    "name": "Moonshot AI",
+    "url": "https://www.kimi.ai/",
+    "verified": true
+  },
+  "integration": {
+    "kind": "local-extension-bridge",
+    "adapterId": "kimi-webbridge",
+    "executionAvailability": "blocked",
+    "installMode": "upstream-guided"
+  },
+  "officialLinks": [
+    {
+      "kind": "product",
+      "label": "Kimi WebBridge 官方产品页",
+      "url": "https://www.kimi.ai/products/kimi-webbridge"
+    },
+    {
+      "kind": "documentation",
+      "label": "Kimi WebBridge 官方帮助",
+      "url": "https://www.kimi.ai/help/kimi-webbridge/kimi-webbridge-introduction"
+    },
+    {
+      "kind": "chrome-web-store",
+      "label": "Chrome Web Store 官方条目",
+      "extensionId": "fldmhceldgbpfpkbgopacenieobmligc",
+      "url": "https://chromewebstore.google.com/detail/kimi-webbridge/fldmhceldgbpfpkbgopacenieobmligc"
+    },
+    {
+      "kind": "edge-add-ons",
+      "label": "Microsoft Edge Add-ons 官方条目",
+      "extensionId": "bnlffdbcfnanfbknnlaflhlhkocccckg",
+      "url": "https://microsoftedge.microsoft.com/addons/detail/kimi-webbridge/bnlffdbcfnanfbknnlaflhlhkocccckg"
+    },
+    {
+      "kind": "privacy",
+      "label": "Kimi 隐私政策",
+      "url": "https://www.kimi.ai/user/agreement/userPrivacy?version=v2"
+    },
+    {
+      "kind": "terms",
+      "label": "Kimi 服务条款",
+      "url": "https://www.kimi.ai/user/agreement/modelUse?version=v2"
+    }
+  ],
+  "components": [
+    {
+      "kind": "browser-extension",
+      "name": "Kimi WebBridge browser extension",
+      "description": "在 Chrome 或 Edge 中执行浏览器操作并与本地桥接服务通信的上游扩展",
+      "distribution": "official-upstream-only",
+      "browsers": [
+        "chrome",
+        "edge"
+      ]
+    },
+    {
+      "kind": "local-daemon",
+      "name": "Kimi WebBridge local service",
+      "description": "在用户设备上接收 Agent 指令并协调浏览器扩展的上游本地服务",
+      "distribution": "official-upstream-only",
+      "platforms": [
+        "macos",
+        "windows"
+      ]
+    }
+  ],
+  "permissions": {
+    "browserExtension": {
+      "apiPermissions": [
+        "tabs",
+        "activeTab",
+        "debugger",
+        "storage",
+        "alarms",
+        "tabGroups",
+        "windows"
+      ],
+      "hostPermissions": [
+        "<all_urls>"
+      ],
+      "riskLevel": "high"
+    }
+  },
+  "profileRecommendation": "dedicated-browser-profile",
+  "dataBoundaries": {
+    "webBridgeLocalExecution": "上游声明 WebBridge 的桥接执行、登录状态和页面处理发生在用户设备本地；该声明仅描述 WebBridge 自身链路。",
+    "desireCoreModelContext": "当页面文本、截图或操作结果进入 DesireCore Agent 上下文时，内容仍可能按用户选择的模型与数据驻留配置发送给模型 Provider；这不属于上游本地执行声明的覆盖范围。",
+    "modelProviderDisclosureRequired": true
+  },
+  "admission": {
+    "status": "blocked",
+    "code": "native-integration-not-admitted",
+    "reason": "DesireCore 尚未获得足以把该第三方桥接提升为受治理浏览器 Provider 的稳定协议、授权和确定性治理信号，因此当前仅展示目录信息。",
+    "missingPrerequisites": [
+      "stable-auditable-protocol",
+      "integration-authorization",
+      "deterministic-command-receipts",
+      "user-interaction-pause-signal"
+    ]
+  },
+  "compliance": {
+    "reviewedAt": "2026-08-30",
+    "reviewedBy": "DesireCore Registry maintainers",
+    "upstreamEndorsed": false,
+    "relationshipDisclosure": "independent-listing-not-endorsed",
+    "artifactReviews": [
+      {
+        "component": "local-daemon",
+        "platform": "macos",
+        "architecture": "arm64",
+        "version": "1.11.6",
+        "url": "https://cdn.kimi.com/webbridge/v1.11.6/releases/kimi-webbridge-darwin-arm64",
+        "sha256": "46fe401eaa5669c6d9915b4d7ea734cd3fb968c877362644212234241d0c9930",
+        "reviewedAt": "2026-08-30",
+        "reviewedBy": "DesireCore Registry maintainers"
+      },
+      {
+        "component": "local-daemon",
+        "platform": "macos",
+        "architecture": "x64",
+        "version": "1.11.6",
+        "url": "https://cdn.kimi.com/webbridge/v1.11.6/releases/kimi-webbridge-darwin-amd64",
+        "sha256": "edd1b1265445410ef5e8684788955c7283f9c47d9121f53159fa7e5a4641ec54",
+        "reviewedAt": "2026-08-30",
+        "reviewedBy": "DesireCore Registry maintainers"
+      },
+      {
+        "component": "local-daemon",
+        "platform": "windows",
+        "architecture": "x64",
+        "version": "1.11.6",
+        "url": "https://cdn.kimi.com/webbridge/v1.11.6/releases/kimi-webbridge-windows-amd64.exe",
+        "sha256": "e085991e0127c3872d8cbf2ec11078a1efba3c534f6229e42af0dde45ce90520",
+        "reviewedAt": "2026-08-30",
+        "reviewedBy": "DesireCore Registry maintainers"
+      }
+    ]
+  }
+}

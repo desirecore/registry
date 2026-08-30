@@ -1,0 +1,552 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/desirecore/registry/schemas/registry-entry.schema.json",
+  "title": "DesireCore Registry Entry",
+  "description": "A strictly discriminated DesireCore Registry catalog entry. External integrations are discovery-only pointers and cannot carry installation or connection semantics.",
+  "oneOf": [
+    { "$ref": "#/definitions/dockerApp" },
+    { "$ref": "#/definitions/mcp" },
+    { "$ref": "#/definitions/httpApi" },
+    { "$ref": "#/definitions/externalIntegration" }
+  ],
+  "definitions": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "Stable entry identifier; must equal the containing directory name."
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+(?:\\.[0-9]+){1,3}(?:[-+][0-9A-Za-z.-]+)?$",
+      "description": "Entry or client version in dotted numeric form."
+    },
+    "httpsUrl": {
+      "type": "string",
+      "pattern": "^https://[^\\s]+$",
+      "description": "An HTTPS URL without embedded whitespace."
+    },
+    "platformSupport": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["macos", "windows", "linux"]
+      },
+      "description": "Desktop platforms on which the entry is relevant."
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/definitions/nonEmptyString" },
+      "description": "Human-readable discovery and search tags."
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "mcpInstall": {
+      "type": "object",
+      "required": ["method", "command", "args"],
+      "additionalProperties": false,
+      "properties": {
+        "method": { "$ref": "#/definitions/nonEmptyString" },
+        "packageName": { "$ref": "#/definitions/nonEmptyString" },
+        "command": { "$ref": "#/definitions/nonEmptyString" },
+        "args": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "postInstall": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/nonEmptyString" }
+        },
+        "env": { "$ref": "#/definitions/environment" }
+      }
+    },
+    "connection": {
+      "type": "object",
+      "required": ["transport"],
+      "additionalProperties": false,
+      "properties": {
+        "transport": {
+          "type": "string",
+          "enum": ["stdio", "streamable-http", "sse"]
+        },
+        "command": { "$ref": "#/definitions/nonEmptyString" },
+        "args": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "url": { "$ref": "#/definitions/nonEmptyString" },
+        "env": { "$ref": "#/definitions/environment" }
+      }
+    },
+    "dockerApp": {
+      "type": "object",
+      "required": [
+        "id", "name", "type", "version", "author", "description", "tags", "icon",
+        "iconLetter", "platformSupport", "category", "fullDesc", "shortDesc", "install"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "type": { "const": "docker-app" },
+        "version": { "$ref": "#/definitions/version" },
+        "author": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "tags": { "$ref": "#/definitions/tags" },
+        "icon": { "$ref": "#/definitions/nonEmptyString" },
+        "iconLetter": { "type": "string", "minLength": 1, "maxLength": 2 },
+        "platformSupport": { "$ref": "#/definitions/platformSupport" },
+        "category": {
+          "type": "string",
+          "enum": ["ai-platform", "chat", "workflow", "rag", "tools"]
+        },
+        "fullDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "shortDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "stars": { "type": "integer", "minimum": 0 },
+        "githubUrl": { "$ref": "#/definitions/httpsUrl" },
+        "install": {
+          "type": "object",
+          "required": ["method", "requirements", "configNeeded"],
+          "additionalProperties": false,
+          "properties": {
+            "method": { "type": "string", "enum": ["docker", "docker-compose"] },
+            "requirements": {
+              "type": "object",
+              "required": ["docker", "minMemory", "minDisk", "ports"],
+              "additionalProperties": false,
+              "properties": {
+                "docker": { "const": true },
+                "minMemory": { "$ref": "#/definitions/nonEmptyString" },
+                "minDisk": { "$ref": "#/definitions/nonEmptyString" },
+                "ports": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "type": "integer", "minimum": 1, "maximum": 65535 }
+                }
+              }
+            },
+            "configNeeded": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/nonEmptyString" }
+            }
+          }
+        },
+        "exposes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "port", "path", "name"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "http-api" },
+              "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+              "path": { "type": "string", "pattern": "^/" },
+              "name": { "$ref": "#/definitions/nonEmptyString" }
+            }
+          }
+        }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "required": [
+        "id", "name", "type", "version", "author", "description", "tags", "icon",
+        "platformSupport", "capabilities", "connection"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "type": { "const": "mcp" },
+        "version": { "$ref": "#/definitions/version" },
+        "author": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "tags": { "$ref": "#/definitions/tags" },
+        "icon": { "$ref": "#/definitions/nonEmptyString" },
+        "platformSupport": { "$ref": "#/definitions/platformSupport" },
+        "capabilities": { "$ref": "#/definitions/capabilities" },
+        "toolCount": { "type": "integer", "minimum": 0 },
+        "install": { "$ref": "#/definitions/mcpInstall" },
+        "connection": { "$ref": "#/definitions/connection" },
+        "sourceAppId": { "$ref": "#/definitions/id" },
+        "sourceAppName": { "$ref": "#/definitions/nonEmptyString" }
+      }
+    },
+    "httpApi": {
+      "type": "object",
+      "required": [
+        "id", "name", "type", "version", "author", "description", "tags", "icon",
+        "platformSupport", "endpoint", "capabilities"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "type": { "const": "http-api" },
+        "version": { "$ref": "#/definitions/version" },
+        "author": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "tags": { "$ref": "#/definitions/tags" },
+        "icon": { "$ref": "#/definitions/nonEmptyString" },
+        "platformSupport": { "$ref": "#/definitions/platformSupport" },
+        "endpoint": { "type": "string", "pattern": "^https?://[^\\s]+$" },
+        "capabilities": { "$ref": "#/definitions/capabilities" },
+        "sourceAppId": { "$ref": "#/definitions/id" },
+        "sourceAppName": { "$ref": "#/definitions/nonEmptyString" }
+      }
+    },
+    "maintainer": {
+      "type": "object",
+      "required": ["name", "url", "verified"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "allOf": [{ "$ref": "#/definitions/nonEmptyString" }],
+          "description": "Human-readable maintainer identity."
+        },
+        "url": {
+          "allOf": [{ "$ref": "#/definitions/httpsUrl" }],
+          "description": "Public source used to verify the maintainer identity."
+        },
+        "verified": {
+          "const": true,
+          "description": "The Registry maintainer verified this identity against the public source."
+        }
+      }
+    },
+    "officialLink": {
+      "description": "A Kimi WebBridge upstream URL pinned by kind, hostname, path, and extension ID where applicable.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "label", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "product" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "url": { "const": "https://www.kimi.ai/products/kimi-webbridge" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "label", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "documentation" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "url": { "const": "https://www.kimi.ai/help/kimi-webbridge/kimi-webbridge-introduction" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "label", "extensionId", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "chrome-web-store" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "extensionId": {
+              "const": "fldmhceldgbpfpkbgopacenieobmligc",
+              "description": "The audited Chrome Web Store extension identifier."
+            },
+            "url": { "const": "https://chromewebstore.google.com/detail/kimi-webbridge/fldmhceldgbpfpkbgopacenieobmligc" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "label", "extensionId", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "edge-add-ons" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "extensionId": {
+              "const": "bnlffdbcfnanfbknnlaflhlhkocccckg",
+              "description": "The audited Microsoft Edge Add-ons extension identifier."
+            },
+            "url": { "const": "https://microsoftedge.microsoft.com/addons/detail/kimi-webbridge/bnlffdbcfnanfbknnlaflhlhkocccckg" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "label", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "privacy" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "url": { "const": "https://www.kimi.ai/user/agreement/userPrivacy?version=v2" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["kind", "label", "url"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "terms" },
+            "label": { "$ref": "#/definitions/nonEmptyString" },
+            "url": { "const": "https://www.kimi.ai/user/agreement/modelUse?version=v2" }
+          }
+        }
+      ]
+    },
+    "browserExtensionComponent": {
+      "type": "object",
+      "required": ["kind", "name", "description", "distribution", "browsers"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "browser-extension" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "distribution": {
+          "const": "official-upstream-only",
+          "description": "DesireCore does not mirror or repackage this third-party component."
+        },
+        "browsers": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["chrome", "edge"] },
+          "allOf": [{ "contains": { "const": "chrome" } }, { "contains": { "const": "edge" } }]
+        }
+      }
+    },
+    "localDaemonComponent": {
+      "type": "object",
+      "required": ["kind", "name", "description", "distribution", "platforms"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "local-daemon" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "distribution": {
+          "const": "official-upstream-only",
+          "description": "DesireCore does not mirror or repackage this third-party component."
+        },
+        "platforms": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["macos", "windows", "linux"] },
+          "allOf": [{ "contains": { "const": "macos" } }, { "contains": { "const": "windows" } }]
+        }
+      }
+    },
+    "externalComponent": {
+      "description": "One strictly discriminated Kimi WebBridge physical component.",
+      "oneOf": [
+        { "$ref": "#/definitions/browserExtensionComponent" },
+        { "$ref": "#/definitions/localDaemonComponent" }
+      ]
+    },
+    "artifactReview": {
+      "type": "object",
+      "required": ["component", "platform", "architecture", "version", "url", "sha256", "reviewedAt", "reviewedBy"],
+      "additionalProperties": false,
+      "properties": {
+        "component": { "const": "local-daemon" },
+        "platform": { "type": "string", "enum": ["macos", "windows", "linux"] },
+        "architecture": { "type": "string", "enum": ["x64", "arm64"] },
+        "version": { "$ref": "#/definitions/version" },
+        "url": { "$ref": "#/definitions/httpsUrl" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "reviewedAt": { "type": "string", "format": "date" },
+        "reviewedBy": { "$ref": "#/definitions/nonEmptyString" }
+      }
+    },
+    "externalIntegration": {
+      "type": "object",
+      "required": [
+        "id", "name", "type", "version", "author", "description", "category", "shortDesc",
+        "fullDesc", "tags", "icon", "platformSupport", "requiredClientVersion", "stewardship",
+        "availability", "redistribution", "branding", "listingMaintainer", "upstreamMaintainer",
+        "integration", "officialLinks", "components", "permissions", "profileRecommendation",
+        "dataBoundaries", "admission", "compliance"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "kimi-webbridge",
+          "description": "The only external-integration ID admitted by Registry Schema v4."
+        },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "type": { "const": "external-integration" },
+        "version": { "$ref": "#/definitions/version" },
+        "author": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "category": { "const": "tools" },
+        "shortDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "fullDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "tags": { "$ref": "#/definitions/tags" },
+        "icon": {
+          "type": "string",
+          "enum": ["monitor", "puzzle", "globe"],
+          "description": "A neutral DesireCore icon name; upstream logos are not permitted in this listing type."
+        },
+        "platformSupport": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["macos", "windows"] },
+          "allOf": [{ "contains": { "const": "macos" } }, { "contains": { "const": "windows" } }],
+          "description": "The reviewed listing must support both macOS and Windows."
+        },
+        "requiredClientVersion": {
+          "allOf": [{ "$ref": "#/definitions/version" }],
+          "description": "Minimum DesireCore version that understands this strict listing-only entry."
+        },
+        "stewardship": { "const": "pointer" },
+        "availability": { "const": "listing-only" },
+        "redistribution": { "const": "source-pointer-only" },
+        "branding": {
+          "type": "object",
+          "required": ["relationship", "nameUsage", "logoStatus"],
+          "additionalProperties": false,
+          "properties": {
+            "relationship": { "const": "independent-listing" },
+            "nameUsage": { "const": "nominative" },
+            "logoStatus": { "const": "not-used" }
+          }
+        },
+        "listingMaintainer": { "$ref": "#/definitions/maintainer" },
+        "upstreamMaintainer": { "$ref": "#/definitions/maintainer" },
+        "integration": {
+          "type": "object",
+          "required": ["kind", "adapterId", "executionAvailability", "installMode"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "local-extension-bridge" },
+            "adapterId": { "$ref": "#/definitions/id" },
+            "executionAvailability": { "const": "blocked" },
+            "installMode": { "const": "upstream-guided" }
+          }
+        },
+        "officialLinks": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/officialLink" },
+          "description": "One reviewed official source for each required link kind."
+        },
+        "components": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/externalComponent" },
+          "description": "The upstream browser extension and local daemon, neither redistributed by DesireCore."
+        },
+        "permissions": {
+          "type": "object",
+          "required": ["browserExtension"],
+          "additionalProperties": false,
+          "properties": {
+            "browserExtension": {
+              "type": "object",
+              "required": ["apiPermissions", "hostPermissions", "riskLevel"],
+              "additionalProperties": false,
+              "properties": {
+                "apiPermissions": {
+                  "type": "array",
+                  "minItems": 7,
+                  "maxItems": 7,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "enum": ["tabs", "activeTab", "debugger", "storage", "alarms", "tabGroups", "windows"]
+                  }
+                },
+                "hostPermissions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": { "const": "<all_urls>" }
+                },
+                "riskLevel": { "const": "high" }
+              }
+            }
+          }
+        },
+        "profileRecommendation": { "const": "dedicated-browser-profile" },
+        "dataBoundaries": {
+          "type": "object",
+          "required": ["webBridgeLocalExecution", "desireCoreModelContext", "modelProviderDisclosureRequired"],
+          "additionalProperties": false,
+          "properties": {
+            "webBridgeLocalExecution": {
+              "allOf": [{ "$ref": "#/definitions/nonEmptyString" }],
+              "description": "A scoped statement of the upstream claim about the local WebBridge execution path."
+            },
+            "desireCoreModelContext": {
+              "allOf": [{ "$ref": "#/definitions/nonEmptyString" }],
+              "description": "A separate disclosure that content entering DesireCore context may be sent to the selected model provider."
+            },
+            "modelProviderDisclosureRequired": { "const": true }
+          }
+        },
+        "admission": {
+          "type": "object",
+          "required": ["status", "code", "reason", "missingPrerequisites"],
+          "additionalProperties": false,
+          "properties": {
+            "status": { "const": "blocked" },
+            "code": { "const": "native-integration-not-admitted" },
+            "reason": { "$ref": "#/definitions/nonEmptyString" },
+            "missingPrerequisites": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "stable-auditable-protocol",
+                  "integration-authorization",
+                  "deterministic-command-receipts",
+                  "user-interaction-pause-signal"
+                ]
+              }
+            }
+          }
+        },
+        "compliance": {
+          "type": "object",
+          "required": ["reviewedAt", "reviewedBy", "upstreamEndorsed", "relationshipDisclosure", "artifactReviews"],
+          "additionalProperties": false,
+          "properties": {
+            "reviewedAt": { "type": "string", "format": "date" },
+            "reviewedBy": { "$ref": "#/definitions/nonEmptyString" },
+            "upstreamEndorsed": { "const": false },
+            "relationshipDisclosure": { "const": "independent-listing-not-endorsed" },
+            "artifactReviews": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/definitions/artifactReview" },
+              "description": "Immutable upstream artifact audit facts; these records do not admit installation or redistribution."
+            }
+          }
+        }
+      }
+    }
+  }
+}
