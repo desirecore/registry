@@ -1,0 +1,262 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/desirecore/registry/schemas/catalog-metadata.v1.schema.json",
+  "title": "DesireCore Registry catalog metadata v1 sidecar",
+  "description": "CatalogItemV1 的 Registry 来源事实子集。受信 catalogSourceId、catalog provenance 和 official 身份由客户端同步器注入，禁止写入本文档。",
+  "type": "object",
+  "required": ["schemaVersion", "identity", "presentation", "release", "timestamps", "provenance", "governance", "compatibility", "spec"],
+  "properties": {
+    "$schema": { "const": "../../schemas/catalog-metadata.v1.schema.json" },
+    "schemaVersion": { "const": 1 },
+    "identity": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "enum": ["app", "service"], "description": "canonical 条目类型；Registry mcp/http-api 都归一为 service。" },
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "来源内条目 ID；受信来源 ID 不属于 sidecar。" }
+      },
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "required": ["defaultLocale", "i18n", "tags"],
+      "properties": {
+        "defaultLocale": { "type": "string", "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$" },
+        "i18n": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "pattern": "^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$" },
+          "additionalProperties": { "$ref": "#/$defs/localeText" }
+        },
+        "tags": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 120 }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "release": { "$ref": "#/$defs/release" },
+    "timestamps": {
+      "type": "object",
+      "required": ["catalogUpdatedAt", "releasePublishedAt", "reviewedAt", "upstreamObservedAt"],
+      "properties": {
+        "catalogUpdatedAt": { "$ref": "#/$defs/timestamp" },
+        "releasePublishedAt": { "$ref": "#/$defs/timestamp" },
+        "reviewedAt": { "$ref": "#/$defs/timestamp" },
+        "upstreamObservedAt": { "$ref": "#/$defs/timestamp" }
+      },
+      "additionalProperties": false,
+      "description": "目录修改、内容发布、审核和上游观察时间彼此独立；syncedAt 不属于上游元数据。"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": { "content": { "$ref": "#/$defs/contentSource" } },
+      "additionalProperties": false,
+      "description": "只声明内容来源。Catalog 仓库来源由同步器根据受信 repo 上下文注入。"
+    },
+    "governance": {
+      "type": "object",
+      "required": ["availability", "license", "redistribution"],
+      "properties": {
+        "availability": { "enum": ["listing-only", "installable"] },
+        "stewardship": { "enum": ["partner", "community", "pointer"], "description": "正文不得自报 official；受信官方身份只能由同步器注入。" },
+        "license": { "$ref": "#/$defs/license" },
+        "redistribution": { "enum": ["allowed", "source-pointer-only", "verify-package-terms"] },
+        "listingMaintainer": { "$ref": "#/$defs/maintainer" },
+        "upstreamMaintainer": { "$ref": "#/$defs/maintainer" },
+        "branding": { "$ref": "#/$defs/branding" },
+        "compliance": { "$ref": "#/$defs/compliance" }
+      },
+      "additionalProperties": false
+    },
+    "compatibility": {
+      "type": "object",
+      "required": ["platforms"],
+      "properties": {
+        "platforms": { "$ref": "#/$defs/platforms" },
+        "requiredClientVersion": {
+          "type": "string",
+          "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "spec": { "oneOf": [{ "$ref": "#/$defs/appSpec" }, { "$ref": "#/$defs/serviceSpec" }] }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "localeText": {
+      "type": "object",
+      "required": ["name", "summary"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "release": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["state"],
+          "properties": { "state": { "const": "unknown" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["state", "version", "versionScheme"],
+          "properties": {
+            "state": { "const": "known" },
+            "version": { "type": "string", "minLength": 1, "maxLength": 160 },
+            "versionScheme": { "enum": ["semver", "calver", "opaque"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "timestamp": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["state"],
+          "properties": { "state": { "const": "unknown" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["state", "value", "precision"],
+          "properties": {
+            "state": { "const": "known" },
+            "value": { "type": "string" },
+            "precision": { "enum": ["day", "second"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "contentSource": {
+      "type": "object",
+      "required": ["kind", "url"],
+      "properties": {
+        "kind": { "enum": ["git", "web", "zip", "release", "package", "container"] },
+        "url": { "type": "string", "format": "uri" },
+        "ref": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "sha256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "path": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "license": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["state"],
+          "properties": { "state": { "const": "unknown" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["state", "value"],
+          "properties": {
+            "state": { "const": "known" },
+            "value": { "type": "string", "minLength": 1, "maxLength": 240 },
+            "evidencePath": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "maintainer": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "verified": { "type": "boolean", "description": "身份是否已验证；不代表许可证授权或官方身份。" }
+      },
+      "additionalProperties": false
+    },
+    "branding": {
+      "type": "object",
+      "required": ["relationship", "nameUsage", "logoStatus"],
+      "properties": {
+        "relationship": { "enum": ["partner", "independent-listing"], "description": "sidecar 不接受 official 自报。" },
+        "nameUsage": { "enum": ["owned", "licensed", "nominative"] },
+        "logoStatus": { "enum": ["not-used", "license-covered", "trademark-policy-allowed", "permission-obtained"] }
+      },
+      "additionalProperties": false
+    },
+    "compliance": {
+      "type": "object",
+      "required": ["licenseEvidencePath", "reviewedRef", "reviewedAt", "reviewedBy", "upstreamEndorsed"],
+      "properties": {
+        "licenseEvidencePath": { "type": "string", "minLength": 1 },
+        "noticePath": { "type": "string", "minLength": 1 },
+        "reviewedRef": { "type": "string", "minLength": 1 },
+        "reviewedAt": { "type": "string" },
+        "reviewedBy": { "type": "string", "minLength": 1 },
+        "upstreamEndorsed": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "platforms": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["state", "values"],
+          "properties": {
+            "state": { "const": "known" },
+            "values": {
+              "type": "array",
+              "items": { "enum": ["macos", "windows", "linux", "web", "ios", "android"] },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["state"],
+          "properties": { "state": { "enum": ["all", "unknown"] } },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "placementPolicy": {
+      "type": "object",
+      "required": ["showInMyApps", "allowNavPin", "allowAgentBinding"],
+      "properties": {
+        "showInMyApps": { "type": "boolean" },
+        "allowNavPin": { "type": "boolean" },
+        "allowAgentBinding": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "appSpec": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "app" },
+        "category": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "entrypointKinds": {
+          "type": "array",
+          "items": { "enum": ["builtin", "embedded-web", "external"] },
+          "uniqueItems": true
+        },
+        "placementPolicy": { "$ref": "#/$defs/placementPolicy" }
+      },
+      "additionalProperties": false
+    },
+    "serviceSpec": {
+      "type": "object",
+      "required": ["kind", "protocol"],
+      "properties": {
+        "kind": { "const": "service" },
+        "protocol": { "enum": ["mcp", "http"] },
+        "authType": { "enum": ["none", "bearer", "header", "query", "oauth", "unknown"] },
+        "capabilities": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 160 }, "uniqueItems": true },
+        "toolCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

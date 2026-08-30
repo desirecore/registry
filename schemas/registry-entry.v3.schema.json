@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/desirecore/registry/schemas/registry-entry.v3.schema.json",
+  "title": "DesireCore Registry legacy entry v3",
+  "description": "现有 entries/<id>/manifest.json 的兼容 Schema。Catalog sidecar 是增量契约，不替换本格式。",
+  "oneOf": [
+    { "$ref": "#/$defs/dockerApp" },
+    { "$ref": "#/$defs/mcp" },
+    { "$ref": "#/$defs/httpApi" }
+  ],
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "stringArray": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "platformArray": {
+      "type": "array",
+      "items": { "enum": ["macos", "windows", "linux"] },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "common": {
+      "type": "object",
+      "required": ["id", "name", "type", "version", "description"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "type": { "enum": ["docker-app", "mcp", "http-api"] },
+        "version": { "$ref": "#/$defs/nonEmptyString" },
+        "author": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "tags": { "$ref": "#/$defs/stringArray" },
+        "icon": { "$ref": "#/$defs/nonEmptyString" },
+        "platformSupport": { "$ref": "#/$defs/platformArray" },
+        "sourceAppId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "sourceAppName": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "dockerRequirements": {
+      "type": "object",
+      "required": ["docker", "minMemory", "minDisk", "ports"],
+      "properties": {
+        "docker": { "type": "boolean" },
+        "minMemory": { "$ref": "#/$defs/nonEmptyString" },
+        "minDisk": { "$ref": "#/$defs/nonEmptyString" },
+        "ports": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 65535 }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "dockerInstall": {
+      "type": "object",
+      "required": ["method", "requirements"],
+      "properties": {
+        "method": { "enum": ["docker", "docker-compose"] },
+        "requirements": { "$ref": "#/$defs/dockerRequirements" },
+        "configNeeded": { "$ref": "#/$defs/stringArray" }
+      },
+      "additionalProperties": false
+    },
+    "expose": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["mcp", "http-api"] },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "path": { "type": "string", "minLength": 1 },
+        "name": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "additionalProperties": false
+    },
+    "mcpInstall": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": { "enum": ["npx", "pip", "uvx", "docker", "binary", "go"] },
+        "packageName": { "$ref": "#/$defs/nonEmptyString" },
+        "command": { "$ref": "#/$defs/nonEmptyString" },
+        "args": { "type": "array", "items": { "type": "string" } },
+        "postInstall": { "$ref": "#/$defs/stringArray" },
+        "env": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "connection": {
+      "type": "object",
+      "required": ["transport"],
+      "properties": {
+        "transport": { "enum": ["stdio", "streamable-http", "sse"] },
+        "command": { "$ref": "#/$defs/nonEmptyString" },
+        "args": { "type": "array", "items": { "type": "string" } },
+        "url": { "type": "string", "format": "uri" },
+        "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+        "env": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "dockerApp": {
+      "type": "object",
+      "required": ["id", "name", "type", "version", "description", "category", "shortDesc", "fullDesc", "install"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "type": { "const": "docker-app" },
+        "version": { "$ref": "#/$defs/nonEmptyString" },
+        "author": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "tags": { "$ref": "#/$defs/stringArray" },
+        "icon": { "$ref": "#/$defs/nonEmptyString" },
+        "iconLetter": { "$ref": "#/$defs/nonEmptyString" },
+        "platformSupport": { "$ref": "#/$defs/platformArray" },
+        "category": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "shortDesc": { "$ref": "#/$defs/nonEmptyString" },
+        "fullDesc": { "$ref": "#/$defs/nonEmptyString" },
+        "stars": { "type": "number", "minimum": 0 },
+        "githubUrl": { "type": "string", "format": "uri" },
+        "install": { "$ref": "#/$defs/dockerInstall" },
+        "exposes": { "type": "array", "items": { "$ref": "#/$defs/expose" } }
+      },
+      "additionalProperties": false
+    },
+    "mcp": {
+      "type": "object",
+      "required": ["id", "name", "type", "version", "description", "capabilities", "connection"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "type": { "const": "mcp" },
+        "version": { "$ref": "#/$defs/nonEmptyString" },
+        "author": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "tags": { "$ref": "#/$defs/stringArray" },
+        "icon": { "$ref": "#/$defs/nonEmptyString" },
+        "platformSupport": { "$ref": "#/$defs/platformArray" },
+        "capabilities": { "$ref": "#/$defs/stringArray" },
+        "toolCount": { "type": "integer", "minimum": 0 },
+        "install": { "$ref": "#/$defs/mcpInstall" },
+        "connection": { "$ref": "#/$defs/connection" },
+        "sourceAppId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "sourceAppName": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "additionalProperties": false
+    },
+    "httpApi": {
+      "type": "object",
+      "required": ["id", "name", "type", "version", "description", "endpoint", "capabilities"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "type": { "const": "http-api" },
+        "version": { "$ref": "#/$defs/nonEmptyString" },
+        "author": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "tags": { "$ref": "#/$defs/stringArray" },
+        "icon": { "$ref": "#/$defs/nonEmptyString" },
+        "platformSupport": { "$ref": "#/$defs/platformArray" },
+        "endpoint": { "type": "string", "format": "uri" },
+        "capabilities": { "$ref": "#/$defs/stringArray" },
+        "sourceAppId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "sourceAppName": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
