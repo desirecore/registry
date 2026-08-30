@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "dify-rag"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Dify RAG API",
+        "summary": "Dify 知识库检索服务，支持语义搜索和多知识库联合检索"
+      },
+      "en-US": {
+        "name": "Dify RAG API",
+        "summary": "Dify knowledge base retrieval service with semantic search and federated search across multiple knowledge bases"
+      }
+    },
+    "tags": [
+      "RAG",
+      "知识库",
+      "检索"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.13.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Dify.AI",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "http",
+    "authType": "unknown",
+    "capabilities": [
+      "semantic_search",
+      "multi_dataset",
+      "relevance_ranking"
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "fs-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Filesystem MCP",
+        "summary": "本地文件系统操作，支持读写、搜索、监控文件变化"
+      },
+      "en-US": {
+        "name": "Filesystem MCP",
+        "summary": "Local filesystem operations with file reading, writing, search, and change monitoring"
+      }
+    },
+    "tags": [
+      "文件系统",
+      "本地"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2026.1.14",
+    "versionScheme": "calver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://www.npmjs.com/package/@modelcontextprotocol/server-filesystem"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Anthropic",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "unknown",
+    "capabilities": [
+      "file_read",
+      "file_write",
+      "file_search",
+      "file_watch"
+    ],
+    "toolCount": 13
+  }
+}

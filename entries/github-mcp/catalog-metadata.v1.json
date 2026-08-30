@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "github-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "GitHub MCP",
+        "summary": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理"
+      },
+      "en-US": {
+        "name": "GitHub MCP",
+        "summary": "Repository operations for pull requests, issues, code search, and repository management"
+      }
+    },
+    "tags": [
+      "代码",
+      "Git",
+      "PR"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.32.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "container",
+      "url": "https://ghcr.io/github/github-mcp-server"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "GitHub",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "bearer",
+    "capabilities": [
+      "repo_read",
+      "pr_manage",
+      "issue_manage",
+      "code_search"
+    ],
+    "toolCount": 51
+  }
+}

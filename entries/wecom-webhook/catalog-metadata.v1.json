@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "wecom-webhook"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "企业微信 Webhook",
+        "summary": "企业微信机器人消息通知，支持文本、Markdown、图片、图文、文件、语音和卡片消息"
+      },
+      "en-US": {
+        "name": "WeCom Webhook",
+        "summary": "WeCom bot notifications supporting text, Markdown, images, news, files, voice messages, and cards"
+      }
+    },
+    "tags": [
+      "通知",
+      "企业微信",
+      "Webhook"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0",
+    "versionScheme": "opaque"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "腾讯",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "http",
+    "authType": "unknown",
+    "capabilities": [
+      "text_message",
+      "markdown_message",
+      "image_message",
+      "news_message",
+      "file_message",
+      "voice_message",
+      "card_message"
+    ]
+  }
+}
