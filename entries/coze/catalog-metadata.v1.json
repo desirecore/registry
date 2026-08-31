@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "coze"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Coze",
+        "summary": "字节跳动 AI Bot 开发平台（开源社区版）",
+        "description": "Coze 是一个 AI 聊天机器人和应用开发平台，提供 LLM、知识库、插件和工作流等能力。支持快速构建、测试和部署 AI Bot，无需编程经验。"
+      },
+      "en-US": {
+        "name": "Coze",
+        "summary": "ByteDance AI bot development platform (open-source community edition)",
+        "description": "Coze is an AI chatbot and application development platform that provides LLM, knowledge base, plugin, and workflow capabilities. It supports rapidly building, testing, and deploying AI bots without requiring programming experience."
+      }
+    },
+    "tags": [
+      "Bot",
+      "LLM",
+      "插件"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.5.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-16",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/coze-dev/coze-studio"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "coze-dev",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "ai-platform"
+  }
+}

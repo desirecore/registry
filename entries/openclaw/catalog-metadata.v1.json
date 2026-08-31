@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "openclaw"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "OpenClaw",
+        "summary": "开源个人 AI 助手，支持多渠道网关和本地优先架构",
+        "description": "OpenClaw 是一个开源的个人 AI 助手平台，提供多渠道网关（WhatsApp、Telegram、Slack、Discord 等）、本地优先架构、会话管理和工具策略控制等能力。支持流式输出、对话压缩和 hooks 扩展。"
+      },
+      "en-US": {
+        "name": "OpenClaw",
+        "summary": "Open-source personal AI assistant with a multi-channel gateway and local-first architecture",
+        "description": "OpenClaw is an open-source personal AI assistant platform with a multi-channel gateway (WhatsApp, Telegram, Slack, Discord, and more), a local-first architecture, session management, and tool policy controls. It supports streaming output, conversation compaction, and hook-based extensions."
+      }
+    },
+    "tags": [
+      "Agent",
+      "Gateway",
+      "Multi-Channel",
+      "Local-First"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2026.3.8",
+    "versionScheme": "calver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-16",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/openclaw/openclaw"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "OpenClaw",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "ai-platform"
+  }
+}

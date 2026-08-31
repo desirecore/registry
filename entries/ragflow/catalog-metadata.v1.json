@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "ragflow"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "RagFlow",
+        "summary": "基于深度文档理解的开源 RAG 引擎",
+        "description": "RagFlow 是一款基于深度文档理解构建的开源 RAG 引擎。可以为各种规模的企业及个人提供流畅的 RAG 工作流，结合大语言模型（LLM）针对用户各类不同的复杂格式数据提供可靠的问答以及有理有据的引用。"
+      },
+      "en-US": {
+        "name": "RagFlow",
+        "summary": "Open-source RAG engine built on deep document understanding",
+        "description": "RAGFlow is an open-source RAG engine built on deep document understanding. It provides smooth RAG workflows for organizations and individuals at any scale, combining large language models (LLMs) with complex, diverse data formats to deliver reliable answers with grounded citations."
+      }
+    },
+    "tags": [
+      "RAG",
+      "文档理解",
+      "知识库"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.24.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-14",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/infiniflow/ragflow"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "InfiniFlow",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "rag"
+  }
+}

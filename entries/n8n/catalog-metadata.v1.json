@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "n8n"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "n8n",
+        "summary": "可视化工作流自动化平台，支持 400+ 集成",
+        "description": "n8n 是一个可扩展的工作流自动化工具。使用公平代码许可，拥有原生 AI 能力，可以连接任何东西。支持自托管，提供丰富的第三方服务集成节点。"
+      },
+      "en-US": {
+        "name": "n8n",
+        "summary": "Visual workflow automation platform with 400+ integrations",
+        "description": "n8n is an extensible workflow automation tool. It uses a fair-code license, includes native AI capabilities, and can connect to almost anything. It supports self-hosting and offers a broad range of integration nodes for third-party services."
+      }
+    },
+    "tags": [
+      "Automation",
+      "Workflow",
+      "Integration"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.10.4",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-14",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/n8n-io/n8n"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "n8n-io",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "workflow"
+  }
+}

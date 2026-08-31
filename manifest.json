@@ -6,7 +6,7 @@
   "description": "DesireCore 官方注册表 — Docker 应用、MCP 服务、HTTP API 和第三方外部集成的统一目录",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
-  "lastUpdated": "2026-08-30",
+  "lastUpdated": "2026-08-31",
   "stats": {
     "totalEntries": 22,
     "dockerApps": 8,
@@ -14,5 +14,12 @@
     "httpApis": 5,
     "externalIntegrations": 1
   },
-  "dataVersion": "4.0.0"
+  "dataVersion": "4.0.0",
+  "catalogMetadata": {
+    "version": "1.0.0",
+    "schema": "schemas/catalog-metadata.v1.schema.json",
+    "sidecarPath": "entries/<id>/catalog-metadata.v1.json",
+    "required": true,
+    "legacyFallback": true
+  }
 }

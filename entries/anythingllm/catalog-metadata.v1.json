@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "anythingllm"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "AnythingLLM",
+        "summary": "全能型 AI 桌面应用，支持 RAG、Agent 和文档对话",
+        "description": "AnythingLLM 是一个全能型 AI 应用，可以将任何文档、资源或内容转化为上下文，供任何 LLM 在聊天中使用。支持多用户管理、权限控制和嵌入式对话。"
+      },
+      "en-US": {
+        "name": "AnythingLLM",
+        "summary": "All-in-one AI desktop application with RAG, agents, and document chat",
+        "description": "AnythingLLM is an all-in-one AI application that turns documents, resources, or other content into context for use with any LLM in chat. It supports multi-user management, access control, and embedded chat."
+      }
+    },
+    "tags": [
+      "RAG",
+      "Desktop",
+      "文档对话"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.11.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-14",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/Mintplex-Labs/anything-llm"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Mintplex Labs",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "app",
+    "category": "tools"
+  }
+}

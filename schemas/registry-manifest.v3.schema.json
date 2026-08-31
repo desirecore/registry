@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/desirecore/registry/schemas/registry-manifest.v3.schema.json",
+  "title": "DesireCore Registry manifest v3",
+  "description": "Registry 仓库级元数据。catalogMetadata 只广告可选 sidecar 能力，不改变 legacy 条目的读取方式。",
+  "type": "object",
+  "required": ["id", "version", "name", "description", "maintainer", "repository", "lastUpdated", "stats", "dataVersion"],
+  "properties": {
+    "$schema": { "type": "string", "description": "JSON Schema 标识或路径。" },
+    "id": { "const": "desirecore-registry-manifest", "description": "Registry 仓库固定标识。" },
+    "version": { "type": "string", "minLength": 1, "description": "Registry 数据格式版本。" },
+    "name": { "type": "string", "minLength": 1, "description": "Registry 显示名称。" },
+    "description": { "type": "string", "minLength": 1, "description": "Registry 用途说明。" },
+    "maintainer": { "type": "string", "minLength": 1, "description": "Registry 目录维护者。" },
+    "repository": { "type": "string", "format": "uri", "description": "Registry 仓库地址。" },
+    "lastUpdated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "仓库目录元数据最后修改日期，不表示条目内容发布时间。" },
+    "stats": {
+      "type": "object",
+      "description": "必须与 entries/ 实际内容完全一致的统计。",
+      "required": ["totalEntries", "dockerApps", "mcpServices", "httpApis"],
+      "properties": {
+        "totalEntries": { "type": "integer", "minimum": 0 },
+        "dockerApps": { "type": "integer", "minimum": 0 },
+        "mcpServices": { "type": "integer", "minimum": 0 },
+        "httpApis": { "type": "integer", "minimum": 0 },
+        "externalIntegrations": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "dataVersion": { "type": "string", "minLength": 1, "description": "仓库数据版本；旧客户端继续按原字段读取。" },
+    "catalogMetadata": {
+      "type": "object",
+      "description": "Catalog metadata v1 的兼容广告。sidecar 在迁移窗口内可选，legacy manifest 始终保留。",
+      "required": ["version", "schema", "sidecarPath", "required", "legacyFallback"],
+      "properties": {
+        "version": { "const": "1.0.0" },
+        "schema": { "const": "schemas/catalog-metadata.v1.schema.json" },
+        "sidecarPath": { "const": "entries/<id>/catalog-metadata.v1.json" },
+        "required": { "type": "boolean", "description": "是否要求每个 entry 都具备 sidecar。迁移完成前为 false。" },
+        "legacyFallback": { "const": true, "description": "旧客户端和缺 sidecar 条目继续读取 manifest.json。" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -19,9 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Validate registry
+      - name: Validate Registry v4
         run: npm test
+      - name: Run validator tests
+        run: node --test scripts/catalog/*.test.mjs
+      - name: Validate all Registry catalog sidecars
+        run: node scripts/catalog/validate-registry.mjs --require-sidecars

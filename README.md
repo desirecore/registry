@@ -12,14 +12,13 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ├── SCHEMA_VERSION         # 数据格式版本号（当前 4.0.0）
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
-├── schemas/
-│   └── registry-entry.schema.json  # Draft-07 严格判别 Schema
-├── scripts/
-│   ├── validate-registry.mjs       # 仓库语义校验
-│   └── validate-registry.test.mjs  # 失败关闭回归测试
+├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
+├── scripts/               # Registry v4 校验入口与回归测试
+├── scripts/catalog/       # 零依赖离线 validator 与 node:test
 ├── entries/               # 🔑 所有注册表条目（统一格式）
 │   ├── n8n/               # 示例：Docker 应用
 │   │   ├── manifest.json  # 条目元数据（必需）
+│   │   ├── catalog-metadata.v1.json # 统一目录元数据（迁移窗口内可选）
 │   │   ├── install.md     # 安装说明（Agent 使用，可选）
 │   │   └── usage.md       # 使用说明（Agent 使用，可选）
 │   ├── playwright-mcp/    # 示例：MCP 服务
@@ -54,7 +53,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 | `id` | string | ✅ | 唯一标识，与目录名一致 |
 | `name` | string | ✅ | 显示名称 |
 | `type` | string | ✅ | 条目类型：`docker-app` / `mcp` / `http-api` / `external-integration` |
-| `version` | string | ✅ | 语义版本号 |
+| `version` | string | ✅ | 上游原始版本字符串；可为 SemVer、CalVer 或不透明版本 |
 | `description` | string | ✅ | 一行功能摘要 |
 | `author` | string | | 作者或组织 |
 | `tags` | string[] | | 搜索标签 |
@@ -150,6 +149,64 @@ external integration 目录必须恰好包含一个常规文件 `manifest.json`�
 
 `external-integration` 不允许 `usage.md` 或其他附加文件；所有用户可见披露必须是经过 Schema 约束的 manifest 字段。
 
+### catalog-metadata.v1.json（迁移窗口内可选）
+
+固定路径为 `entries/<id>/catalog-metadata.v1.json`，Schema 为
+`schemas/catalog-metadata.v1.schema.json`。它给新客户端提供统一目录读模型所需的条目事实，
+不会替换 `manifest.json`；旧客户端继续只读 legacy manifest，新客户端在 sidecar 缺失时也必须
+回退到 legacy adapter。
+
+Sidecar 只允许声明条目自身事实：
+
+- `identity`：`app` / `service` 与来源内 ID。不得写 `sourceId` 或 `catalogSourceId`。
+- `presentation`：默认语言和真实 i18n 文案。未翻译文本只能保留一个 locale，不能复制成伪双语。
+- `release`：显式 `known` / `unknown`；已知时保留原始版本与 `semver` / `calver` / `opaque` 解释方式。
+- `timestamps`：目录更新、内容发布、治理审核和上游观察时间相互独立；客户端同步时间不写入。
+- `provenance.content`：内容上游及其不可变 ref/digest；Catalog 仓库来源由客户端受信上下文注入。
+- `governance`：listing-only/installable、维护者、许可证、品牌和审核证据。
+- `compatibility`：平台必须显式区分 `known` / `all` / `unknown`。
+- `spec`：App 分类、入口类型与放置策略，或 Service 协议、鉴权类型、能力与工具数；安装命令、endpoint 和凭据不进入统一目录元数据。
+
+示例（证据不足的条目必须失败关闭为 listing-only）：
+
+```json
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": { "kind": "app", "id": "my-app" },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": { "name": "My App", "summary": "应用摘要" }
+    },
+    "tags": ["demo"]
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": {
+    "catalogUpdatedAt": { "state": "unknown" },
+    "releasePublishedAt": { "state": "unknown" },
+    "reviewedAt": { "state": "unknown" },
+    "upstreamObservedAt": { "state": "unknown" }
+  },
+  "provenance": {},
+  "governance": {
+    "availability": "listing-only",
+    "license": { "state": "unknown" },
+    "redistribution": "verify-package-terms"
+  },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "app", "category": "tools" }
+}
+```
+
+`official` 不是条目可以自报的属性。即使本仓库由 DesireCore 维护，第三方应用或服务也不能因此
+自动成为 DesireCore 官方内容。正文中的 `sourceId`、`catalogSourceId` 或 `official` 声明会被
+validator 拒绝；受信 Provider 身份只能由客户端同步器注入。
+
+只有同时具备 HTTPS 不可变内容来源、已知许可证、分发策略、双维护者身份、品牌依据以及绑定到
+同一 ref 的审核记录时，`availability` 才能写 `installable`。Git 分支名、`latest`、浮动包版本或
+缺少 SHA-256 的制品只能保持 `listing-only`。
+
 ## 添加新条目
 
 ### 添加 Docker 应用
@@ -211,6 +268,10 @@ cat > entries/my-app/usage.md << 'EOF'
 浏览器打开 http://localhost:8080
 EOF
 ```
+
+新条目必须添加 `catalog-metadata.v1.json`。3.1 的全量迁移已经完成，根
+`manifest.json#catalogMetadata.required` 为 `true`，CI 会阻断缺失 sidecar 的条目；
+`legacyFallback` 继续保留，供尚未退出兼容窗口的旧客户端读取原始 manifest。
 
 ### 添加 MCP 服务
 
@@ -307,6 +368,26 @@ npm test
 
 校验包含 JSON Schema、目录与 ID、全局唯一性、根版本、统计、来源注入字段、external 单文件布局、固定 Kimi ID、完整官方 URL、扩展 ID、组件/权限/准入集合、真实日历日期和不可变供应链审核记录。
 
+Schema v4 同时保留 `catalog-metadata.v1.json` 统一目录 sidecar、strict validator 与 legacy fallback。
+
+## 本地验证
+
+本仓库的验证器只依赖 Node.js 22，不联网、不读取 Git 历史，也不会把当前时间伪造成目录事实：
+
+```bash
+# 逐条验证根 stats、目录 ID、legacy manifest 与全部 sidecar
+node scripts/catalog/validate-registry.mjs --require-sidecars
+
+# 机器可读报告
+node scripts/catalog/validate-registry.mjs --json
+
+# 正反 fixture 与当前目录兼容回归
+node --test scripts/catalog/*.test.mjs
+```
+
+证据路径必须是安全相对路径，禁止绝对路径和 `..` 穿越。离线 validator 只证明字段结构、路径安全
+和 ref/digest 一致性，不把网络不可达或未验证的远端事实伪造成通过。
+
 ## 同步机制
 
 DesireCore 客户端的同步流程：
@@ -334,6 +415,7 @@ DesireCore 客户端的同步流程：
 3. 按上述格式添加 `manifest.json`，旧三类按需添加 `install.md` 和 `usage.md`
 4. 更新根目录 `manifest.json` 中的 `stats` 统计
 5. 执行 `npm ci && npm test`
+   并运行 `node --test scripts/catalog/*.test.mjs` 与 `node scripts/catalog/validate-registry.mjs --require-sidecars`
 6. 提交 PR 并描述变更内容、来源和验证结果
 7. 等待审核合并
 

@@ -1,0 +1,90 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "electron-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Electron MCP",
+        "summary": "Electron 桌面应用自动化 — 经 CDP 发现窗口、执行 JS、点击填表、截图、读日志"
+      },
+      "en-US": {
+        "name": "Electron MCP",
+        "summary": "Electron desktop automation via CDP for window discovery, JavaScript execution, clicks, form input, screenshots, and log reading"
+      }
+    },
+    "tags": [
+      "Electron",
+      "桌面应用",
+      "自动化",
+      "调试",
+      "CDP"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.5.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-29",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://www.npmjs.com/package/electron-mcp-server"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "halilural",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "unknown",
+    "capabilities": [
+      "window_discover",
+      "js_evaluate",
+      "ui_interact",
+      "element_inspect",
+      "screenshot",
+      "log_read"
+    ],
+    "toolCount": 4
+  }
+}

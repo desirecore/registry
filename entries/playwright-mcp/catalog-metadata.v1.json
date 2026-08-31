@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "playwright-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Playwright MCP",
+        "summary": "浏览器自动化 — 网页导航、截图、表单填写、DOM 操作、PDF 生成"
+      },
+      "en-US": {
+        "name": "Playwright MCP",
+        "summary": "Browser automation for navigation, screenshots, form filling, DOM operations, and PDF generation"
+      }
+    },
+    "tags": [
+      "浏览器",
+      "自动化",
+      "Playwright"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.0.68",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://www.npmjs.com/package/@playwright/mcp"
+    }
+  },
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Microsoft",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "unknown",
+    "capabilities": [
+      "page_navigate",
+      "screenshot",
+      "dom_query",
+      "form_fill",
+      "pdf_generate",
+      "content_extract"
+    ],
+    "toolCount": 34
+  }
+}

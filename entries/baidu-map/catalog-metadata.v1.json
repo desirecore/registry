@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "baidu-map"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "百度地图 API",
+        "summary": "地理位置服务，支持地理编码、路线规划和 POI 搜索"
+      },
+      "en-US": {
+        "name": "Baidu Maps API",
+        "summary": "Geolocation service with geocoding, route planning, and POI search"
+      }
+    },
+    "tags": [
+      "地图",
+      "地理位置",
+      "POI"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "3.0",
+    "versionScheme": "opaque"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-03-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "百度",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "http",
+    "authType": "unknown",
+    "capabilities": [
+      "geocoding",
+      "route_plan",
+      "poi_search",
+      "distance_calc"
+    ]
+  }
+}
