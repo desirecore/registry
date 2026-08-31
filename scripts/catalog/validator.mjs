@@ -190,10 +190,11 @@ export function validateRegistry(repoRoot, options = {}) {
   const schemaVersionFile = join(root, 'SCHEMA_VERSION')
   const rootSchema = readJson(join(root, 'schemas', 'registry-manifest.v3.schema.json'), diagnostics)
   const entrySchema = readJson(join(root, 'schemas', 'registry-entry.v3.schema.json'), diagnostics)
+  const externalEntrySchema = readJson(join(root, 'schemas', 'registry-entry.schema.json'), diagnostics)
   const sidecarSchema = readJson(join(root, 'schemas', 'catalog-metadata.v1.schema.json'), diagnostics)
   const rootManifest = readJson(manifestFile, diagnostics)
   const entryDirs = findEntryDirs(join(root, 'entries'))
-  const counts = { totalEntries: 0, dockerApps: 0, mcpServices: 0, httpApis: 0, sidecars: 0, legacyOnly: 0 }
+  const counts = { totalEntries: 0, dockerApps: 0, mcpServices: 0, httpApis: 0, externalIntegrations: 0, sidecars: 0, legacyOnly: 0 }
 
   if (rootManifest && rootSchema) diagnostics.push(...schemaDiagnostics(rootManifest, rootSchema, relativeFile(root, manifestFile)))
   const schemaVersion = existsSync(schemaVersionFile) ? readFileSync(schemaVersionFile, 'utf8').trim() : ''
@@ -214,12 +215,15 @@ export function validateRegistry(repoRoot, options = {}) {
     if (entry.type === 'docker-app') counts.dockerApps += 1
     if (entry.type === 'mcp') counts.mcpServices += 1
     if (entry.type === 'http-api') counts.httpApis += 1
-    if (entrySchema) diagnostics.push(...schemaDiagnostics(entry, entrySchema, manifestRelative))
+    if (entry.type === 'external-integration') counts.externalIntegrations += 1
+    const effectiveEntrySchema = entry.type === 'external-integration' ? externalEntrySchema : entrySchema
+    if (effectiveEntrySchema) diagnostics.push(...schemaDiagnostics(entry, effectiveEntrySchema, manifestRelative))
     if (entry.id !== basename(entryDir)) diagnostics.push(diagnostic('error', 'directory-id-mismatch', manifestRelative, '$.id', 'manifest.id 必须与 entries/<id> 目录名一致'))
     if (seenIds.has(entry.id)) diagnostics.push(diagnostic('error', 'duplicate-id', manifestRelative, '$.id', 'Registry 条目 ID 重复'))
     seenIds.add(entry.id)
 
     const sidecarPath = join(entryDir, CATALOG_SIDECAR_FILENAME)
+    if (entry.type === 'external-integration') continue
     if (!existsSync(sidecarPath)) {
       counts.legacyOnly += 1
       const requireSidecars = options.requireSidecars ?? rootManifest?.catalogMetadata?.required ?? false
@@ -235,7 +239,8 @@ export function validateRegistry(repoRoot, options = {}) {
   }
 
   if (rootManifest?.stats) {
-    for (const key of ['totalEntries', 'dockerApps', 'mcpServices', 'httpApis']) {
+    for (const key of ['totalEntries', 'dockerApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
+      if (rootManifest.stats[key] === undefined && key === 'externalIntegrations' && counts[key] === 0) continue
       if (rootManifest.stats[key] !== counts[key]) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key]}`))
     }
   }

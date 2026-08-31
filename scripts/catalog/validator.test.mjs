@@ -197,7 +197,7 @@ function codes(report) {
   return report.errors.map((item) => item.code)
 }
 
-test('当前 21 个条目保持可读，并按实际迁移进度报告 sidecar', () => {
+test('当前 v4 条目保持可读，21 个 App/Service 具备 sidecar', () => {
   const report = validateRegistry(repoRoot)
   assert.equal(report.ok, true, JSON.stringify(report.errors, null, 2))
   assert.deepEqual({
@@ -205,13 +205,15 @@ test('当前 21 个条目保持可读，并按实际迁移进度报告 sidecar',
     dockerApps: report.counts.dockerApps,
     mcpServices: report.counts.mcpServices,
     httpApis: report.counts.httpApis,
+    externalIntegrations: report.counts.externalIntegrations,
   }, {
-    totalEntries: 21,
+    totalEntries: 22,
     dockerApps: 8,
     mcpServices: 8,
     httpApis: 5,
+    externalIntegrations: 1,
   })
-  assert.equal(report.counts.sidecars + report.counts.legacyOnly, report.counts.totalEntries)
+  assert.equal(report.counts.sidecars + report.counts.legacyOnly, report.counts.totalEntries - report.counts.externalIntegrations)
   assert.equal(report.warnings.filter((item) => item.code === 'missing-sidecar').length, report.counts.legacyOnly)
 })
 
