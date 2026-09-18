@@ -21,6 +21,7 @@
       "properties": {
         "totalEntries": { "type": "integer", "minimum": 0 },
         "dockerApps": { "type": "integer", "minimum": 0 },
+        "nativeApps": { "type": "integer", "minimum": 0 },
         "mcpServices": { "type": "integer", "minimum": 0 },
         "httpApis": { "type": "integer", "minimum": 0 },
         "externalIntegrations": { "type": "integer", "minimum": 0 }

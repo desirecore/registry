@@ -197,18 +197,20 @@ function codes(report) {
   return report.errors.map((item) => item.code)
 }
 
-test('当前 v4 条目保持可读，21 个 App/Service 具备 sidecar', () => {
+test('当前 v4.1 条目保持可读，原生应用与既有 App/Service 具备 sidecar', () => {
   const report = validateRegistry(repoRoot)
   assert.equal(report.ok, true, JSON.stringify(report.errors, null, 2))
   assert.deepEqual({
     totalEntries: report.counts.totalEntries,
     dockerApps: report.counts.dockerApps,
+    nativeApps: report.counts.nativeApps,
     mcpServices: report.counts.mcpServices,
     httpApis: report.counts.httpApis,
     externalIntegrations: report.counts.externalIntegrations,
   }, {
-    totalEntries: 22,
+    totalEntries: 23,
     dockerApps: 8,
+    nativeApps: 1,
     mcpServices: 8,
     httpApis: 5,
     externalIntegrations: 1,

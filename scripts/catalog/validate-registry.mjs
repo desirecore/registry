@@ -18,7 +18,7 @@ if (json) {
 } else {
   const { counts } = report
   process.stdout.write(`Registry 校验：${report.ok ? '通过' : '失败'}\n`)
-  process.stdout.write(`条目 ${counts.totalEntries}（App ${counts.dockerApps} / MCP ${counts.mcpServices} / HTTP ${counts.httpApis}）\n`)
+  process.stdout.write(`条目 ${counts.totalEntries}（App ${counts.dockerApps + (counts.nativeApps ?? 0)}（原生 ${counts.nativeApps ?? 0}） / MCP ${counts.mcpServices} / HTTP ${counts.httpApis}）\n`)
   process.stdout.write(`Catalog sidecar ${counts.sidecars}，legacy fallback ${counts.legacyOnly}\n`)
   for (const item of report.diagnostics) {
     process.stdout.write(`${item.level === 'error' ? 'ERROR' : 'WARN '} ${item.file} ${item.path} [${item.code}] ${item.message}\n`)

@@ -1,12 +1,12 @@
 {
   "name": "@desirecore/registry",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "private": true,
   "description": "Validated catalog data for the DesireCore Registry",
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-registry.mjs",
-    "test": "node --test scripts/validate-registry.test.mjs && npm run validate"
+    "test": "node --test scripts/validate-registry.test.mjs scripts/native-app.test.mjs && npm run validate"
   },
   "devDependencies": {
     "ajv": "8.20.0"

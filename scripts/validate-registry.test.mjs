@@ -47,7 +47,8 @@ test('accepts the checked-in Registry fixture', async () => {
   try {
     const result = runValidator(root)
     assert.equal(result.status, 0, result.stderr)
-    assert.match(result.stdout, /Registry validation passed: 22 entries/)
+    const manifest = await readJson(join(root, 'manifest.json'))
+    assert.ok(result.stdout.includes(`Registry validation passed: ${manifest.stats.totalEntries} entries`))
   } finally {
     await rm(root, { recursive: true, force: true })
   }

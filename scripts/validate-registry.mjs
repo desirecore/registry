@@ -348,6 +348,7 @@ if (rootManifest) {
   const expectedStats = {
     totalEntries: manifests.length,
     dockerApps: manifests.filter((entry) => entry.type === 'docker-app').length,
+    ...(manifests.some((entry) => entry.type === 'native-app') || rootManifest.stats?.nativeApps !== undefined ? { nativeApps: manifests.filter((entry) => entry.type === 'native-app').length } : {}),
     mcpServices: manifests.filter((entry) => entry.type === 'mcp').length,
     httpApis: manifests.filter((entry) => entry.type === 'http-api').length,
     externalIntegrations: manifests.filter((entry) => entry.type === 'external-integration').length,

@@ -1,0 +1,116 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "desirecore-control"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "DesireCore Control",
+        "summary": "供外部智能体控制本机多个 DesireCore 实例的独立应用，内置 ChatGPT 隧道管理。",
+        "description": "DesireCore Control 是独立开源的宿主机应用：自动识别本机实例、展示管理页面，并通过对外 MCP 提供窗口、截图与 CDP 操作。1.4.0 支持管理官方 ChatGPT tunnel-client。默认只读，不随 DesireCore 启停，不向内部智能体注册 MCP。应用市场安装需要支持 native-app 的客户端及应用安装管理技能 1.4.0；隧道客户端另行安装，真实账户凭据由用户在本机提供。"
+      },
+      "en-US": {
+        "name": "DesireCore Control",
+        "summary": "Independent application for external agents to control local DesireCore instances, with ChatGPT tunnel management.",
+        "description": "Runs natively on the host and discovers multiple local CDP instances. Version 1.4.0 manages the official ChatGPT tunnel client. Readonly by default, no internal MCP registration or DesireCore lifecycle coupling. Requires a native-app-aware client and installation skill 1.4.0; tunnel installation and credentials are separate."
+      }
+    },
+    "tags": [
+      "DesireCore",
+      "external-agents",
+      "ChatGPT",
+      "CDP",
+      "control"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.4.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-18",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-18",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-09-18",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-18",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "release",
+      "url": "https://github.com/desirecore-agent/desirecore-cdp-mcp/releases/download/v1.4.0/desirecore-cdp-mcp-1.4.0.tgz",
+      "ref": "38184fbb01f82d4dd850b67366cdac048a09474b",
+      "sha256": "ecfd6e770cd1854d7368ec89852b5e798cc04f6e19bbb59fedae52a56bacbee0"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "DesireCore Registry maintainers",
+      "url": "https://github.com/desirecore/registry"
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "url": "https://github.com/desirecore-agent/desirecore-cdp-mcp"
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "38184fbb01f82d4dd850b67366cdac048a09474b",
+      "reviewedAt": "2026-09-18",
+      "reviewedBy": "release-and-package-validation (see review.md)",
+      "upstreamEndorsed": false
+    },
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.169"
+  },
+  "spec": {
+    "kind": "app",
+    "category": "tools",
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": false
+    }
+  }
+}

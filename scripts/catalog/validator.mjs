@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { isDeepStrictEqual } from 'node:util'
 import { basename, join, relative, resolve, sep } from 'node:path'
 import { validateJsonSchema } from './json-schema.mjs'
 
@@ -74,7 +75,7 @@ function timestampShapeIsConsistent(timestamp) {
 function validateSidecarSemantics(manifest, sidecar, file) {
   const errors = []
   const add = (code, path, message) => errors.push(diagnostic('error', code, file, path, message))
-  const expectedKind = manifest.type === 'docker-app' ? 'app' : 'service'
+  const expectedKind = ['docker-app', 'native-app'].includes(manifest.type) ? 'app' : 'service'
 
   if (sidecar.identity?.id !== manifest.id) add('identity-mismatch', '$.identity.id', 'sidecar identity.id 必须与 legacy manifest.id 一致')
   if (sidecar.identity?.kind !== expectedKind) add('kind-mismatch', '$.identity.kind', `legacy ${manifest.type} 必须映射为 ${expectedKind}`)
@@ -131,6 +132,16 @@ function validateSidecarSemantics(manifest, sidecar, file) {
     if (sidecar.spec?.protocol !== expectedProtocol) add('spec-mismatch', '$.spec.protocol', `Service protocol 必须是 ${expectedProtocol}`)
     if (!sameStringSet(sidecar.spec?.capabilities, manifest.capabilities)) add('spec-mismatch', '$.spec.capabilities', 'Service capabilities 必须与 legacy 集合一致')
     if (manifest.toolCount !== undefined && sidecar.spec?.toolCount !== manifest.toolCount) add('spec-mismatch', '$.spec.toolCount', 'toolCount 必须与 legacy 一致')
+  }
+
+  if (manifest.type === 'native-app') {
+    for (const field of ['stewardship', 'availability', 'redistribution', 'listingMaintainer', 'upstreamMaintainer', 'branding', 'compliance']) {
+      if (!isDeepStrictEqual(manifest[field], sidecar.governance?.[field])) add('native-governance-mismatch', '$.governance.' + field, '原生应用 manifest 与 sidecar 的治理事实必须一致')
+    }
+    if (manifest.license !== sidecar.governance?.license?.value) add('native-license-mismatch', '$.governance.license', '原生应用许可证必须一致')
+    if (!isDeepStrictEqual(manifest.source, sidecar.provenance?.content)) add('native-source-mismatch', '$.provenance.content', '制品 URL/ref/SHA-256 必须一致')
+    if (manifest.requiredClientVersion !== sidecar.compatibility?.requiredClientVersion) add('native-client-mismatch', '$.compatibility.requiredClientVersion', '最低客户端版本必须一致')
+    if (!isDeepStrictEqual(manifest.placementPolicy, sidecar.spec?.placementPolicy)) add('native-placement-mismatch', '$.spec.placementPolicy', '应用放置策略必须一致')
   }
 
   const source = sidecar.provenance?.content
@@ -213,10 +224,11 @@ export function validateRegistry(repoRoot, options = {}) {
     if (!entry) continue
     counts.totalEntries += 1
     if (entry.type === 'docker-app') counts.dockerApps += 1
+    if (entry.type === 'native-app') counts.nativeApps = (counts.nativeApps ?? 0) + 1
     if (entry.type === 'mcp') counts.mcpServices += 1
     if (entry.type === 'http-api') counts.httpApis += 1
     if (entry.type === 'external-integration') counts.externalIntegrations += 1
-    const effectiveEntrySchema = entry.type === 'external-integration' ? externalEntrySchema : entrySchema
+    const effectiveEntrySchema = ['external-integration', 'native-app'].includes(entry.type) ? externalEntrySchema : entrySchema
     if (effectiveEntrySchema) diagnostics.push(...schemaDiagnostics(entry, effectiveEntrySchema, manifestRelative))
     if (entry.id !== basename(entryDir)) diagnostics.push(diagnostic('error', 'directory-id-mismatch', manifestRelative, '$.id', 'manifest.id 必须与 entries/<id> 目录名一致'))
     if (seenIds.has(entry.id)) diagnostics.push(diagnostic('error', 'duplicate-id', manifestRelative, '$.id', 'Registry 条目 ID 重复'))
@@ -239,9 +251,10 @@ export function validateRegistry(repoRoot, options = {}) {
   }
 
   if (rootManifest?.stats) {
-    for (const key of ['totalEntries', 'dockerApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
+    for (const key of ['totalEntries', 'dockerApps', 'nativeApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
+      if (key === 'nativeApps' && rootManifest.stats[key] === undefined && !counts.nativeApps) continue
       if (rootManifest.stats[key] === undefined && key === 'externalIntegrations' && counts[key] === 0) continue
-      if (rootManifest.stats[key] !== counts[key]) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key]}`))
+      if (rootManifest.stats[key] !== (key === 'nativeApps' ? (counts.nativeApps ?? 0) : counts[key])) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key]}`))
     }
   }
 
