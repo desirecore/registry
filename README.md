@@ -9,7 +9,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ```text
 .
 ├── README.md              # 本文件
-├── SCHEMA_VERSION         # 数据格式版本号（当前 4.0.0）
+├── SCHEMA_VERSION         # 数据格式版本号（当前 4.1.0）
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
@@ -38,6 +38,16 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
     └── service-status.json
 ```
 
+## 原生应用（4.1）
+
+[DesireCore Control 1.4.0](entries/desirecore-control/) 是面向外部智能体的独立宿主机应用，包含 ChatGPT 隧道管理。它以 `type: native-app`、`install.method: native-node`、`identity.kind: app` 收录；MCP 只是对外协议，不注册到 DesireCore 内部工具列表，不伪装为 Docker。
+
+原生应用必须声明宿主机 Node 版本、`docker: false`、精确管理端口、最低客户端版本、不可变 Release URL/ref/SHA-256 和审核记录。安装说明同时覆盖安装、升级、验证及卸载，不随 DesireCore 启停，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；`allowAgentBinding` 为 false。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
+
+安装要求支持 native-app 的客户端（Control 条目最低 10.0.169）及核心应用安装技能 >=1.4.0。目录同步不能升级桌面客户端或技能；旧版看不到条目或提示升级时，不得修改类型绕过兼容检查。新制品已发布不代表新版桌面客户端已发布，也不代表用户已完成 ChatGPT 联调。
+
+English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. The Control listing is the sole application entry, not a Docker or MCP duplicate.
+
 ## 条目格式
 
 每个条目是 `entries/<id>/` 下的一个目录，目录名即条目 ID。
@@ -52,7 +62,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 |------|------|------|------|
 | `id` | string | ✅ | 唯一标识，与目录名一致 |
 | `name` | string | ✅ | 显示名称 |
-| `type` | string | ✅ | 条目类型：`docker-app` / `mcp` / `http-api` / `external-integration` |
+| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `mcp` / `http-api` / `external-integration` |
 | `version` | string | ✅ | 上游原始版本字符串；可为 SemVer、CalVer 或不透明版本 |
 | `description` | string | ✅ | 一行功能摘要 |
 | `author` | string | | 作者或组织 |

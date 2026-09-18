@@ -5,11 +5,87 @@
   "description": "A strictly discriminated DesireCore Registry catalog entry. External integrations are discovery-only pointers and cannot carry installation or connection semantics.",
   "oneOf": [
     { "$ref": "#/definitions/dockerApp" },
+    { "$ref": "#/definitions/nativeApp" },
     { "$ref": "#/definitions/mcp" },
     { "$ref": "#/definitions/httpApi" },
     { "$ref": "#/definitions/externalIntegration" }
   ],
   "definitions": {
+    "nativeApp": {
+      "type": "object",
+      "description": "宿主机原生应用：独立安装和运行，不通过 MCP 服务注册或 Docker 容器部署。",
+      "required": ["id", "name", "type", "version", "author", "description", "tags", "icon", "iconLetter", "platformSupport", "category", "fullDesc", "shortDesc", "install", "source", "requiredClientVersion", "placementPolicy", "stewardship", "availability", "license", "redistribution", "listingMaintainer", "upstreamMaintainer", "branding", "compliance"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/definitions/id" },
+        "name": { "$ref": "#/definitions/nonEmptyString" },
+        "type": { "const": "native-app" },
+        "version": { "$ref": "#/definitions/version" },
+        "author": { "$ref": "#/definitions/nonEmptyString" },
+        "description": { "$ref": "#/definitions/nonEmptyString" },
+        "tags": { "$ref": "#/definitions/tags" },
+        "icon": { "$ref": "#/definitions/nonEmptyString" },
+        "iconLetter": { "type": "string", "minLength": 1, "maxLength": 2 },
+        "platformSupport": { "$ref": "#/definitions/platformSupport" },
+        "category": { "const": "tools" },
+        "fullDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "shortDesc": { "$ref": "#/definitions/nonEmptyString" },
+        "githubUrl": { "$ref": "#/definitions/httpsUrl" },
+        "requiredClientVersion": { "$ref": "#/definitions/version" },
+        "install": {
+          "type": "object", "required": ["method", "requirements", "configNeeded"], "additionalProperties": false,
+          "properties": {
+            "method": { "const": "native-node", "description": "按审核后的 install.md 在宿主机安装固定 Node 制品；不自动启动应用或隧道。" },
+            "requirements": {
+              "type": "object", "required": ["docker", "node", "minMemory", "minDisk", "ports"], "additionalProperties": false,
+              "properties": {
+                "docker": { "const": false },
+                "node": { "type": "string", "minLength": 1, "maxLength": 80 },
+                "minMemory": { "$ref": "#/definitions/nonEmptyString" },
+                "minDisk": { "$ref": "#/definitions/nonEmptyString" },
+                "ports": { "type": "array", "minItems": 1, "maxItems": 1, "uniqueItems": true, "items": { "type": "integer", "minimum": 1, "maximum": 65535 }, "description": "安装默认使用的本机管理页面端口，不是对外公网端口或内部服务。" }
+              }
+            },
+            "configNeeded": { "type": "array", "items": { "$ref": "#/definitions/nonEmptyString" } }
+          }
+        },
+        "placementPolicy": {
+          "type": "object", "required": ["showInMyApps", "allowNavPin", "allowAgentBinding"], "additionalProperties": false,
+          "properties": { "showInMyApps": { "type": "boolean" }, "allowNavPin": { "type": "boolean" }, "allowAgentBinding": { "const": false } }
+        },
+        "source": {
+          "type": "object", "required": ["kind", "url", "ref", "sha256"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "release" }, "url": { "$ref": "#/definitions/httpsUrl" },
+            "ref": { "type": "string", "pattern": "^[a-f0-9]{40}(?:[a-f0-9]{24})?$" },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "upstreamRepo": { "$ref": "#/definitions/httpsUrl" }
+          }
+        },
+        "stewardship": { "enum": ["community", "partner", "pointer"] },
+        "availability": { "enum": ["installable", "listing-only"] },
+        "license": { "$ref": "#/definitions/nonEmptyString" },
+        "redistribution": { "enum": ["allowed", "source-pointer-only", "verify-package-terms"] },
+        "listingMaintainer": { "$ref": "#/definitions/nativeMaintainer" },
+        "upstreamMaintainer": { "$ref": "#/definitions/nativeMaintainer" },
+        "branding": {
+          "type": "object", "required": ["relationship", "nameUsage", "logoStatus"], "additionalProperties": false,
+          "properties": { "relationship": { "const": "independent-listing" }, "nameUsage": { "const": "nominative" }, "logoStatus": { "const": "not-used" } }
+        },
+        "compliance": {
+          "type": "object", "required": ["licenseEvidencePath", "reviewedRef", "reviewedAt", "reviewedBy", "upstreamEndorsed"], "additionalProperties": false,
+          "properties": {
+            "licenseEvidencePath": { "$ref": "#/definitions/nonEmptyString" }, "noticePath": { "$ref": "#/definitions/nonEmptyString" },
+            "reviewedRef": { "type": "string", "pattern": "^[a-f0-9]{40}(?:[a-f0-9]{24})?$" },
+            "reviewedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }, "reviewedBy": { "$ref": "#/definitions/nonEmptyString" }, "upstreamEndorsed": { "const": false }
+          }
+        }
+      }
+    },
+    "nativeMaintainer": {
+      "type": "object", "required": ["name", "url"], "additionalProperties": false,
+      "properties": { "name": { "$ref": "#/definitions/nonEmptyString" }, "url": { "$ref": "#/definitions/httpsUrl" }, "verified": { "type": "boolean" } }
+    },
     "id": {
       "type": "string",
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
