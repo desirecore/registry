@@ -1,6 +1,6 @@
 # 安装、升级与卸载 DesireCore Control
 
-这是供外部智能体使用的**独立应用**，不是给 DesireCore 内部智能体安装的 MCP。只接受 resolver 已复核的 `kind=app`、`manifest.type=native-app` 和本指南。需要支持原生应用的客户端（目录最低版本 10.0.169）及 app-install-manager >=1.4.0；旧版拒绝时停止，不改成 Docker/MCP，不绕过收据与 operationId。
+这是供外部智能体使用的**独立应用**，不是给 DesireCore 内部智能体安装的 MCP。只接受 resolver 已复核的 `kind=app`、`manifest.type=native-app` 和本指南。需要客户端 >=10.0.170 及 app-install-manager >=1.5.0，使用 application-observation-v1 核验记录协议；旧版拒绝时停止，不改成 Docker/MCP，不预写安装中间态或绕过修订检查。
 
 ## 安装前确认
 
@@ -40,7 +40,7 @@ if ($LASTEXITCODE -ne 0) { throw '隔离实例发现自检失败' }
 Remove-Item -LiteralPath $Temp -Recurse
 ```
 
-安装入口与空名录自检通过才能回写 installed。保持 resolver 的原生 App lifecycle receipt，不添加 runtimeServerId；使用同一 sourceId、entryId、deviceId、operationId，按 app-install-manager 的 build-receipt-patch 回写，不直接编辑 installed-entries.json。installed 只表示安装通过，不代表应用/隧道正在运行。
+安装入口与空名录自检通过后，按 app-install-manager 的 recording-api.md 提交 present 观察，保存实际安装前缀、核验时间和证据引用。复用 resolver 返回的 material 与 expectedRevision，不手拼收据、不传 operationId/runtimeServerId，不直接编辑 installed-entries.json。观察只说明当时核验通过，不代表应用或隧道正在运行。
 
 ## macOS / Linux
 
@@ -53,7 +53,7 @@ node "$PREFIX/node_modules/desirecore-cdp-mcp/bin/desirecore-control.cjs" --help
 node "$PREFIX/node_modules/desirecore-cdp-mcp/bin/desirecore-cdp-mcp.cjs" list --registry "$REGISTRY"
 ```
 
-同时读取该前缀的 package.json 核对 name/version。任何一步失败立即停止，不能仅凭下载成功或 npm 退出码 0 回写 installed。只清理本次创建的临时目录。
+同时读取该前缀的 package.json 核对 name/version。任何一步失败立即停止，不能仅凭下载成功或 npm 退出码 0 提交 present 观察。只清理本次创建的临时目录。
 
 ## 独立启动与 ChatGPT 隧道
 
@@ -63,10 +63,10 @@ node "$PREFIX/node_modules/desirecore-cdp-mcp/bin/desirecore-cdp-mcp.cjs" list -
 
 ## 升级、重装和回滚
 
-只按用户批准的精确安装身份操作。新版本安装到独立版本目录并校验成功后才切换启动入口和 catalogReceipt；不得覆盖运行中的包目录。旧版仍可用时升级失败恢复 installed 并保留原 receipt/version；首装失败或已不可用时按协议回 failed。不要删除用户凭据、旧实例数据或其它版本以“修复”安装。版本切换后要求用户重新扫描外部客户端工具定义。
+只按用户批准的精确安装身份操作。新版本安装到独立版本目录并校验成功后才切换启动入口、提交新版本观察；不得覆盖运行中的包目录。失败或结果不明时检查实际软件，不写 failed、不宣称自动回滚，不用新版本资料登记旧版成功。没有明确结果就保留历史记录；记账失败只补记，不重跑安装。不要删除用户凭据、旧实例数据或其它版本以“修复”安装。版本切换后要求用户重新扫描外部客户端工具定义。
 
 ## 卸载
 
-先由 resolver 按原 installed ownership + lifecycle receipt 返回本指南，再获得用户确认。仅停止明确由此安装启动的 Control 进程及其自有隧道，不执行按名称批量 kill Node/tunnel-client，不停止 DesireCore。对准确安装前缀运行 `npm uninstall --prefix <Prefix> desirecore-cdp-mcp`，并确认该包入口已不存在，再回写 uninstalled。卸载失败但原应用仍可用时回 installed，不能遗留 uninstalling。
+先由 resolver 按精确安装记录返回历史管理指南，再获得用户确认。仅停止明确由此安装启动的 Control 进程及其自有隧道，不执行按名称批量 kill Node/tunnel-client，不停止 DesireCore。对准确安装前缀运行 `npm uninstall --prefix <Prefix> desirecore-cdp-mcp`，并确认该包入口已不存在，再提交 absent 观察。卸载失败或结果不明时不覆盖历史记录；不预写 uninstalling，也不自动恢复为 installed。
 
 默认保留 `%LOCALAPPDATA%\DesireCoreMcp` 或 `$HOME/.desirecore-mcp` 的用户凭据，以及其它版本与用户配置；删除这些材料必须另行获得明确同意。不得清理 DesireCore 的任何 home、用户数据、实例名录或内部 MCP 配置。

@@ -6,18 +6,18 @@
   "author": "desirecore-agent",
   "description": "供外部智能体控制本机多个 DesireCore 实例的独立应用，内置 ChatGPT 隧道管理。",
   "shortDesc": "供外部智能体控制本机多个 DesireCore 实例的独立应用，内置 ChatGPT 隧道管理。",
-  "fullDesc": "DesireCore Control 是独立开源的宿主机应用：自动识别本机实例、展示管理页面，并通过对外 MCP 提供窗口、截图与 CDP 操作。1.4.0 支持管理官方 ChatGPT tunnel-client。默认只读，不随 DesireCore 启停，不向内部智能体注册 MCP。应用市场安装需要支持 native-app 的客户端及应用安装管理技能 1.4.0；隧道客户端另行安装，真实账户凭据由用户在本机提供。",
+  "fullDesc": "DesireCore Control 是独立开源的宿主机应用：自动识别本机实例、展示管理页面，并通过对外 MCP 提供窗口、截图与 CDP 操作。1.4.0 支持管理官方 ChatGPT tunnel-client。默认只读，不随 DesireCore 启停，不向内部智能体注册 MCP。应用市场安装需要支持 native-app 的客户端 10.0.170 及应用安装管理技能 1.5.0；隧道客户端另行安装，真实账户凭据由用户在本机提供。",
   "tags": ["DesireCore", "external-agents", "ChatGPT", "CDP", "control"],
   "icon": "monitor",
   "iconLetter": "DC",
   "platformSupport": ["windows", "macos", "linux"],
   "category": "tools",
   "githubUrl": "https://github.com/desirecore-agent/desirecore-cdp-mcp",
-  "requiredClientVersion": "10.0.169",
+  "requiredClientVersion": "10.0.170",
   "install": {
     "method": "native-node",
     "requirements": { "docker": false, "node": ">=22.22.2", "minMemory": "512MB（安装建议预留，非实测峰值）", "minDisk": "512MB（建议预留）", "ports": [9333] },
-    "configNeeded": ["宿主机 Node.js >=22.22.2 与 npm", "应用安装管理技能 >=1.4.0", "ChatGPT 隧道为可选功能，需独立安装官方 tunnel-client 并由用户提供凭据"]
+    "configNeeded": ["宿主机 Node.js >=22.22.2 与 npm", "应用安装管理技能 >=1.5.0（核验后记账，无安装中间态）", "ChatGPT 隧道为可选功能，需独立安装官方 tunnel-client 并由用户提供凭据"]
   },
   "placementPolicy": { "showInMyApps": true, "allowNavPin": true, "allowAgentBinding": false },
   "source": { "kind": "release", "url": "https://github.com/desirecore-agent/desirecore-cdp-mcp/releases/download/v1.4.0/desirecore-cdp-mcp-1.4.0.tgz", "ref": "38184fbb01f82d4dd850b67366cdac048a09474b", "sha256": "ecfd6e770cd1854d7368ec89852b5e798cc04f6e19bbb59fedae52a56bacbee0" },
