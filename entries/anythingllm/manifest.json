@@ -43,6 +43,5 @@
       "path": "/api/v1",
       "name": "AnythingLLM API"
     }
-  ],
-  "license": "MIT"
+  ]
 }

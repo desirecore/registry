@@ -43,6 +43,5 @@
       "path": "/api/v1",
       "name": "n8n REST API"
     }
-  ],
-  "license": "Sustainable Use License; enterprise files separately licensed"
+  ]
 }

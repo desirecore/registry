@@ -43,6 +43,5 @@
       "path": "/api",
       "name": "Open WebUI API"
     }
-  ],
-  "license": "Open WebUI License (BSD-3-Clause with branding conditions)"
+  ]
 }
