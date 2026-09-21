@@ -55,7 +55,8 @@
   "governance": {
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "Sustainable Use License; enterprise files separately licensed"
     },
     "redistribution": "verify-package-terms",
     "upstreamMaintainer": {

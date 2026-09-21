@@ -56,7 +56,8 @@
   "governance": {
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT"
     },
     "redistribution": "verify-package-terms",
     "upstreamMaintainer": {
