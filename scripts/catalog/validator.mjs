@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { isDeepStrictEqual } from 'node:util'
 import { basename, join, relative, resolve, sep } from 'node:path'
 import { validateJsonSchema } from './json-schema.mjs'
+import { findStaticMetrics } from './static-metadata.mjs'
 
 export const CATALOG_SIDECAR_FILENAME = 'catalog-metadata.v1.json'
 
@@ -222,6 +223,9 @@ export function validateRegistry(repoRoot, options = {}) {
     }
     const entry = readJson(manifestPath, diagnostics)
     if (!entry) continue
+    for (const field of findStaticMetrics(entry)) {
+      diagnostics.push(diagnostic('error', 'static-metric', relativeFile(root, manifestPath), '$.' + field, 'Dynamic metrics must not be published as static data'))
+    }
     counts.totalEntries += 1
     if (entry.type === 'docker-app') counts.dockerApps += 1
     if (entry.type === 'native-app') counts.nativeApps = (counts.nativeApps ?? 0) + 1

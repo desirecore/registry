@@ -2,6 +2,7 @@ import { lstat, readFile, readdir } from 'node:fs/promises'
 import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import Ajv from 'ajv'
+import { findStaticMetrics } from './catalog/static-metadata.mjs'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const rootArgumentIndex = process.argv.indexOf('--root')
@@ -322,6 +323,9 @@ for (const directoryEntry of await readdir(entriesRoot, { withFileTypes: true })
   }
   const manifest = await readJson(manifestPath)
   if (!manifest) continue
+  for (const field of findStaticMetrics(manifest)) {
+    addError(`entries/${directoryEntry.name}/manifest.json: dynamic field ${field} cannot be published as static data`)
+  }
   manifests.push(manifest)
 
   if (manifest.id !== directoryEntry.name) {

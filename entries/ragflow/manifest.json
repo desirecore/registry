@@ -45,6 +45,5 @@
       "path": "/api/v1",
       "name": "RagFlow API"
     }
-  ],
-  "license": "Apache-2.0"
+  ]
 }
