@@ -20,7 +20,6 @@
   ],
   "category": "ai-platform",
   "fullDesc": "OpenClaw 是一个开源的个人 AI 助手平台，提供多渠道网关（WhatsApp、Telegram、Slack、Discord 等）、本地优先架构、会话管理和工具策略控制等能力。支持流式输出、对话压缩和 hooks 扩展。",
-  "stars": 287700,
   "githubUrl": "https://github.com/openclaw/openclaw",
   "shortDesc": "开源个人 AI 助手，支持多渠道网关和本地优先架构",
   "install": {
@@ -46,5 +45,6 @@
       "path": "/",
       "name": "OpenClaw Gateway"
     }
-  ]
+  ],
+  "license": "MIT"
 }

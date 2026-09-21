@@ -20,7 +20,6 @@
   ],
   "category": "ai-platform",
   "fullDesc": "Dify 是一个开源的 LLM 应用开发平台，提供从 Agent 构建到 AI Workflow 编排、RAG 检索、模型管理等能力，轻松构建和运营生成式 AI 原生应用。支持数百种模型接入。",
-  "stars": 131700,
   "githubUrl": "https://github.com/langgenius/dify",
   "shortDesc": "开源 AI 应用开发平台，支持 RAG、Agent、工作流编排",
   "install": {
@@ -45,5 +44,6 @@
       "path": "/v1",
       "name": "Dify API"
     }
-  ]
+  ],
+  "license": "Dify Open Source License (Apache-2.0 with additional conditions)"
 }

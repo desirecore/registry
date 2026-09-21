@@ -70,6 +70,8 @@ English: Native applications are independently installed host processes. Their o
 | `icon` | string | | 图标（CSS 渐变或 Lucide icon 名） |
 | `platformSupport` | string[] | | 支持平台：`macos` / `windows` / `linux` |
 
+**静态数据边界 / Static-data boundary**：本仓库保存发布者声明，不采集用户行为。禁止新增 Stars、访问量、下载量、评分、热度、安装数以及本机健康度等动态状态。目录条目数可由文件推导，不能与使用量混淆。版本指目录收录版本；内存和磁盘字段仅在上游有明确要求或建议时填写，不能用通用估计补齐。 / This Git-backed catalog contains publisher declarations, not usage analytics. Do not publish stars, views, downloads, ratings, popularity, installation counts, or device health. File-derived catalog counts are not usage counts. Versions are listed releases; hardware requirements must come from the publisher, not generic estimates.
+
 **Docker 应用专属字段（`type: "docker-app"`）：**
 
 | 字段 | 类型 | 说明 |
@@ -78,7 +80,6 @@ English: Native applications are independently installed host processes. Their o
 | `category` | string | 应用分类：`ai-platform` / `chat` / `workflow` / `rag` / `tools` |
 | `shortDesc` | string | 简短描述（列表页） |
 | `fullDesc` | string | 详细描述（详情页） |
-| `stars` | number | GitHub Stars 数量 |
 | `githubUrl` | string | GitHub 仓库地址 |
 | `install` | object | 安装配置（见下方） |
 
@@ -102,7 +103,7 @@ Docker 应用 `install` 结构：
 | 字段 | 类型 | 说明 |
 |------|------|------|
 | `capabilities` | string[] | 能力标签列表 |
-| `toolCount` | number | 提供的工具数量 |
+| `toolCount` | number | 可选：收录版本中可验证的工具声明数，不是本机实时发现/启用工具数 |
 | `install` | object | 安装配置：`{ method, packageName, command, args, postInstall?, env? }` |
 | `connection` | object | 连接配置：`{ transport, command?, args?, url? }` |
 | `sourceAppId` | string | 关联的应用 ID（如 dify-mcp 关联 dify） |
