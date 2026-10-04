@@ -44,5 +44,13 @@
       "path": "/v1",
       "name": "Dify API"
     }
+  ],
+  "productKind": "application",
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 Dify",
+      "kind": "agent"
+    }
   ]
 }

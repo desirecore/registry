@@ -76,6 +76,10 @@
   },
   "spec": {
     "kind": "app",
-    "category": "tools"
+    "category": "tools",
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
   }
 }

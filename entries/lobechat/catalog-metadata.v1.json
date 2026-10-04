@@ -77,6 +77,10 @@
   },
   "spec": {
     "kind": "app",
-    "category": "chat"
+    "category": "chat",
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
   }
 }

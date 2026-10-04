@@ -1,6 +1,6 @@
 # DesireCore Registry
 
-DesireCore 官方注册表仓库，包含可安装的应用、MCP 服务、HTTP API 服务，以及只用于发现和合规披露的第三方外部集成。
+DesireCore 官方注册表仓库，包含应用、插件、MCP 服务、HTTP API 服务，以及只用于发现和合规披露的第三方外部集成。可否安装由条目的来源和治理证据决定。
 
 DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户在应用商店中看到的所有条目均来自此仓库。
 
@@ -9,7 +9,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ```text
 .
 ├── README.md              # 本文件
-├── SCHEMA_VERSION         # 数据格式版本号（当前 4.1.0）
+├── SCHEMA_VERSION         # 数据格式版本号（当前 4.2.0）
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
@@ -44,9 +44,29 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 
 原生应用必须声明宿主机 Node 版本、`docker: false`、精确管理端口、最低客户端版本、不可变 Release URL/ref/SHA-256 和审核记录。安装说明同时覆盖安装、升级、验证及卸载，不随 DesireCore 启停，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；`allowAgentBinding` 为 false。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
 
-安装要求支持 native-app 的客户端（Control 条目最低 10.0.169）及核心应用安装技能 >=1.4.0。目录同步不能升级桌面客户端或技能；旧版看不到条目或提示升级时，不得修改类型绕过兼容检查。新制品已发布不代表新版桌面客户端已发布，也不代表用户已完成 ChatGPT 联调。
+安装要求支持 native-app 的客户端（Control 条目最低 10.0.170）及核心应用安装技能 >=1.5.0。目录同步不能升级桌面客户端或技能；旧版看不到条目或提示升级时，不得修改类型绕过兼容检查。新制品已发布不代表新版桌面客户端已发布，也不代表用户已完成 ChatGPT 联调。
 
 English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. The Control listing is the sole application entry, not a Docker or MCP duplicate.
+
+## 应用与插件（4.2）
+
+插件仍是统一 App 产品，`productKind: plugin` 表示它向宿主提供能力；`productKind: application` 表示它交付独立业务。`type` 只区分交付形态：Docker、宿主进程或纯声明 `artifact`。插件使用同一来源内产品 ID、版本、安装材料与安装登记，不重复创建 MCP 服务或第二份安装事实。
+
+应用类型必须明确声明 `productKind` 和 `entrypoints`。普通应用至少有一个入口；无 UI 插件可以声明空数组，但必须通过 `extension.contributes` 提供至少一项实际宿主贡献。`artifact` 使用 `install.method: artifact`、`docker: false`、空端口与声明式 runtime，不能伪装成 Docker 或宿主进程。
+
+`extension` 区分提供与消费：
+
+- `contributes` 指明本产品提供的贡献 ID、贡献点、契约版本及包内 `definitionRef.path/sha256`。当前贡献点限于 `document.parsers`、`session.panels`、`session.widgets`、`session.actions`、`tools`、`skills`。
+- `requires` 指明必需或可选的直接能力依赖，使用精确 `sourceId/appId/contributionId/contractVersion`，可加版本范围。普通应用可以只声明依赖；插件即使有依赖也必须提供贡献。两项同时为空无实际关系，校验拒绝。
+- 产品引用不携带安装实例 ID、凭据、启用状态或权限。客户端运行时解析精确安装实例，由目标宿主维护接入、配置和撤销；目录声明不会自动安装、启用或授权依赖。
+
+依赖中的 `extension.requires[].sourceId` 是产品引用；条目自身的 `sourceId` 与 `hasInstall` 仍只由受信客户端注入。贡献材料必须使用规范 POSIX 包内相对路径并固定摘要；实际获取与消费仍由客户端核验字节与文件归属。
+
+4.2 对现有 9 个应用声明 `application` 身份，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。当前官方条目数仍为 23，没有新增或默认启用插件。
+
+Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口类型摘要；与 manifest 的声明必须一致。4.2 Schema 的固定 LF SHA-256 为 `4e585cff3505cd4af875a9065b6e0d4012272cbb843d500fec1ae74928f18cb2`。旧 4.0/4.1 客户端兼容属于客户端受审适配与版本策略，不能仅靠远端版本号推定；上线新契约前须确保目标客户端支持 4.2，目录发布不会升级客户端。
+
+English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 
 ## 条目格式
 
@@ -62,7 +82,7 @@ English: Native applications are independently installed host processes. Their o
 |------|------|------|------|
 | `id` | string | ✅ | 唯一标识，与目录名一致 |
 | `name` | string | ✅ | 显示名称 |
-| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `mcp` / `http-api` / `external-integration` |
+| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `artifact` / `mcp` / `http-api` / `external-integration` |
 | `version` | string | ✅ | 上游原始版本字符串；可为 SemVer、CalVer 或不透明版本 |
 | `description` | string | ✅ | 一行功能摘要 |
 | `author` | string | | 作者或组织 |
@@ -176,7 +196,7 @@ Sidecar 只允许声明条目自身事实：
 - `provenance.content`：内容上游及其不可变 ref/digest；Catalog 仓库来源由客户端受信上下文注入。
 - `governance`：listing-only/installable、维护者、许可证、品牌和审核证据。
 - `compatibility`：平台必须显式区分 `known` / `all` / `unknown`。
-- `spec`：App 分类、入口类型与放置策略，或 Service 协议、鉴权类型、能力与工具数；安装命令、endpoint 和凭据不进入统一目录元数据。
+- `spec`：App 的产品归属、宿主贡献/依赖、分类、入口类型与放置策略，或 Service 协议、鉴权类型、能力与工具数；安装命令、endpoint 和凭据不进入统一目录元数据。
 
 示例（证据不足的条目必须失败关闭为 listing-only）：
 
@@ -231,6 +251,8 @@ cat > entries/my-app/manifest.json << 'EOF'
   "id": "my-app",
   "name": "My App",
   "type": "docker-app",
+  "productKind": "application",
+  "entrypoints": [{ "id": "manage", "name": "委派 Agent 打开与维护 My App", "kind": "agent" }],
   "version": "1.0.0",
   "author": "Author",
   "description": "一行功能描述",
@@ -349,7 +371,7 @@ external integration 不是开放的自助条目类型。新增 ID、URL、扩�
 
 1. 编辑 `entries/<id>/manifest.json` 中的字段
 2. 如有安装/使用流程变更，同步更新 `install.md` / `usage.md`；external integration 不适用
-3. **务必更新 `version` 字段**（客户端通过版本号判断是否有更新）
+3. 上游已发布新版本时更新 `version` 字段；它保留上游版本事实，仅修改目录元数据或格式不能伪造新产品版本
 4. 新增或删除条目时同步更新根 `manifest.json#stats`
 5. 执行 `npm ci && npm test`
 6. 提交并创建 PR
@@ -368,7 +390,9 @@ external integration 不是开放的自助条目类型。新增 ID、URL、扩�
 | 1.0.0 | 初始格式 — 单文件 JSON 数组 |
 | 2.0.0 | 分散式目录 — apps/mcp/services 三目录，每个条目 `<id>/index.json` |
 | 3.0.0 | 统一 entries/ 目录，manifest.json + install.md + usage.md |
-| 4.0.0 | **当前** — Draft-07 严格判别 Schema、仓库校验和 listing-only external integration |
+| 4.0.0 | Draft-07 严格判别 Schema、仓库校验和 listing-only external integration |
+| 4.1.0 | 原生应用、不可变制品与 App 生命周期边界 |
+| 4.2.0 | **当前** — 应用/插件身份、纯声明 artifact、宿主贡献与直接能力依赖 |
 
 ## 校验
 
@@ -377,7 +401,7 @@ npm ci
 npm test
 ```
 
-校验包含 JSON Schema、目录与 ID、全局唯一性、根版本、统计、来源注入字段、external 单文件布局、固定 Kimi ID、完整官方 URL、扩展 ID、组件/权限/准入集合、真实日历日期和不可变供应链审核记录。
+校验包含 JSON Schema、目录与 ID、全局唯一性、根版本、统计、来源注入字段、贡献/入口 ID 唯一性、应用与插件关系、artifact 无进程约束、sidecar 一致性、external 单文件布局、固定 Kimi ID、完整官方 URL、扩展 ID、组件/权限/准入集合、真实日历日期和不可变供应链审核记录。条件块使用 Draft-07 的父约束补充语义；Ajv 保留严格关键字检查，关闭 `strictTypes/strictRequired` 的额外作者风格限制，不降低数据值校验。
 
 Schema v4 同时保留 `catalog-metadata.v1.json` 统一目录 sidecar、strict validator 与 legacy fallback。
 

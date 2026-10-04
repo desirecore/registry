@@ -44,5 +44,13 @@
       "path": "/api",
       "name": "LobeChat API"
     }
+  ],
+  "productKind": "application",
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 LobeChat",
+      "kind": "agent"
+    }
   ]
 }

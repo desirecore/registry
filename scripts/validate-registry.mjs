@@ -3,6 +3,7 @@ import { dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import Ajv from 'ajv'
 import { findStaticMetrics } from './catalog/static-metadata.mjs'
+import { validateApplicationContract } from './catalog/application-contract.mjs'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const rootArgumentIndex = process.argv.indexOf('--root')
@@ -46,11 +47,13 @@ const sorted = (values) => [...values].sort()
 const sameSet = (actual, expected) =>
   JSON.stringify(sorted(actual)) === JSON.stringify(sorted(expected))
 
-const containsKey = (value, prohibitedKey) => {
-  if (Array.isArray(value)) return value.some((item) => containsKey(item, prohibitedKey))
+const containsKey = (value, prohibitedKey, path = '') => {
+  if (Array.isArray(value)) return value.some((item, index) => containsKey(item, prohibitedKey, `${path}[${index}]`))
   if (!value || typeof value !== 'object') return false
-  if (Object.hasOwn(value, prohibitedKey)) return true
-  return Object.values(value).some((item) => containsKey(item, prohibitedKey))
+  // 静态依赖必须指明产品来源；这不是客户端注入的条目来源身份。
+  const declaredDependency = prohibitedKey === 'sourceId' && /^extension\.requires\[\d+\]$/.test(path)
+  if (Object.hasOwn(value, prohibitedKey) && !declaredDependency) return true
+  return Object.entries(value).some(([key, item]) => containsKey(item, prohibitedKey, path ? `${path}.${key}` : key))
 }
 
 const assertHttpsUrl = (rawUrl, context) => {
@@ -290,7 +293,8 @@ if (rootManifest) {
 let validateEntry = null
 if (entrySchema) {
   try {
-    const ajv = new Ajv({ allErrors: true, strict: true, validateFormats: false })
+    // Draft-07 条件块补充父 Schema 的约束；无需在每个 then/not 再写局部 type。
+    const ajv = new Ajv({ allErrors: true, strict: true, strictTypes: false, strictRequired: false, validateFormats: false })
     validateEntry = ajv.compile(entrySchema)
   } catch (error) {
     addError(`schemas/registry-entry.schema.json: unable to compile (${error.message})`)
@@ -343,6 +347,7 @@ for (const directoryEntry of await readdir(entriesRoot, { withFileTypes: true })
   if (validateEntry && !validateEntry(manifest)) {
     addError(`entries/${directoryEntry.name}/manifest.json: ${formatAjvErrors(validateEntry.errors)}`)
   }
+  for (const message of validateApplicationContract(manifest)) addError(`entries/${directoryEntry.name}/manifest.json: ${message}`)
   if (manifest.type === 'external-integration') {
     await validateExternalIntegration(entryDirectory, manifest)
   }
@@ -353,6 +358,7 @@ if (rootManifest) {
     totalEntries: manifests.length,
     dockerApps: manifests.filter((entry) => entry.type === 'docker-app').length,
     ...(manifests.some((entry) => entry.type === 'native-app') || rootManifest.stats?.nativeApps !== undefined ? { nativeApps: manifests.filter((entry) => entry.type === 'native-app').length } : {}),
+    ...(manifests.some((entry) => entry.type === 'artifact') || rootManifest.stats?.artifactApps !== undefined ? { artifactApps: manifests.filter((entry) => entry.type === 'artifact').length } : {}),
     mcpServices: manifests.filter((entry) => entry.type === 'mcp').length,
     httpApis: manifests.filter((entry) => entry.type === 'http-api').length,
     externalIntegrations: manifests.filter((entry) => entry.type === 'external-integration').length,
@@ -380,7 +386,7 @@ if (errors.length > 0) {
   const counts = rootManifest.stats
   console.log(
     `Registry validation passed: ${counts.totalEntries} entries ` +
-    `(${counts.dockerApps} Docker, ${counts.mcpServices} MCP, ` +
+    `(${counts.dockerApps} Docker, ${counts.nativeApps ?? 0} native, ${counts.artifactApps ?? 0} artifact, ${counts.mcpServices} MCP, ` +
     `${counts.httpApis} HTTP API, ${counts.externalIntegrations} external integration).`,
   )
 }

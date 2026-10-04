@@ -43,5 +43,13 @@
       "path": "/api/v1",
       "name": "n8n REST API"
     }
+  ],
+  "productKind": "application",
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 n8n",
+      "kind": "agent"
+    }
   ]
 }

@@ -197,7 +197,7 @@ function codes(report) {
   return report.errors.map((item) => item.code)
 }
 
-test('当前 v4.1 条目保持可读，原生应用与既有 App/Service 具备 sidecar', () => {
+test('当前 v4.2 条目保持可读，原生应用与既有 App/Service 具备 sidecar', () => {
   const report = validateRegistry(repoRoot)
   assert.equal(report.ok, true, JSON.stringify(report.errors, null, 2))
   assert.deepEqual({

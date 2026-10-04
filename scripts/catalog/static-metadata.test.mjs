@@ -9,9 +9,9 @@ test('metrics are rejected without interpreting examples or configuration parame
   assert.deepEqual(findStaticMetrics({ description: 'downloads files', toolCount: 13, configSchema: { properties: { rating: { type: 'number' } } } }), [])
 })
 
-test('Registry 4.1 keeps the exact published client schema identity', () => {
+test('Registry 4.2 keeps the exact reviewed client schema identity', () => {
   const version = readFileSync(new URL('../../SCHEMA_VERSION', import.meta.url), 'utf8').trim()
-  assert.equal(version, '4.1.0')
+  assert.equal(version, '4.2.0')
   const bytes = readFileSync(new URL('../../schemas/registry-entry.schema.json', import.meta.url))
-  assert.equal(createHash('sha256').update(bytes).digest('hex'), '767e103a66b4f8f722d1eb4d9073c218536e8f551ef43ac766dcd1be8f88fc62')
+  assert.equal(createHash('sha256').update(bytes).digest('hex'), '4e585cff3505cd4af875a9065b6e0d4012272cbb843d500fec1ae74928f18cb2')
 })

@@ -77,6 +77,10 @@
   },
   "spec": {
     "kind": "app",
-    "category": "ai-platform"
+    "category": "ai-platform",
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
   }
 }
