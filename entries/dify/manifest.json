@@ -45,7 +45,6 @@
       "name": "Dify API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

@@ -70,6 +70,29 @@ test('普通原生应用可携带宿主贡献', () => {
   mutate(root, 'catalog-metadata.v1.json', data => { data.spec.productKind = 'application'; data.spec.entrypointKinds = ['agent'] })
   expectValid(root)
 })
+test('旧普通应用省略主要归属时受信归一 application，保留显式维护入口', () => {
+  const root = fixture('native-app')
+  mutate(root, 'manifest.json', data => {
+    delete data.productKind
+    delete data.extension
+    data.entrypoints = [{ id: 'manage', name: '维护', kind: 'agent' }]
+  })
+  mutate(root, 'catalog-metadata.v1.json', data => {
+    data.spec.productKind = 'application'
+    delete data.spec.extension
+    data.spec.entrypointKinds = ['agent']
+  })
+  expectValid(root)
+  mutate(root, 'catalog-metadata.v1.json', data => { data.spec.productKind = 'plugin' })
+  const report = result(root)
+  assert.equal(report.offline.ok, false)
+  assert.ok(report.offline.errors.some(error => error.code === 'product-kind-mismatch'))
+})
+test('省略归属不能把无入口插件声明冒充旧普通应用', () => {
+  const root = fixture('native-app')
+  mutate(root, 'manifest.json', data => { delete data.productKind })
+  expectInvalid(root)
+})
 test('原生应用的真实服务 runtime 由固定 descriptorRef 定位', () => {
   const root = fixture('native-app')
   const runtime = { kind: 'service', protocol: 'http', descriptorRef: { path: 'runtime.json', sha256: 'c'.repeat(64) } }

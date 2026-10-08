@@ -129,7 +129,7 @@ function validateSidecarSemantics(manifest, sidecar, file) {
 
   if (expectedKind === 'app') {
     if (sidecar.spec?.category !== manifest.category) add('spec-mismatch', '$.spec.category', 'App category 必须与 legacy category 一致')
-    if (sidecar.spec?.productKind !== undefined && sidecar.spec.productKind !== manifest.productKind) add('product-kind-mismatch', '$.spec.productKind', '产品归属必须与 manifest 一致')
+    if (sidecar.spec?.productKind !== undefined && sidecar.spec.productKind !== (manifest.productKind ?? 'application')) add('product-kind-mismatch', '$.spec.productKind', '产品归属必须与 manifest 一致')
     if (sidecar.spec?.extension !== undefined && !isDeepStrictEqual(sidecar.spec.extension, manifest.extension)) add('extension-mismatch', '$.spec.extension', '宿主贡献与直接依赖必须与 manifest 一致')
     const entrypointKinds = [...new Set((Array.isArray(manifest.entrypoints) ? manifest.entrypoints : []).map(entry => entry?.kind))]
     if (sidecar.spec?.entrypointKinds !== undefined && !sameStringSet(sidecar.spec.entrypointKinds, entrypointKinds)) add('entrypoint-mismatch', '$.spec.entrypointKinds', '入口类型摘要必须与 manifest 一致')

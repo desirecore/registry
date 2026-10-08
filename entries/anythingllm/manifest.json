@@ -44,7 +44,6 @@
       "name": "AnythingLLM API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

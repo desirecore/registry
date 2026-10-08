@@ -45,7 +45,6 @@
       "name": "LobeChat API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

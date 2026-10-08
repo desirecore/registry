@@ -46,7 +46,6 @@
       "name": "OpenClaw Gateway"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

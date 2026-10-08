@@ -46,7 +46,6 @@
       "name": "RagFlow API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

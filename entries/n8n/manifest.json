@@ -44,7 +44,6 @@
       "name": "n8n REST API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",

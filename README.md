@@ -52,7 +52,7 @@ English: Native applications are independently installed host processes. Their o
 
 插件仍是统一 App 产品，`productKind: plugin` 表示它向宿主提供能力；`productKind: application` 表示它交付独立业务。`type` 只区分交付形态：Docker、宿主进程或纯声明 `artifact`。插件使用同一来源内产品 ID、版本、安装材料与安装登记，不重复创建 MCP 服务或第二份安装事实。
 
-应用类型必须明确声明 `productKind` 和 `entrypoints`。普通应用至少有一个入口；无 UI 插件可以声明空数组，但必须通过 `extension.contributes` 提供至少一项实际宿主贡献。`artifact` 使用 `install.method: artifact`、`docker: false`、空端口与声明式 runtime，不能伪装成 Docker 或宿主进程。
+应用类型必须明确声明 `entrypoints`。普通 native/Docker 应用可省略 `productKind`，受信读取时归一为 `application`，并至少有一个入口；插件必须明确声明 `productKind: plugin`，无 UI 插件可以声明空数组，但必须通过 `extension.contributes` 提供至少一项实际宿主贡献。新 `artifact` 仍要求明确产品归属，使用 `install.method: artifact`、`docker: false`、空端口与声明式 runtime，不能伪装成 Docker 或宿主进程。
 
 `extension` 区分提供与消费：
 
@@ -62,9 +62,9 @@ English: Native applications are independently installed host processes. Their o
 
 依赖中的 `extension.requires[].sourceId` 是产品引用；条目自身的 `sourceId` 与 `hasInstall` 仍只由受信客户端注入。贡献材料必须使用规范 POSIX 包内相对路径并固定摘要；实际获取与消费仍由客户端核验字节与文件归属。
 
-4.2 对现有 9 个应用声明 `application` 身份，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。当前官方条目数仍为 23，没有新增或默认启用插件。
+4.2 对现有 9 个应用在 sidecar 中声明 `application` 身份，legacy manifest 省略旧客户端不认识的 `productKind`，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。当前官方条目数仍为 23，没有新增或默认启用插件。
 
-Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口类型摘要；与 manifest 的声明必须一致。4.2 Schema 的固定 LF SHA-256 为 `4e585cff3505cd4af875a9065b6e0d4012272cbb843d500fec1ae74928f18cb2`。旧 4.0/4.1 客户端兼容属于客户端受审适配与版本策略，不能仅靠远端版本号推定；上线新契约前须确保目标客户端支持 4.2，目录发布不会升级客户端。
+Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口类型摘要；与 manifest 的受信归一结果必须一致。4.2 Schema 的固定 LF SHA-256 为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`。旧普通应用 manifest 保留已发布 10.0.177 可读取的字段；这不表示旧客户端支持 4.2 插件、artifact 或受新 authored 契约校验的外部集成。新能力上线前须确保目标客户端固定了此摘要并支持 4.2，目录发布不会升级客户端。
 
 English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 

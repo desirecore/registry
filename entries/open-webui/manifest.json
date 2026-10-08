@@ -44,7 +44,6 @@
       "name": "Open WebUI API"
     }
   ],
-  "productKind": "application",
   "entrypoints": [
     {
       "id": "manage",
