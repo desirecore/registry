@@ -3,6 +3,7 @@ import { isDeepStrictEqual } from 'node:util'
 import { basename, join, relative, resolve, sep } from 'node:path'
 import { validateJsonSchema } from './json-schema.mjs'
 import { findStaticMetrics } from './static-metadata.mjs'
+import { validateApplicationContract } from './application-contract.mjs'
 
 export const CATALOG_SIDECAR_FILENAME = 'catalog-metadata.v1.json'
 
@@ -76,7 +77,7 @@ function timestampShapeIsConsistent(timestamp) {
 function validateSidecarSemantics(manifest, sidecar, file) {
   const errors = []
   const add = (code, path, message) => errors.push(diagnostic('error', code, file, path, message))
-  const expectedKind = ['docker-app', 'native-app'].includes(manifest.type) ? 'app' : 'service'
+  const expectedKind = ['docker-app', 'native-app', 'artifact'].includes(manifest.type) ? 'app' : 'service'
 
   if (sidecar.identity?.id !== manifest.id) add('identity-mismatch', '$.identity.id', 'sidecar identity.id 必须与 legacy manifest.id 一致')
   if (sidecar.identity?.kind !== expectedKind) add('kind-mismatch', '$.identity.kind', `legacy ${manifest.type} 必须映射为 ${expectedKind}`)
@@ -128,6 +129,10 @@ function validateSidecarSemantics(manifest, sidecar, file) {
 
   if (expectedKind === 'app') {
     if (sidecar.spec?.category !== manifest.category) add('spec-mismatch', '$.spec.category', 'App category 必须与 legacy category 一致')
+    if (sidecar.spec?.productKind !== undefined && sidecar.spec.productKind !== (manifest.productKind ?? 'application')) add('product-kind-mismatch', '$.spec.productKind', '产品归属必须与 manifest 一致')
+    if (sidecar.spec?.extension !== undefined && !isDeepStrictEqual(sidecar.spec.extension, manifest.extension)) add('extension-mismatch', '$.spec.extension', '宿主贡献与直接依赖必须与 manifest 一致')
+    const entrypointKinds = [...new Set((Array.isArray(manifest.entrypoints) ? manifest.entrypoints : []).map(entry => entry?.kind))]
+    if (sidecar.spec?.entrypointKinds !== undefined && !sameStringSet(sidecar.spec.entrypointKinds, entrypointKinds)) add('entrypoint-mismatch', '$.spec.entrypointKinds', '入口类型摘要必须与 manifest 一致')
   } else {
     const expectedProtocol = manifest.type === 'mcp' ? 'mcp' : 'http'
     if (sidecar.spec?.protocol !== expectedProtocol) add('spec-mismatch', '$.spec.protocol', `Service protocol 必须是 ${expectedProtocol}`)
@@ -135,7 +140,7 @@ function validateSidecarSemantics(manifest, sidecar, file) {
     if (manifest.toolCount !== undefined && sidecar.spec?.toolCount !== manifest.toolCount) add('spec-mismatch', '$.spec.toolCount', 'toolCount 必须与 legacy 一致')
   }
 
-  if (manifest.type === 'native-app') {
+  if (['native-app', 'artifact'].includes(manifest.type)) {
     for (const field of ['stewardship', 'availability', 'redistribution', 'listingMaintainer', 'upstreamMaintainer', 'branding', 'compliance']) {
       if (!isDeepStrictEqual(manifest[field], sidecar.governance?.[field])) add('native-governance-mismatch', '$.governance.' + field, '原生应用 manifest 与 sidecar 的治理事实必须一致')
     }
@@ -201,7 +206,7 @@ export function validateRegistry(repoRoot, options = {}) {
   const manifestFile = join(root, 'manifest.json')
   const schemaVersionFile = join(root, 'SCHEMA_VERSION')
   const rootSchema = readJson(join(root, 'schemas', 'registry-manifest.v3.schema.json'), diagnostics)
-  const entrySchema = readJson(join(root, 'schemas', 'registry-entry.v3.schema.json'), diagnostics)
+  const legacyEntrySchema = readJson(join(root, 'schemas', 'registry-entry.v3.schema.json'), diagnostics)
   const externalEntrySchema = readJson(join(root, 'schemas', 'registry-entry.schema.json'), diagnostics)
   const sidecarSchema = readJson(join(root, 'schemas', 'catalog-metadata.v1.schema.json'), diagnostics)
   const rootManifest = readJson(manifestFile, diagnostics)
@@ -210,8 +215,10 @@ export function validateRegistry(repoRoot, options = {}) {
 
   if (rootManifest && rootSchema) diagnostics.push(...schemaDiagnostics(rootManifest, rootSchema, relativeFile(root, manifestFile)))
   const schemaVersion = existsSync(schemaVersionFile) ? readFileSync(schemaVersionFile, 'utf8').trim() : ''
+  const currentEntrySchema = /^4\./.test(schemaVersion) ? externalEntrySchema : legacyEntrySchema
   if (!schemaVersion) diagnostics.push(diagnostic('error', 'missing-schema-version', 'SCHEMA_VERSION', '$', 'SCHEMA_VERSION 不能为空'))
   if (rootManifest?.version !== schemaVersion) diagnostics.push(diagnostic('error', 'schema-version-mismatch', 'manifest.json', '$.version', 'manifest.version 必须与 SCHEMA_VERSION 一致'))
+  if (rootManifest?.dataVersion !== schemaVersion) diagnostics.push(diagnostic('error', 'schema-version-mismatch', 'manifest.json', '$.dataVersion', 'manifest.dataVersion 必须与 SCHEMA_VERSION 一致'))
 
   const seenIds = new Set()
   for (const entryDir of entryDirs) {
@@ -229,11 +236,13 @@ export function validateRegistry(repoRoot, options = {}) {
     counts.totalEntries += 1
     if (entry.type === 'docker-app') counts.dockerApps += 1
     if (entry.type === 'native-app') counts.nativeApps = (counts.nativeApps ?? 0) + 1
+    if (entry.type === 'artifact') counts.artifactApps = (counts.artifactApps ?? 0) + 1
     if (entry.type === 'mcp') counts.mcpServices += 1
     if (entry.type === 'http-api') counts.httpApis += 1
     if (entry.type === 'external-integration') counts.externalIntegrations += 1
-    const effectiveEntrySchema = ['external-integration', 'native-app'].includes(entry.type) ? externalEntrySchema : entrySchema
+    const effectiveEntrySchema = ['external-integration', 'native-app', 'artifact'].includes(entry.type) ? externalEntrySchema : currentEntrySchema
     if (effectiveEntrySchema) diagnostics.push(...schemaDiagnostics(entry, effectiveEntrySchema, manifestRelative))
+    for (const message of validateApplicationContract(entry)) diagnostics.push(diagnostic('error', 'application-contract', manifestRelative, '$', message))
     if (entry.id !== basename(entryDir)) diagnostics.push(diagnostic('error', 'directory-id-mismatch', manifestRelative, '$.id', 'manifest.id 必须与 entries/<id> 目录名一致'))
     if (seenIds.has(entry.id)) diagnostics.push(diagnostic('error', 'duplicate-id', manifestRelative, '$.id', 'Registry 条目 ID 重复'))
     seenIds.add(entry.id)
@@ -255,10 +264,10 @@ export function validateRegistry(repoRoot, options = {}) {
   }
 
   if (rootManifest?.stats) {
-    for (const key of ['totalEntries', 'dockerApps', 'nativeApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
-      if (key === 'nativeApps' && rootManifest.stats[key] === undefined && !counts.nativeApps) continue
+    for (const key of ['totalEntries', 'dockerApps', 'nativeApps', 'artifactApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
+      if (['nativeApps', 'artifactApps'].includes(key) && rootManifest.stats[key] === undefined && !counts[key]) continue
       if (rootManifest.stats[key] === undefined && key === 'externalIntegrations' && counts[key] === 0) continue
-      if (rootManifest.stats[key] !== (key === 'nativeApps' ? (counts.nativeApps ?? 0) : counts[key])) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key]}`))
+      if (rootManifest.stats[key] !== (counts[key] ?? 0)) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key] ?? 0}`))
     }
   }
 

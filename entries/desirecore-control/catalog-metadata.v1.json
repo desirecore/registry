@@ -111,6 +111,10 @@
       "showInMyApps": true,
       "allowNavPin": true,
       "allowAgentBinding": false
-    }
+    },
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
   }
 }

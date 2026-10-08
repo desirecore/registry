@@ -43,5 +43,12 @@
       "path": "/api",
       "name": "Open WebUI API"
     }
+  ],
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 Open WebUI",
+      "kind": "agent"
+    }
   ]
 }

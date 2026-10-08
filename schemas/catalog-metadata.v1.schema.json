@@ -236,14 +236,269 @@
       "required": ["kind"],
       "properties": {
         "kind": { "const": "app" },
+        "productKind": {
+          "type": "string",
+          "enum": [
+            "application",
+            "plugin"
+          ],
+          "description": "主要产品归属；应用提供独立业务，插件增加宿主能力。旧定义缺失时由受信适配层归一为 application。"
+        },
+        "extension": {
+          "type": "object",
+          "required": [
+            "apiVersion",
+            "hosts",
+            "runtime",
+            "contributes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "apiVersion": {
+              "const": "1.0.0",
+              "description": "宿主扩展协议版本；当前支持 1.0.0。"
+            },
+            "hosts": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "agent-service",
+                  "desktop-host"
+                ]
+              },
+              "description": "执行宿主；未实现的宿主只作声明并显示不兼容，客户端展示面在 UI 定义中另行声明。"
+            },
+            "runtime": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "declarative",
+                      "description": "仅由宿主读取声明，不创建执行进程。"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kind",
+                    "protocol",
+                    "descriptorRef"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "service",
+                      "description": "既有服务 owner 管理的协议连接；贡献调用继续走原授权和审批。"
+                    },
+                    "protocol": {
+                      "type": "string",
+                      "enum": [
+                        "mcp",
+                        "http"
+                      ],
+                      "description": "服务通信协议，不代表连接已经建立。"
+                    },
+                    "descriptorRef": {
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "sha256"
+                      ],
+                      "additionalProperties": false,
+                      "properties": {
+                        "path": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 512,
+                          "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*\\u0000)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*//)[^/]+(?:/[^/]+)*$",
+                          "description": "固定在核验制品根下的规范 POSIX 相对文件路径；拒绝绝对路径、反斜杠、盘符、空段、点段及 NUL。解析时仍须核验 realpath containment。"
+                        },
+                        "sha256": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$",
+                          "description": "固定文件字节的 SHA-256；消费前核验，编辑须提交新安装修订。"
+                        }
+                      },
+                      "description": "安装制品根下内容固定的材料引用；相对路径和摘要必须共同匹配。"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ],
+              "description": "贡献执行承载；descriptor 只定位受核验材料，不能直接把任意 endpoint 当运行事实。"
+            },
+            "contributes": {
+              "type": "array",
+              "maxItems": 64,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "point",
+                  "contractVersion",
+                  "definitionRef"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "产品内稳定贡献 ID；与来源、产品及精确安装实例共同定位运行绑定。"
+                  },
+                  "point": {
+                    "type": "string",
+                    "enum": [
+                      "document.parsers",
+                      "session.panels",
+                      "session.widgets",
+                      "session.actions",
+                      "tools",
+                      "skills"
+                    ],
+                    "description": "具有实际宿主消费者的贡献点；未知贡献点不得接入。"
+                  },
+                  "contractVersion": {
+                    "const": 1,
+                    "description": "该贡献点的消费契约版本；不兼容版本不激活。"
+                  },
+                  "definitionRef": {
+                    "type": "object",
+                    "required": [
+                      "path",
+                      "sha256"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 512,
+                        "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*\\u0000)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*//)[^/]+(?:/[^/]+)*$",
+                        "description": "固定在核验制品根下的规范 POSIX 相对文件路径；拒绝绝对路径、反斜杠、盘符、空段、点段及 NUL。解析时仍须核验 realpath containment。"
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$",
+                        "description": "固定文件字节的 SHA-256；消费前核验，编辑须提交新安装修订。"
+                      }
+                    },
+                    "description": "安装制品根下内容固定的材料引用；相对路径和摘要必须共同匹配。"
+                  }
+                },
+                "description": "包内贡献定义引用；业务层补充贡献 ID 唯一性及内容摘要核验。"
+              },
+              "description": "本产品提供的宿主贡献；仅消费能力的普通应用允许空数组，独立插件必须至少一项。每项定义从安装材料读取并核验。"
+            },
+            "configurationSchemaRef": {
+              "type": "object",
+              "required": [
+                "path",
+                "sha256"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512,
+                  "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*\\u0000)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*//)[^/]+(?:/[^/]+)*$",
+                  "description": "固定在核验制品根下的规范 POSIX 相对文件路径；拒绝绝对路径、反斜杠、盘符、空段、点段及 NUL。解析时仍须核验 realpath containment。"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$",
+                  "description": "固定文件字节的 SHA-256；消费前核验，编辑须提交新安装修订。"
+                }
+              },
+              "description": "安装制品根下内容固定的材料引用；相对路径和摘要必须共同匹配。"
+            },
+            "requires": {
+              "type": "array",
+              "maxItems": 64,
+              "items": {
+                "type": "object",
+                "required": [
+                  "sourceId",
+                  "appId",
+                  "contributionId",
+                  "contractVersion",
+                  "optional"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "sourceId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "直接依赖的受信产品来源，禁止按同名产品猜测。"
+                  },
+                  "appId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "所依赖的应用或插件产品 ID；静态定义不携带安装实例 ID。"
+                  },
+                  "contributionId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "消费方需要的具体贡献 ID。"
+                  },
+                  "contractVersion": {
+                    "const": 1,
+                    "description": "消费方支持的贡献契约版本。"
+                  },
+                  "optional": {
+                    "type": "boolean",
+                    "description": "true 为可选增强；false 缺失时阻断受影响功能，不自动安装或卸载。"
+                  },
+                  "versionRange": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "可选发布版本 semver 范围，由满足性检查器校验。"
+                  }
+                },
+                "description": "直接能力依赖；运行时须显式解析兼容的精确安装实例，不建设递归依赖求解器。"
+              },
+              "description": "本产品消费的必需或可选直接能力依赖；不产生使用授权。"
+            }
+          },
+          "not": {
+            "properties": {
+              "contributes": {
+                "maxItems": 0
+              },
+              "requires": {
+                "maxItems": 0
+              }
+            }
+          },
+          "description": "产品提供或消费宿主能力的关系契约；至少声明一项贡献或依赖。普通应用可仅消费，独立插件仍须提供实际贡献。"
+        },
         "category": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
         "entrypointKinds": {
           "type": "array",
-          "items": { "enum": ["builtin", "embedded-web", "external"] },
+          "items": { "enum": ["builtin", "embedded-web", "external", "agent"] },
           "uniqueItems": true
         },
         "placementPolicy": { "$ref": "#/$defs/placementPolicy" }
       },
+      "allOf": [{"if":{"properties":{"productKind":{"const":"plugin"}},"required":["productKind"]},"then":{"required":["extension"],"properties":{"extension":{"properties":{"contributes":{"minItems":1}}}}}}],
       "additionalProperties": false
     },
     "serviceSpec": {

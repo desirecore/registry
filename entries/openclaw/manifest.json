@@ -45,5 +45,12 @@
       "path": "/",
       "name": "OpenClaw Gateway"
     }
+  ],
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 OpenClaw",
+      "kind": "agent"
+    }
   ]
 }

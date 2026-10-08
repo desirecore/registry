@@ -43,5 +43,12 @@
       "path": "/api",
       "name": "Coze API"
     }
+  ],
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 Coze",
+      "kind": "agent"
+    }
   ]
 }

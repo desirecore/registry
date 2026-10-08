@@ -43,5 +43,12 @@
       "path": "/api/v1",
       "name": "AnythingLLM API"
     }
+  ],
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 AnythingLLM",
+      "kind": "agent"
+    }
   ]
 }

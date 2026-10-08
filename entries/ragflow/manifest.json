@@ -45,5 +45,12 @@
       "path": "/api/v1",
       "name": "RagFlow API"
     }
+  ],
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派 Agent 打开与维护 RagFlow",
+      "kind": "agent"
+    }
   ]
 }

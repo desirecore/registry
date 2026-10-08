@@ -76,6 +76,10 @@
   },
   "spec": {
     "kind": "app",
-    "category": "rag"
+    "category": "rag",
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
   }
 }

@@ -17,7 +17,7 @@ function fixture() {
   const manifest = JSON.parse(readFileSync(join(source, 'manifest.json'), 'utf8'))
   manifest.stats = { totalEntries: 1, dockerApps: 0, nativeApps: 1, mcpServices: 0, httpApis: 0, externalIntegrations: 0 }
   writeFileSync(join(root, 'manifest.json'), JSON.stringify(manifest))
-  writeFileSync(join(root, 'SCHEMA_VERSION'), '4.1.0\n')
+  writeFileSync(join(root, 'SCHEMA_VERSION'), manifest.version + '\n')
   return root
 }
 function mutate(root, file, change) {
