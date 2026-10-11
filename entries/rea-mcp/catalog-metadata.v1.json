@@ -1,0 +1,121 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "rea-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "REA MCP",
+        "summary": "REA 逆向工程 MCP 服务：分析本地二进制、JavaScript、托管代码与浏览器；需兼容 Node.js，分析引擎按任务另行配置。",
+        "description": "固定 rea-agents@6.4.0 的本地 stdio 服务，CLI 与 MCP 共用一个发布包，无独立桌面 GUI。Node.js 要求 ^22.19.0 || ^24.11.0 || >=26.0.0。服务登记不自动安装 Ghidra、Hopper、IDA、JEB、Java、浏览器或 Android 工具；商用引擎需单独许可。仅分析获授权目标，运行、附加调试、修改文件及设备操作需明确授权。macOS 已验证无目标启动、握手和 170 项工具列表；Windows/Linux 与具体分析任务未实测。条目为独立社区收录，不代表上游背书或完整安全审计。"
+      },
+      "en-US": {
+        "name": "REA MCP",
+        "summary": "REA reverse-engineering MCP service for local binaries, JavaScript, managed code and browsers; requires compatible Node.js and task-specific analysis providers.",
+        "description": "Local stdio service pinned to rea-agents@6.4.0. CLI and MCP share one release package; there is no standalone desktop GUI. Requires Node.js ^22.19.0 || ^24.11.0 || >=26.0.0. Listing does not install Ghidra, Hopper, IDA, JEB, Java, browsers or Android tools; commercial engines require separate licenses. Analyze authorized targets only; execution, debugger attachment, file mutation and device actions require explicit authorization. Target-free startup, handshake and a 170-tool inventory were verified on macOS; Windows/Linux and actual analyses were not exercised. Independent community listing, without upstream endorsement or a complete security audit."
+      }
+    },
+    "tags": [
+      "reverse-engineering",
+      "binary-analysis",
+      "javascript",
+      "mcp"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "6.4.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-10-11T03:58:03Z",
+      "precision": "second"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://www.npmjs.com/package/rea-agents",
+      "ref": "6.4.0",
+      "sha256": "59eb1604b8db75f522d4a975c36ce6b4a2ad465e43bad165f9a8f728391db9b8",
+      "path": "package"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "stewardship": "community",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "morluto",
+      "url": "https://github.com/morluto",
+      "verified": false
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "LICENSE",
+      "reviewedRef": "6.4.0",
+      "reviewedAt": "2026-10-11",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "none",
+    "capabilities": [
+      "binary_analysis",
+      "javascript_analysis",
+      "managed_code_analysis",
+      "browser_inspection",
+      "evidence_export"
+    ],
+    "toolCount": 170
+  }
+}
