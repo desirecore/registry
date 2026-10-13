@@ -11,21 +11,24 @@ import { validateApplicationReleaseContract } from './catalog/application-releas
 const source = join(dirname(fileURLToPath(import.meta.url)),'..')
 const temporary = []
 afterEach(() => { for (const root of temporary.splice(0)) rmSync(root,{recursive:true,force:true}) })
-const schema = JSON.parse(readFileSync(join(source,'schemas/registry-entry.schema.json'),'utf8'))
+const schema = JSON.parse(readFileSync(join(source,'schemas/registry-entry.v4.3.schema.json'),'utf8'))
 const validate = new Ajv({allErrors:true,strict:true,strictTypes:false,strictRequired:false,validateFormats:false}).compile(schema)
 const load = id => JSON.parse(readFileSync(join(source,'fixtures/authoring/entries',id,'manifest.json'),'utf8'))
 
-test('4.3只新增兼容与合成fixtures，正式目录仍无web-bundle或appRelease条目',() => {
+test('4.3只新增候选文件和合成fixtures，正式4.2目录不提前激活新格式',() => {
   const root = JSON.parse(readFileSync(join(source,'manifest.json'),'utf8'))
-  assert.equal(root.version,'4.3.0')
+  assert.equal(root.version,'4.2.0')
+  assert.equal(readFileSync(join(source,'SCHEMA_VERSION'),'utf8').trim(),'4.2.0')
   assert.equal(root.stats.totalEntries,24)
   assert.equal(root.stats.webBundles,undefined)
 })
 test('静态与带服务合成目录三文件保持App语义，两个validator同样通过',() => {
   const root = mkdtempSync(join(tmpdir(),'registry-authoring-'));temporary.push(root)
   cpSync(join(source,'schemas'),join(root,'schemas'),{recursive:true})
+  cpSync(join(source,'schemas/registry-entry.v4.3.schema.json'),join(root,'schemas/registry-entry.schema.json'))
   cpSync(join(source,'fixtures/authoring/entries'),join(root,'entries'),{recursive:true})
   const manifest = JSON.parse(readFileSync(join(source,'manifest.json'),'utf8'))
+  manifest.version='4.3.0';manifest.dataVersion='4.3.0'
   manifest.stats={totalEntries:3,dockerApps:1,nativeApps:1,webBundles:1,mcpServices:0,httpApis:0,externalIntegrations:0}
   writeFileSync(join(root,'manifest.json'),JSON.stringify(manifest));writeFileSync(join(root,'SCHEMA_VERSION'),'4.3.0\n')
   const report = validateRegistry(root)

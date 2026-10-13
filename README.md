@@ -9,7 +9,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ```text
 .
 ├── README.md              # 本文件
-├── SCHEMA_VERSION         # 数据格式版本号（4.3.0兼容候选，尚未开放新工作台条目）
+├── SCHEMA_VERSION         # 正式数据格式仍为4.2.0；4.3候选另存独立Schema文件
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
@@ -69,6 +69,10 @@ Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口
 English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 
 ## 固定工作台应用（4.3兼容候选）
+
+本PR只新增 `schemas/registry-entry.v4.3.schema.json` 和合成fixtures/validator，正式 `SCHEMA_VERSION`、manifest数据版本与 `schemas/registry-entry.schema.json` 原4.2字节保持。正式Schema SHA-256仍为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`；4.3候选为 `29ece0b6ae92d2b31d18bbb288b5ed33220dde125924082e1e38c20ace900200`。旧已发行客户端不会因为此Schema先行PR丢失原外部listing或其他类目。
+
+发布顺序：先review候选Schema/fixtures → 主仓固定候选摘要并交付兼容reader（官方候选只允许原类目，可信非官方测试源可验新类型）→ 核心Agent/Market知识经各自PR合入再同步真实main bootstrap → 客户端能力实际发行并验证 → 单独PR将正式Schema激活4.3并开放新entries。每一步取实际提交/发行/目录回执，不把未合入commit固定成官方seed。若有4.3checkout先到新reader，只有版本/字节摘要完全匹配才读原类目；未知或被篡改Schema继续关闭，新作者条目仍等待正式准入。
 
 4.3保留全部4.2旧分支，新增 `web-bundle` 与带 `appRelease` 的 `native-app`/`docker-app` 严格分支。网页包不冒充无执行声明artifact；宿主/容器服务应用使用 `install.method: release`，运行知识与依赖在固定清单中，不限定Node技术栈，也不自动执行说明文字。Docker显式声明固定imageRefs，每项是repository@sha256，复用原容器/执行/服务owner；没有真实身份adapter时保留Agent管理，不因为Schema合法声称直开。新分支声明来源无关releaseDigest、包内manifestPath/definitionPath与实际能力要求，source.sha256仍为下载归档原始字节摘要；descriptor在安装时按来源物化并单独核验。
 
