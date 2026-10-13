@@ -9,7 +9,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ```text
 .
 ├── README.md              # 本文件
-├── SCHEMA_VERSION         # 数据格式版本号（当前 4.2.0）
+├── SCHEMA_VERSION         # 正式数据格式仍为4.2.0；4.3候选另存独立Schema文件
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
@@ -68,7 +68,23 @@ Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口
 
 English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 
-## 条目格式
+## 固定工作台应用（4.3兼容候选）
+
+本PR只新增 `schemas/registry-entry.v4.3.schema.json` 和合成fixtures/validator，正式 `SCHEMA_VERSION`、manifest数据版本与 `schemas/registry-entry.schema.json` 原4.2字节保持。正式Schema SHA-256仍为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`；4.3候选为 `29ece0b6ae92d2b31d18bbb288b5ed33220dde125924082e1e38c20ace900200`。旧已发行客户端不会因为此Schema先行PR丢失原外部listing或其他类目。
+
+发布顺序：先review候选Schema/fixtures → 主仓固定候选摘要并交付兼容reader（官方候选只允许原类目，可信非官方测试源可验新类型）→ 客户端能力实际发行并验收 → 核心Agent/Market知识经各自PR合入再同步真实main bootstrap → 单独PR将正式Schema激活4.3并开放新entries。每一步取实际提交/发行/目录回执，不把未合入commit固定成官方seed；知识正式启用及seed交付须等待兼容客户端实际发行验收。若有4.3checkout先到新reader，只有版本/字节摘要完全匹配才读原类目；未知或被篡改Schema继续关闭，新作者条目仍等待正式准入。
+
+4.3保留全部4.2旧分支，新增 `web-bundle` 与带 `appRelease` 的 `native-app`/`docker-app` 严格分支。网页包不冒充无执行声明artifact；宿主/容器服务应用使用 `install.method: release`，运行知识与依赖在固定清单中，不限定Node技术栈，也不自动执行说明文字。Docker显式声明固定imageRefs，每项是repository@sha256，复用原容器/执行/服务owner；没有真实身份adapter时保留Agent管理，不因为Schema合法声称直开。新分支声明来源无关releaseDigest、包内manifestPath/definitionPath与实际能力要求，source.sha256仍为下载归档原始字节摘要；descriptor在安装时按来源物化并单独核验。
+
+正式目录未新增工作台条目。`fixtures/authoring/`只有合成的listing-only契约样本，example.test地址不是可获取的应用发行物，不表示上传、审核、运行或第二用户安装已完成。主仓内置seed保持旧受审提交；此候选先经外仓与客户端reader分别review，只有客户端真实app-authoring-v1/web-bundle等能力发行后才能开放新entries。最低版本字符串不能代替握手，旧客户端继续读取旧条目并忽略未知类型，不允许改交付类型绕过。
+
+作者从同一固定导出生成manifest.json、catalog-metadata.v1.json、install.md三文件，产品ID/版本/入口保持一致。证据不足保持listing-only；installable需真实来源、许可和审核记录。用户实例/数据/平台secret/开发机路径不写目录。目录PR、来源上传、准入和安装各自核验；同版本异内容创建新修订，目录更新不热替换已安装快照，撤回不自动卸载或删除数据。
+
+GitHub/Gitea私有来源依真实ACL和连接；客户端private来源不走公开镜像回退，认证失败拒绝新获取。团队移除不自动改来源ACL，需实际源管理员处理；已下载字节不能收回。离线已安装应用按保存事实维护，不把目录缓存当新安装的完整运行环境。
+
+English: Version 4.3 is a compatibility candidate, preserving legacy branches and adding fixed web-bundle and authored native release contracts. Synthetic listing-only fixtures are not published artifacts. Official entries wait for reviewed Schema/client support and actual capability release. Archive bytes, portable release identity and source-materialized descriptor identity are distinct. Private-source access depends on actual Git ACL; team membership does not automatically revoke source access, and catalog withdrawal does not delete installed data.
+
+## 条目格式（兼容字段）
 
 每个条目是 `entries/<id>/` 下的一个目录，目录名即条目 ID。
 
@@ -82,7 +98,7 @@ English: Plugins are App products with host contributions, sharing the canonical
 |------|------|------|------|
 | `id` | string | ✅ | 唯一标识，与目录名一致 |
 | `name` | string | ✅ | 显示名称 |
-| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `artifact` / `mcp` / `http-api` / `external-integration` |
+| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `artifact` / `web-bundle` / `mcp` / `http-api` / `external-integration` |
 | `version` | string | ✅ | 上游原始版本字符串；可为 SemVer、CalVer 或不透明版本 |
 | `description` | string | ✅ | 一行功能摘要 |
 | `author` | string | | 作者或组织 |

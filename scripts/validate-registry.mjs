@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import Ajv from 'ajv'
 import { findStaticMetrics } from './catalog/static-metadata.mjs'
 import { validateApplicationContract } from './catalog/application-contract.mjs'
+import { validateApplicationReleaseContract } from './catalog/application-release-contract.mjs'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const rootArgumentIndex = process.argv.indexOf('--root')
@@ -348,6 +349,7 @@ for (const directoryEntry of await readdir(entriesRoot, { withFileTypes: true })
     addError(`entries/${directoryEntry.name}/manifest.json: ${formatAjvErrors(validateEntry.errors)}`)
   }
   for (const message of validateApplicationContract(manifest)) addError(`entries/${directoryEntry.name}/manifest.json: ${message}`)
+  for (const message of validateApplicationReleaseContract(manifest)) addError(`entries/${directoryEntry.name}/manifest.json: ${message}`)
   if (manifest.type === 'external-integration') {
     await validateExternalIntegration(entryDirectory, manifest)
   }
@@ -359,6 +361,7 @@ if (rootManifest) {
     dockerApps: manifests.filter((entry) => entry.type === 'docker-app').length,
     ...(manifests.some((entry) => entry.type === 'native-app') || rootManifest.stats?.nativeApps !== undefined ? { nativeApps: manifests.filter((entry) => entry.type === 'native-app').length } : {}),
     ...(manifests.some((entry) => entry.type === 'artifact') || rootManifest.stats?.artifactApps !== undefined ? { artifactApps: manifests.filter((entry) => entry.type === 'artifact').length } : {}),
+    ...(manifests.some((entry) => entry.type === 'web-bundle') || rootManifest.stats?.webBundles !== undefined ? { webBundles: manifests.filter((entry) => entry.type === 'web-bundle').length } : {}),
     mcpServices: manifests.filter((entry) => entry.type === 'mcp').length,
     httpApis: manifests.filter((entry) => entry.type === 'http-api').length,
     externalIntegrations: manifests.filter((entry) => entry.type === 'external-integration').length,

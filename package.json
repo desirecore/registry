@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-registry.mjs",
-    "test": "node --test scripts/validate-registry.test.mjs scripts/native-app.test.mjs scripts/plugin-contract.test.mjs && npm run validate"
+    "test": "node --test scripts/validate-registry.test.mjs scripts/native-app.test.mjs scripts/plugin-contract.test.mjs scripts/application-authoring.test.mjs && npm run validate"
   },
   "devDependencies": {
     "ajv": "8.20.0"
