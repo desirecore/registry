@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/desirecore/registry/schemas/registry-entry.schema.json",
-  "title": "DesireCore Registry Entry 4.2",
-  "description": "严格区分应用/插件与服务/外部集成的 Registry 4.2 authored 契约。产品归属、部署方式、宿主贡献分别声明；声明不产生授权。此候选须在 Registry 外仓 review 后发布。",
+  "title": "DesireCore Registry Entry 4.3",
+  "description": "兼容保留4.2条目并新增固定应用release/web-bundle。候选Schema先审阅，客户端具备真实app-authoring-v1能力后才能开放条目。",
   "oneOf": [
     {
       "$ref": "#/definitions/dockerApp"
@@ -21,6 +21,15 @@
     },
     {
       "$ref": "#/definitions/externalIntegration"
+    },
+    {
+      "$ref": "#/definitions/webBundle"
+    },
+    {
+      "$ref": "#/definitions/authoredNativeApp"
+    },
+    {
+      "$ref": "#/definitions/authoredDockerApp"
     }
   ],
   "definitions": {
@@ -3456,6 +3465,1747 @@
               "entrypoints": {
                 "minItems": 1
               }
+            }
+          }
+        }
+      ]
+    },
+    "appRelease": {
+      "type": "object",
+      "description": "Registry 指向固定应用 release 的兼容视图；来源归档摘要在 source.sha256，不能与 releaseDigest 交换。",
+      "required": [
+        "schemaVersion",
+        "releaseDigest",
+        "manifestPath",
+        "definitionPath",
+        "requiredCapabilities"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1,
+          "description": "固定 release 目录引用格式版本。"
+        },
+        "releaseDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "app-release-c14n-v1 规范材料身份；不是归档文件摘要。"
+        },
+        "manifestPath": {
+          "type": "string",
+          "const": "app-release.json",
+          "description": "获取并核验的包内固定 release 清单。"
+        },
+        "definitionPath": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\x00-\\x1f])[^?#]+$",
+          "description": "同一 release 文件清单中的作者定义路径；相对 POSIX 路径，禁止宿主路径、穿越和 URL。"
+        },
+        "requiredCapabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "contains": {
+            "const": "app-authoring-v1"
+          },
+          "description": "获取后需要重新握手的真实能力；最低客户端版本不能代替能力支持。"
+        },
+        "imageRefs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "pattern": "^(?:localhost|[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+)(?::[1-9][0-9]{0,4})?/[a-z0-9]+(?:(?:[._]|__|-+)[a-z0-9]+)*(?:/[a-z0-9]+(?:(?:[._]|__|-+)[a-z0-9]+)*)*@sha256:[a-f0-9]{64}$",
+            "description": "显式DNS/IPv4或localhost注册表、可选端口和repository@sha256:小写64位摘要；不能用浮动tag、shell、凭据或宿主路径。"
+          },
+          "description": "仅容器release从同一delivery映射的固定镜像依赖；不包含登录凭据，不假定本机Docker可用。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "webBundle": {
+      "type": "object",
+      "description": "固定网页包：页面到包内文件的映射在同一release清单，不执行宿主程序、不派生内部服务。",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "version",
+        "author",
+        "description",
+        "tags",
+        "icon",
+        "iconLetter",
+        "platformSupport",
+        "category",
+        "fullDesc",
+        "shortDesc",
+        "install",
+        "source",
+        "requiredClientVersion",
+        "placementPolicy",
+        "stewardship",
+        "availability",
+        "license",
+        "redistribution",
+        "entrypoints",
+        "appRelease"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/id"
+        },
+        "name": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "type": {
+          "const": "web-bundle",
+          "description": "与 release.delivery 一致的交付类别。"
+        },
+        "version": {
+          "$ref": "#/definitions/version"
+        },
+        "author": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "tags": {
+          "$ref": "#/definitions/tags"
+        },
+        "icon": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "iconLetter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2
+        },
+        "platformSupport": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "macos",
+              "windows",
+              "linux",
+              "web"
+            ]
+          },
+          "description": "来源release支持的平台；运行时仍需真实宿主能力。"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9-]+$",
+          "description": "应用分类（slug 格式），可扩展任意分类"
+        },
+        "fullDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "shortDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "githubUrl": {
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "requiredClientVersion": {
+          "$ref": "#/definitions/version"
+        },
+        "install": {
+          "type": "object",
+          "required": [
+            "method",
+            "requirements"
+          ],
+          "additionalProperties": false,
+          "description": "先获取固定 release 再由 Agent 沿既有发布/执行owner处理；不是自动安装DSL。",
+          "properties": {
+            "method": {
+              "const": "web-bundle",
+              "description": "固定应用材料的安装方式。"
+            },
+            "requirements": {
+              "type": "object",
+              "required": [
+                "docker",
+                "ports"
+              ],
+              "additionalProperties": false,
+              "description": "发布者声明的环境条件；未知资源数字省略，不是当前运行健康。",
+              "properties": {
+                "docker": {
+                  "const": false,
+                  "description": "此静态或宿主应用分支不安装Docker。"
+                },
+                "ports": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 0,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "description": "声明服务端口要求；运行时地址必须由可信执行owner提供。"
+                },
+                "minMemory": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的内存条件；未知省略。"
+                },
+                "minDisk": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的磁盘条件；未知省略。"
+                }
+              }
+            },
+            "configNeeded": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "发布者说明的配置准备项，不包含凭据。"
+            }
+          }
+        },
+        "placementPolicy": {
+          "type": "object",
+          "description": "目录维护者声明的可放置范围；只限制能力，不能替用户自动固定或绑定",
+          "required": [
+            "showInMyApps",
+            "allowNavPin",
+            "allowAgentBinding"
+          ],
+          "properties": {
+            "showInMyApps": {
+              "type": "boolean",
+              "description": "安装后是否允许出现在“我的应用”"
+            },
+            "allowNavPin": {
+              "type": "boolean",
+              "description": "用户是否可将应用固定到主导航"
+            },
+            "allowAgentBinding": {
+              "type": "boolean",
+              "description": "用户是否可将应用关联到 Agent 会话侧栏"
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": "object",
+          "description": "经过审核的上游来源指针；安装时必须进一步证明 ref 或制品摘要不可变。",
+          "required": [
+            "kind",
+            "url",
+            "ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "git",
+                "release",
+                "package",
+                "container"
+              ],
+              "description": "上游来源类型：Git 仓库、Release 制品、包管理器制品或容器镜像。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "权威上游地址；不得由客户端在安装请求中替换。"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "审核版本引用；安装候选必须是完整 commit、制品版本或容器 digest。"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$",
+              "description": "Release、package 或其他下载响应体的 SHA-256 摘要。"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "description": "单仓库目录中的相对路径；不得作为运行时任意本地路径使用。"
+            },
+            "upstreamRepo": {
+              "type": "string",
+              "format": "uri",
+              "description": "制品与源码不在同一地址时对应的上游源码仓库。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "stewardship": {
+          "type": "string",
+          "enum": [
+            "official",
+            "partner",
+            "community",
+            "pointer"
+          ],
+          "description": "条目治理身份：official 仅能由受信 official catalog provider 注入；partner/community/pointer 分别表示合作方、社区维护或纯上游指针。"
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "listing-only",
+            "installable"
+          ],
+          "description": "目录可用性：listing-only 仅允许浏览上游；installable 才允许进入既有受治理获取流程，不表示已经安装或正在运行。"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "覆盖实际制品的许可证标识。"
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "source-pointer-only",
+            "verify-package-terms"
+          ],
+          "description": "内容转交策略：allowed 可按许可证分发；source-pointer-only 只能从权威上游取得；verify-package-terms 表示条款尚未完成复核。"
+        },
+        "listingMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "upstreamMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "branding": {
+          "type": "object",
+          "description": "名称、Logo 和官方关系的展示依据；代码许可证不能自动授予商标或宣传素材权利。",
+          "required": [
+            "relationship",
+            "nameUsage",
+            "logoStatus"
+          ],
+          "properties": {
+            "relationship": {
+              "type": "string",
+              "enum": [
+                "official",
+                "partner",
+                "independent-listing"
+              ],
+              "description": "与上游的公开关系：官方、已确认合作，或独立事实索引。"
+            },
+            "nameUsage": {
+              "type": "string",
+              "enum": [
+                "owned",
+                "licensed",
+                "nominative"
+              ],
+              "description": "项目名称的使用依据：自有、已获许可，或识别上游所需的指称性使用。"
+            },
+            "logoStatus": {
+              "type": "string",
+              "enum": [
+                "not-used",
+                "license-covered",
+                "trademark-policy-allowed",
+                "permission-obtained"
+              ],
+              "description": "Logo 使用依据；未确认权利时必须为 not-used，并由客户端使用中性图标。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "compliance": {
+          "type": "object",
+          "description": "绑定到本次不可变来源的合规审核记录；新版本必须重新审核，不能继承旧版本结论。",
+          "required": [
+            "licenseEvidencePath",
+            "reviewedRef",
+            "reviewedAt",
+            "reviewedBy",
+            "upstreamEndorsed"
+          ],
+          "properties": {
+            "licenseEvidencePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "在已审核源码或制品中定位许可证文本的相对路径。"
+            },
+            "noticePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "需要履行 NOTICE 或署名义务时，对应材料的相对路径。"
+            },
+            "reviewedRef": {
+              "type": "string",
+              "minLength": 1,
+              "description": "实际完成许可证、品牌和供应链复核的不可变 ref，必须与获取来源一致。"
+            },
+            "reviewedAt": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(?:T.*)?$",
+              "description": "审核日期或 ISO 8601 时间戳。"
+            },
+            "reviewedBy": {
+              "type": "string",
+              "minLength": 1,
+              "description": "可追溯的审核者或审核流程标识。"
+            },
+            "upstreamEndorsed": {
+              "type": "boolean",
+              "description": "上游是否明确认可该条目；false 时必须显示非官方、未经背书声明。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "productKind": {
+          "const": "application",
+          "description": "用户自建应用；不是平台声明插件。"
+        },
+        "entrypoints": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "description": "由隔离 App Host 承载的 Web 应用入口，运行时 URL 只可由服务端从 serviceRef 解析",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "serviceRef"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "embedded-web",
+                    "description": "隔离 Web 入口判别字段"
+                  },
+                  "serviceRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "Registry 服务 ID 或服务端生成的本机端口引用；不是 URL"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "kind"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID。"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "交给 Agent 打开的入口显示名。"
+                  },
+                  "kind": {
+                    "const": "agent",
+                    "description": "读取实例维护资料后委派 Agent；无需服务端口或标准启动接口。"
+                  }
+                }
+              }
+            ],
+            "description": "应用的一个用户可见启动入口，按 kind 严格判别"
+          },
+          "description": "明确用户入口；plugin 允许空数组，普通应用至少一个入口。"
+        },
+        "appRelease": {
+          "$ref": "#/definitions/appRelease"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "installable"
+              }
+            },
+            "required": [
+              "availability"
+            ]
+          },
+          "then": {
+            "required": [
+              "branding",
+              "compliance",
+              "listingMaintainer",
+              "upstreamMaintainer"
+            ]
+          }
+        }
+      ]
+    },
+    "authoredNativeApp": {
+      "type": "object",
+      "description": "带运行说明的固定宿主应用：可信执行owner核验身份，目录不保存启动命令或当前端口。",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "version",
+        "author",
+        "description",
+        "tags",
+        "icon",
+        "iconLetter",
+        "platformSupport",
+        "category",
+        "fullDesc",
+        "shortDesc",
+        "install",
+        "source",
+        "requiredClientVersion",
+        "placementPolicy",
+        "stewardship",
+        "availability",
+        "license",
+        "redistribution",
+        "entrypoints",
+        "appRelease"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/id"
+        },
+        "name": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "type": {
+          "const": "native-app",
+          "description": "与 release.delivery 一致的交付类别。"
+        },
+        "version": {
+          "$ref": "#/definitions/version"
+        },
+        "author": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "tags": {
+          "$ref": "#/definitions/tags"
+        },
+        "icon": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "iconLetter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2
+        },
+        "platformSupport": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "macos",
+              "windows",
+              "linux",
+              "web"
+            ]
+          },
+          "description": "来源release支持的平台；运行时仍需真实宿主能力。"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9-]+$",
+          "description": "应用分类（slug 格式），可扩展任意分类"
+        },
+        "fullDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "shortDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "githubUrl": {
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "requiredClientVersion": {
+          "$ref": "#/definitions/version"
+        },
+        "install": {
+          "type": "object",
+          "required": [
+            "method",
+            "requirements"
+          ],
+          "additionalProperties": false,
+          "description": "先获取固定 release 再由 Agent 沿既有发布/执行owner处理；不是自动安装DSL。",
+          "properties": {
+            "method": {
+              "const": "release",
+              "description": "固定应用材料的安装方式。"
+            },
+            "requirements": {
+              "type": "object",
+              "required": [
+                "docker",
+                "ports"
+              ],
+              "additionalProperties": false,
+              "description": "发布者声明的环境条件；未知资源数字省略，不是当前运行健康。",
+              "properties": {
+                "docker": {
+                  "const": false,
+                  "description": "此静态或宿主应用分支不安装Docker。"
+                },
+                "ports": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 32,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "description": "声明服务端口要求；运行时地址必须由可信执行owner提供。"
+                },
+                "minMemory": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的内存条件；未知省略。"
+                },
+                "minDisk": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的磁盘条件；未知省略。"
+                },
+                "node": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "description": "明确依赖Node时的版本要求，不由交付类别猜测。"
+                },
+                "envVars": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": "运行环境变量名称，不包含秘密值。"
+                }
+              }
+            },
+            "configNeeded": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "发布者说明的配置准备项，不包含凭据。"
+            }
+          }
+        },
+        "placementPolicy": {
+          "type": "object",
+          "description": "目录维护者声明的可放置范围；只限制能力，不能替用户自动固定或绑定",
+          "required": [
+            "showInMyApps",
+            "allowNavPin",
+            "allowAgentBinding"
+          ],
+          "properties": {
+            "showInMyApps": {
+              "type": "boolean",
+              "description": "安装后是否允许出现在“我的应用”"
+            },
+            "allowNavPin": {
+              "type": "boolean",
+              "description": "用户是否可将应用固定到主导航"
+            },
+            "allowAgentBinding": {
+              "type": "boolean",
+              "description": "用户是否可将应用关联到 Agent 会话侧栏"
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": "object",
+          "description": "经过审核的上游来源指针；安装时必须进一步证明 ref 或制品摘要不可变。",
+          "required": [
+            "kind",
+            "url",
+            "ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "git",
+                "release",
+                "package",
+                "container"
+              ],
+              "description": "上游来源类型：Git 仓库、Release 制品、包管理器制品或容器镜像。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "权威上游地址；不得由客户端在安装请求中替换。"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "审核版本引用；安装候选必须是完整 commit、制品版本或容器 digest。"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$",
+              "description": "Release、package 或其他下载响应体的 SHA-256 摘要。"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "description": "单仓库目录中的相对路径；不得作为运行时任意本地路径使用。"
+            },
+            "upstreamRepo": {
+              "type": "string",
+              "format": "uri",
+              "description": "制品与源码不在同一地址时对应的上游源码仓库。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "stewardship": {
+          "type": "string",
+          "enum": [
+            "official",
+            "partner",
+            "community",
+            "pointer"
+          ],
+          "description": "条目治理身份：official 仅能由受信 official catalog provider 注入；partner/community/pointer 分别表示合作方、社区维护或纯上游指针。"
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "listing-only",
+            "installable"
+          ],
+          "description": "目录可用性：listing-only 仅允许浏览上游；installable 才允许进入既有受治理获取流程，不表示已经安装或正在运行。"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "覆盖实际制品的许可证标识。"
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "source-pointer-only",
+            "verify-package-terms"
+          ],
+          "description": "内容转交策略：allowed 可按许可证分发；source-pointer-only 只能从权威上游取得；verify-package-terms 表示条款尚未完成复核。"
+        },
+        "listingMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "upstreamMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "branding": {
+          "type": "object",
+          "description": "名称、Logo 和官方关系的展示依据；代码许可证不能自动授予商标或宣传素材权利。",
+          "required": [
+            "relationship",
+            "nameUsage",
+            "logoStatus"
+          ],
+          "properties": {
+            "relationship": {
+              "type": "string",
+              "enum": [
+                "official",
+                "partner",
+                "independent-listing"
+              ],
+              "description": "与上游的公开关系：官方、已确认合作，或独立事实索引。"
+            },
+            "nameUsage": {
+              "type": "string",
+              "enum": [
+                "owned",
+                "licensed",
+                "nominative"
+              ],
+              "description": "项目名称的使用依据：自有、已获许可，或识别上游所需的指称性使用。"
+            },
+            "logoStatus": {
+              "type": "string",
+              "enum": [
+                "not-used",
+                "license-covered",
+                "trademark-policy-allowed",
+                "permission-obtained"
+              ],
+              "description": "Logo 使用依据；未确认权利时必须为 not-used，并由客户端使用中性图标。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "compliance": {
+          "type": "object",
+          "description": "绑定到本次不可变来源的合规审核记录；新版本必须重新审核，不能继承旧版本结论。",
+          "required": [
+            "licenseEvidencePath",
+            "reviewedRef",
+            "reviewedAt",
+            "reviewedBy",
+            "upstreamEndorsed"
+          ],
+          "properties": {
+            "licenseEvidencePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "在已审核源码或制品中定位许可证文本的相对路径。"
+            },
+            "noticePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "需要履行 NOTICE 或署名义务时，对应材料的相对路径。"
+            },
+            "reviewedRef": {
+              "type": "string",
+              "minLength": 1,
+              "description": "实际完成许可证、品牌和供应链复核的不可变 ref，必须与获取来源一致。"
+            },
+            "reviewedAt": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(?:T.*)?$",
+              "description": "审核日期或 ISO 8601 时间戳。"
+            },
+            "reviewedBy": {
+              "type": "string",
+              "minLength": 1,
+              "description": "可追溯的审核者或审核流程标识。"
+            },
+            "upstreamEndorsed": {
+              "type": "boolean",
+              "description": "上游是否明确认可该条目；false 时必须显示非官方、未经背书声明。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "productKind": {
+          "const": "application",
+          "description": "用户自建应用；不是平台声明插件。"
+        },
+        "entrypoints": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "description": "DesireCore 自带并随客户端发布的页面入口；第三方目录不得伪造此入口类型",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "route"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "builtin",
+                    "description": "内置页面入口判别字段"
+                  },
+                  "route": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^/(?!/)",
+                    "description": "客户端内置路由；必须是单斜杠开头的相对应用路由，不能是 URL"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "由隔离 App Host 承载的 Web 应用入口，运行时 URL 只可由服务端从 serviceRef 解析",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "serviceRef"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "embedded-web",
+                    "description": "隔离 Web 入口判别字段"
+                  },
+                  "serviceRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "Registry 服务 ID 或服务端生成的本机端口引用；不是 URL"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "由系统浏览器打开的目录声明入口；运行时 URL 只可由服务端从 serviceRef 解析",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "serviceRef"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "external",
+                    "description": "外部浏览器入口判别字段"
+                  },
+                  "serviceRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "Registry 服务 ID；不是 URL，解析结果还需 HTTPS 或本机 loopback 校验"
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^/(?!/)",
+                    "description": "可选服务内路径；解析层禁止凭据、反斜杠和目录穿越"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "kind"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID。"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "交给 Agent 打开的入口显示名。"
+                  },
+                  "kind": {
+                    "const": "agent",
+                    "description": "读取实例维护资料后委派 Agent；无需服务端口或标准启动接口。"
+                  }
+                }
+              }
+            ],
+            "description": "应用的一个用户可见启动入口，按 kind 严格判别"
+          },
+          "description": "明确用户入口；plugin 允许空数组，普通应用至少一个入口。"
+        },
+        "appRelease": {
+          "$ref": "#/definitions/appRelease"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "installable"
+              }
+            },
+            "required": [
+              "availability"
+            ]
+          },
+          "then": {
+            "required": [
+              "branding",
+              "compliance",
+              "listingMaintainer",
+              "upstreamMaintainer"
+            ]
+          }
+        }
+      ]
+    },
+    "authoredDockerApp": {
+      "type": "object",
+      "description": "固定容器镜像依赖的release应用：使用原Docker执行/服务owner，不新建容器管理器；缺真实身份adapter时不声称直开。",
+      "required": [
+        "id",
+        "name",
+        "type",
+        "version",
+        "author",
+        "description",
+        "tags",
+        "icon",
+        "iconLetter",
+        "platformSupport",
+        "category",
+        "fullDesc",
+        "shortDesc",
+        "install",
+        "source",
+        "requiredClientVersion",
+        "placementPolicy",
+        "stewardship",
+        "availability",
+        "license",
+        "redistribution",
+        "entrypoints",
+        "appRelease"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/id"
+        },
+        "name": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "type": {
+          "const": "docker-app",
+          "description": "与 release.delivery 一致的交付类别。"
+        },
+        "version": {
+          "$ref": "#/definitions/version"
+        },
+        "author": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "tags": {
+          "$ref": "#/definitions/tags"
+        },
+        "icon": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "iconLetter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2
+        },
+        "platformSupport": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "macos",
+              "windows",
+              "linux",
+              "web"
+            ]
+          },
+          "description": "来源release支持的平台；运行时仍需真实宿主能力。"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9-]+$",
+          "description": "应用分类（slug 格式），可扩展任意分类"
+        },
+        "fullDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "shortDesc": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "githubUrl": {
+          "$ref": "#/definitions/httpsUrl"
+        },
+        "requiredClientVersion": {
+          "$ref": "#/definitions/version"
+        },
+        "install": {
+          "type": "object",
+          "required": [
+            "method",
+            "requirements"
+          ],
+          "additionalProperties": false,
+          "description": "先获取固定 release 再由 Agent 沿既有发布/执行owner处理；不是自动安装DSL。",
+          "properties": {
+            "method": {
+              "const": "release",
+              "description": "固定应用材料的安装方式。"
+            },
+            "requirements": {
+              "type": "object",
+              "required": [
+                "docker",
+                "ports"
+              ],
+              "additionalProperties": false,
+              "description": "发布者声明的环境条件；未知资源数字省略，不是当前运行健康。",
+              "properties": {
+                "docker": {
+                  "const": true,
+                  "description": "此静态或宿主应用分支不安装Docker。"
+                },
+                "ports": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "maxItems": 32,
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "description": "声明服务端口要求；运行时地址必须由可信执行owner提供。"
+                },
+                "minMemory": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的内存条件；未知省略。"
+                },
+                "minDisk": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "实际发布材料声明的磁盘条件；未知省略。"
+                },
+                "node": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "description": "明确依赖Node时的版本要求，不由交付类别猜测。"
+                },
+                "envVars": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "description": "运行环境变量名称，不包含秘密值。"
+                }
+              }
+            },
+            "configNeeded": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "发布者说明的配置准备项，不包含凭据。"
+            }
+          }
+        },
+        "placementPolicy": {
+          "type": "object",
+          "description": "目录维护者声明的可放置范围；只限制能力，不能替用户自动固定或绑定",
+          "required": [
+            "showInMyApps",
+            "allowNavPin",
+            "allowAgentBinding"
+          ],
+          "properties": {
+            "showInMyApps": {
+              "type": "boolean",
+              "description": "安装后是否允许出现在“我的应用”"
+            },
+            "allowNavPin": {
+              "type": "boolean",
+              "description": "用户是否可将应用固定到主导航"
+            },
+            "allowAgentBinding": {
+              "type": "boolean",
+              "description": "用户是否可将应用关联到 Agent 会话侧栏"
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": "object",
+          "description": "经过审核的上游来源指针；安装时必须进一步证明 ref 或制品摘要不可变。",
+          "required": [
+            "kind",
+            "url",
+            "ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "git",
+                "release",
+                "package",
+                "container"
+              ],
+              "description": "上游来源类型：Git 仓库、Release 制品、包管理器制品或容器镜像。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "权威上游地址；不得由客户端在安装请求中替换。"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "审核版本引用；安装候选必须是完整 commit、制品版本或容器 digest。"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$",
+              "description": "Release、package 或其他下载响应体的 SHA-256 摘要。"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "description": "单仓库目录中的相对路径；不得作为运行时任意本地路径使用。"
+            },
+            "upstreamRepo": {
+              "type": "string",
+              "format": "uri",
+              "description": "制品与源码不在同一地址时对应的上游源码仓库。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "stewardship": {
+          "type": "string",
+          "enum": [
+            "official",
+            "partner",
+            "community",
+            "pointer"
+          ],
+          "description": "条目治理身份：official 仅能由受信 official catalog provider 注入；partner/community/pointer 分别表示合作方、社区维护或纯上游指针。"
+        },
+        "availability": {
+          "type": "string",
+          "enum": [
+            "listing-only",
+            "installable"
+          ],
+          "description": "目录可用性：listing-only 仅允许浏览上游；installable 才允许进入既有受治理获取流程，不表示已经安装或正在运行。"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "覆盖实际制品的许可证标识。"
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "source-pointer-only",
+            "verify-package-terms"
+          ],
+          "description": "内容转交策略：allowed 可按许可证分发；source-pointer-only 只能从权威上游取得；verify-package-terms 表示条款尚未完成复核。"
+        },
+        "listingMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "upstreamMaintainer": {
+          "type": "object",
+          "description": "目录策展者或上游维护者身份；两种角色必须分别存放，不能把 author 当成已验证维护者。",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "维护者的公开名称或组织名称。"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "维护者的公开主页、项目主页或可验证身份页面。"
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "平台是否已验证该身份；不等同于许可证授权、内容审核或上游背书。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "branding": {
+          "type": "object",
+          "description": "名称、Logo 和官方关系的展示依据；代码许可证不能自动授予商标或宣传素材权利。",
+          "required": [
+            "relationship",
+            "nameUsage",
+            "logoStatus"
+          ],
+          "properties": {
+            "relationship": {
+              "type": "string",
+              "enum": [
+                "official",
+                "partner",
+                "independent-listing"
+              ],
+              "description": "与上游的公开关系：官方、已确认合作，或独立事实索引。"
+            },
+            "nameUsage": {
+              "type": "string",
+              "enum": [
+                "owned",
+                "licensed",
+                "nominative"
+              ],
+              "description": "项目名称的使用依据：自有、已获许可，或识别上游所需的指称性使用。"
+            },
+            "logoStatus": {
+              "type": "string",
+              "enum": [
+                "not-used",
+                "license-covered",
+                "trademark-policy-allowed",
+                "permission-obtained"
+              ],
+              "description": "Logo 使用依据；未确认权利时必须为 not-used，并由客户端使用中性图标。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "compliance": {
+          "type": "object",
+          "description": "绑定到本次不可变来源的合规审核记录；新版本必须重新审核，不能继承旧版本结论。",
+          "required": [
+            "licenseEvidencePath",
+            "reviewedRef",
+            "reviewedAt",
+            "reviewedBy",
+            "upstreamEndorsed"
+          ],
+          "properties": {
+            "licenseEvidencePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "在已审核源码或制品中定位许可证文本的相对路径。"
+            },
+            "noticePath": {
+              "type": "string",
+              "minLength": 1,
+              "description": "需要履行 NOTICE 或署名义务时，对应材料的相对路径。"
+            },
+            "reviewedRef": {
+              "type": "string",
+              "minLength": 1,
+              "description": "实际完成许可证、品牌和供应链复核的不可变 ref，必须与获取来源一致。"
+            },
+            "reviewedAt": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}(?:T.*)?$",
+              "description": "审核日期或 ISO 8601 时间戳。"
+            },
+            "reviewedBy": {
+              "type": "string",
+              "minLength": 1,
+              "description": "可追溯的审核者或审核流程标识。"
+            },
+            "upstreamEndorsed": {
+              "type": "boolean",
+              "description": "上游是否明确认可该条目；false 时必须显示非官方、未经背书声明。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "productKind": {
+          "const": "application",
+          "description": "用户自建应用；不是平台声明插件。"
+        },
+        "entrypoints": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "description": "DesireCore 自带并随客户端发布的页面入口；第三方目录不得伪造此入口类型",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "route"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "builtin",
+                    "description": "内置页面入口判别字段"
+                  },
+                  "route": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^/(?!/)",
+                    "description": "客户端内置路由；必须是单斜杠开头的相对应用路由，不能是 URL"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "由隔离 App Host 承载的 Web 应用入口，运行时 URL 只可由服务端从 serviceRef 解析",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "serviceRef"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "embedded-web",
+                    "description": "隔离 Web 入口判别字段"
+                  },
+                  "serviceRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "Registry 服务 ID 或服务端生成的本机端口引用；不是 URL"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "description": "由系统浏览器打开的目录声明入口；运行时 URL 只可由服务端从 serviceRef 解析",
+                "required": [
+                  "id",
+                  "name",
+                  "kind",
+                  "serviceRef"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "入口显示名称"
+                  },
+                  "kind": {
+                    "const": "external",
+                    "description": "外部浏览器入口判别字段"
+                  },
+                  "serviceRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "Registry 服务 ID；不是 URL，解析结果还需 HTTPS 或本机 loopback 校验"
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512,
+                    "pattern": "^/(?!/)",
+                    "description": "可选服务内路径；解析层禁止凭据、反斜杠和目录穿越"
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "kind"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$",
+                    "description": "应用内稳定入口 ID。"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "交给 Agent 打开的入口显示名。"
+                  },
+                  "kind": {
+                    "const": "agent",
+                    "description": "读取实例维护资料后委派 Agent；无需服务端口或标准启动接口。"
+                  }
+                }
+              }
+            ],
+            "description": "应用的一个用户可见启动入口，按 kind 严格判别"
+          },
+          "description": "明确用户入口；plugin 允许空数组，普通应用至少一个入口。"
+        },
+        "appRelease": {
+          "$ref": "#/definitions/appRelease"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "installable"
+              }
+            },
+            "required": [
+              "availability"
+            ]
+          },
+          "then": {
+            "required": [
+              "branding",
+              "compliance",
+              "listingMaintainer",
+              "upstreamMaintainer"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "appRelease": {
+              "required": [
+                "imageRefs"
+              ]
             }
           }
         }

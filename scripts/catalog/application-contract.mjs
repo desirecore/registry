@@ -1,6 +1,6 @@
 /** 发布者关系声明的跨字段检查；不推导安装、权限或运行时健康。 */
 export function validateApplicationContract(manifest) {
-  if (!['docker-app', 'native-app', 'artifact'].includes(manifest.type)) return []
+  if (!['docker-app', 'native-app', 'artifact', 'web-bundle'].includes(manifest.type)) return []
   const errors = []
   const ids = new Set()
   for (const entrypoint of Array.isArray(manifest.entrypoints) ? manifest.entrypoints : []) {
