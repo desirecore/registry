@@ -57,7 +57,7 @@
   "provenance": {
     "content": {
       "kind": "package",
-      "url": "https://pypi.org/project/mcp-proxy-for-aws-cli/1.7.0/",
+      "url": "https://pypi.org/project/mcp-proxy-for-aws-cli/",
       "ref": "1.7.0",
       "sha256": "75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e"
     }
