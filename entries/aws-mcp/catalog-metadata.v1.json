@@ -1,0 +1,118 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "aws-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "AWS MCP",
+        "summary": "AWS 托管 MCP 服务的本地代理入口：固定代理 1.7.0，需 Python 3.10–3.14、uv/uvx 与自行配置的 AWS 凭据和 IAM 权限；默认只读，云资源费用另计。",
+        "description": "通过 AWS 官方 MCP Proxy 的本地 stdio 进程连接 AWS 托管 MCP 服务，远端使用 HTTPS 与 SigV4。条目的 1.7.0 是代理包版本，不是托管服务版本，也不固定远端工具清单；未填写工具数量。CLI 包及实际代理代码包均固定到发布 wheel 的 HTTPS URL 和 SHA-256。其余依赖遵循 CLI 包内的精确版本约束，这不是全部依赖的逐字节安全认证。\n\n需自行准备 Python >=3.10,<3.15、uv/uvx、网络和所选 AWS 身份的有效凭据、最小 IAM 权限；使用 AWS CLI 登录流程时还需相应 CLI。安装不会登录 AWS、创建账户、授予权限、安装配套技能或接入其他宿主。启动前由用户在私有配置中确认账户、Profile 与操作区域；不收集或公开密钥。缺工具、凭据、权限或连接时说明阻碍，在相应外部调用前停止，不能编造成功结果。\n\n默认连接 us-east-1 MCP 端点，操作默认区域也显式设为 us-east-1；端点区域和资源操作区域是两件事，均须用户确认。默认启用代理 --read-only，只保留远端标注 readOnlyHint=true 的工具并限制相应调用；写入或未标注的工具、以及包含混合操作的 API 工具可能不可用。这不是 IAM 安全边界，也不保证读操作没有费用。默认关闭代理可选遥测，不关闭向 AWS 发送工具参数、认证及 AWS 审计日志。\n\n本条目选择 SigV4 代理方案；AWS 同时提供的直接 OAuth 连接不是本条目默认安装流程。公开文档和服务信息可匿名访问，不代表能操作账户资源；未经用户授权，不切到匿名 --skip-auth、申请更高权限或移除只读模式来绕过错误。创建/删除资源、改 IAM、上传数据、发消息、切流和付费操作须先明确授权、范围及成本。请求参数与被访问数据按 AWS 服务条款和组织的数据处理要求进入 AWS。\n\n代理源码为 Apache-2.0；AWS 托管服务与资源适用独立条款。AWS 文档称工具包/MCP 服务本身无额外费用，所访问或创建的云资源、模型、存储、流量、日志及第三方服务仍可能计费。社区独立收录，维护者未验证，无上游背书。平台列表来自上游 OS Independent 声明和通用 Python wheel，不代表本轮跨平台实测。仅核验来源、制品、许可、参数和目录合同；未执行上游代码，未做 AWS 登录、真实 MCP 握手、工具调用、DesireCore 安装或桌面 GUI 验收。"
+      },
+      "en-US": {
+        "name": "AWS MCP",
+        "summary": "Local proxy entry for the managed AWS MCP Server, pinned to proxy 1.7.0. Requires Python 3.10–3.14, uv/uvx and separately configured AWS credentials/IAM access; read-only by default, with separate cloud resource charges.",
+        "description": "Connect to the managed AWS MCP Server through the official AWS MCP Proxy as a local stdio process, using HTTPS and SigV4 upstream. Version 1.7.0 refers to the proxy packages, not the managed service or its evolving tool inventory. No tool count is claimed. Both the CLI wrapper and implementation wheels are pinned by HTTPS URL and SHA-256. Other dependencies follow the wrapper’s exact version constraints; this is not a byte-level security certification of the full dependency closure.\n\nSeparately provide Python >=3.10,<3.15, uv/uvx, network access, valid credentials for the selected AWS identity and least-privilege IAM permissions. An AWS CLI sign-in workflow also needs its compatible CLI. Installation does not sign in, create accounts, grant permissions, install companion skills or configure other hosts. Before starting, have the user confirm the account, profile and operational Region in private configuration; never collect or publish keys. Report missing tools, credentials, permissions or connectivity and stop before the affected external call rather than fabricating success.\n\nThe default MCP endpoint and explicit operational Region are both us-east-1; these are separate settings requiring user confirmation. Default --read-only keeps tools annotated readOnlyHint=true and restricts corresponding calls. Write-capable, unannotated or mixed-operation API tools may therefore be unavailable. This does not replace IAM or guarantee cost-free reads. Optional proxy telemetry is disabled; AWS request data, authentication and audit logging are not disabled.\n\nThis listing selects the SigV4 proxy route, not AWS’s separate direct OAuth connection. Anonymous documentation/service lookup does not establish permission to operate on account resources. Do not switch to --skip-auth, elevate permissions or remove read-only mode to work around a failure without authorization. Resource creation/deletion, IAM changes, uploads, messaging, traffic changes and paid operations require explicit scope and cost authorization. Request parameters and accessed data are subject to AWS terms and organizational data-handling requirements.\n\nThe proxy source is Apache-2.0; AWS services and resources have separate terms. AWS documents no additional charge for the toolkit/MCP service itself, while resources, models, storage, traffic, logs and third-party providers may still incur charges. Independent community listing, unverified maintainers, no upstream endorsement. Platform metadata reflects upstream OS Independent classification and universal wheels, not cross-platform testing. Review covers provenance, artifacts, licensing, arguments and catalog contracts only: no upstream code, AWS login, live MCP handshake/tool call, DesireCore installation or desktop GUI was exercised."
+      }
+    },
+    "tags": [
+      "aws",
+      "mcp",
+      "cloud",
+      "sigv4",
+      "documentation"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.7.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-15T11:20:51Z",
+      "precision": "second"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://pypi.org/project/mcp-proxy-for-aws-cli/1.7.0/",
+      "ref": "1.7.0",
+      "sha256": "75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "stewardship": "community",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "mcp_proxy_for_aws_cli-1.7.0.dist-info/licenses/LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "Amazon Web Services",
+      "url": "https://github.com/aws/mcp-proxy-for-aws",
+      "verified": false
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "mcp_proxy_for_aws_cli-1.7.0.dist-info/licenses/LICENSE",
+      "noticePath": "mcp_proxy_for_aws_cli-1.7.0.dist-info/licenses/NOTICE",
+      "reviewedRef": "1.7.0",
+      "reviewedAt": "2026-10-25",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "unknown",
+    "capabilities": [
+      "aws_documentation",
+      "aws_service_reference",
+      "iam_authenticated_access"
+    ]
+  }
+}
