@@ -44,6 +44,6 @@ Use DesireCore’s governed service workflow with the exact source and snapshot.
 
 Updates require a fresh review of both artifacts, dependencies and launch compatibility. Removal stops this exact connection and handles only its owned records/environment. Preserve shared caches, other hosts, credentials and cloud resources; revocation and cloud cleanup require separate authorization.
 
-代理为 Apache-2.0；AWS 账户、API、资源及第三方依赖的条款与费用独立，详见 usage。**本轮只做来源、许可与目录检查，未执行上游代码、AWS 登录、真实握手、工具调用或 DesireCore GUI 验收。**
+代理为 Apache-2.0；AWS 账户、API、资源及第三方依赖的条款与费用独立，详见 usage。**macOS 补测已运行固定代理，完成独立公开模式握手、工具发现和文档检索/读取，并检查 DesireCore 目录与接入入口；完整集成和账户业务不在这些通过项内，详见 review.md。**
 
-The proxy is Apache-2.0; AWS and third-party terms/charges are separate. This review did not execute upstream code, sign in to AWS, perform a live handshake/tool call or exercise DesireCore GUI installation.
+The proxy is Apache-2.0; AWS and third-party terms/charges are separate. The macOS follow-up executed the pinned proxy for independent public-mode initialization, tool discovery and document search/read, and checked DesireCore catalog/task entry points. Complete client integration and AWS account operations are separate, unverified claims; see review.md.
