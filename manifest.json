@@ -8,10 +8,10 @@
   "repository": "https://github.com/desirecore/registry",
   "lastUpdated": "2026-10-25",
   "stats": {
-    "totalEntries": 25,
+    "totalEntries": 26,
     "dockerApps": 8,
     "nativeApps": 2,
-    "mcpServices": 9,
+    "mcpServices": 10,
     "httpApis": 5,
     "externalIntegrations": 1
   },
