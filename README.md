@@ -48,6 +48,10 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 
 English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. The Control listing is the sole application entry, not a Docker or MCP duplicate.
 
+[视频创作 0.3.0](entries/video-creation/)以完整Git提交固定源码，通过现有app-authoring-v1安装与运行合同提供编辑器、原创场景和带版本时点的审片。需支持该合同的客户端（已验证下限10.0.186）和独立运行依赖；目录约定的管理端口可调整，实际端口/健康/权限仍以安装回执为准。视频导演在Agent市场单独获取，目录发布不更新生产安装。
+
+English: Video Creation is a source-pinned native application using the existing authoring/runtime contract. Its tested client floor and separate dependencies are declared; catalog ports do not establish live readiness or permission. The companion Director is acquired separately from the Agent market.
+
 ## 应用与插件（4.2）
 
 插件仍是统一 App 产品，`productKind: plugin` 表示它向宿主提供能力；`productKind: application` 表示它交付独立业务。`type` 只区分交付形态：Docker、宿主进程或纯声明 `artifact`。插件使用同一来源内产品 ID、版本、安装材料与安装登记，不重复创建 MCP 服务或第二份安装事实。
@@ -62,7 +66,7 @@ English: Native applications are independently installed host processes. Their o
 
 依赖中的 `extension.requires[].sourceId` 是产品引用；条目自身的 `sourceId` 与 `hasInstall` 仍只由受信客户端注入。贡献材料必须使用规范 POSIX 包内相对路径并固定摘要；实际获取与消费仍由客户端核验字节与文件归属。
 
-4.2 对现有 9 个应用在 sidecar 中声明 `application` 身份，legacy manifest 省略旧客户端不认识的 `productKind`，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。当前官方条目数仍为 23，没有新增或默认启用插件。
+4.2 对现有 9 个应用在 sidecar 中声明 `application` 身份，legacy manifest 省略旧客户端不认识的 `productKind`，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。该次格式迁移没有新增条目或默认启用插件；当前条目数以 manifest.json 的实际统计为准。
 
 Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口类型摘要；与 manifest 的受信归一结果必须一致。4.2 Schema 的固定 LF SHA-256 为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`。旧普通应用 manifest 保留已发布 10.0.177 可读取的字段；这不表示旧客户端支持 4.2 插件、artifact 或受新 authored 契约校验的外部集成。新能力上线前须确保目标客户端固定了此摘要并支持 4.2，目录发布不会升级客户端。
 
