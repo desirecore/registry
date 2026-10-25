@@ -208,10 +208,10 @@ test('当前 v4.2 条目保持可读，原生应用与既有 App/Service 具备 
     httpApis: report.counts.httpApis,
     externalIntegrations: report.counts.externalIntegrations,
   }, {
-    totalEntries: 25,
+    totalEntries: 26,
     dockerApps: 8,
     nativeApps: 2,
-    mcpServices: 9,
+    mcpServices: 10,
     httpApis: 5,
     externalIntegrations: 1,
   })
