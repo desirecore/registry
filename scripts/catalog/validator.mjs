@@ -3,6 +3,7 @@ import { isDeepStrictEqual } from 'node:util'
 import { basename, join, relative, resolve, sep } from 'node:path'
 import { validateJsonSchema } from './json-schema.mjs'
 import { findStaticMetrics } from './static-metadata.mjs'
+import { MCP_PACKAGE_REVIEWER, validateMcpPackageReview } from './automated-mcp-review.mjs'
 import { validateApplicationContract } from './application-contract.mjs'
 
 export const CATALOG_SIDECAR_FILENAME = 'catalog-metadata.v1.json'
@@ -261,6 +262,13 @@ export function validateRegistry(repoRoot, options = {}) {
     const sidecarRelative = relativeFile(root, sidecarPath)
     if (sidecarSchema) diagnostics.push(...schemaDiagnostics(sidecar, sidecarSchema, sidecarRelative))
     diagnostics.push(...validateSidecarSemantics(entry, sidecar, sidecarRelative))
+    if (sidecar.governance?.compliance?.reviewedBy === MCP_PACKAGE_REVIEWER) {
+      const receiptPath = join(entryDir, 'upstream-audit.v1.json')
+      const receipt = readJson(receiptPath, diagnostics)
+      for (const message of validateMcpPackageReview(entry, sidecar, receipt)) {
+        diagnostics.push(diagnostic('error', 'automated-mcp-review', sidecarRelative, '$.governance.compliance', message))
+      }
+    }
   }
 
   if (rootManifest?.stats) {

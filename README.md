@@ -464,3 +464,9 @@ external integration 需要额外安全、供应链、商标和隐私 review，�
 
 - GitHub（主）：https://github.com/desirecore/registry.git
 - git.hxr.so（镜像）：https://git.hxr.so/desirecore/registry.git
+
+## MCP 上游更新维护
+
+每日检查 npm、PyPI 与已登记的 GitHub MCP 容器发行源，输出所有 MCP 条目的版本状态或阻碍；远程服务和关联应用分别标明维护归属。证据完整、许可与结构化前置条件不变时，自动填写机器核验记录并创建普通 PR；受阻只创建说明草稿，旧目录和准入不变。没有自动合并、上游执行或用户服务升级。客户端更新仍需用户操作，并由原安装回执与新审核目标共同约束。
+
+规则、预算与验收入口见 [MCP 上游更新](scripts/upstream/README.md)。
