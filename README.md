@@ -42,15 +42,19 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 
 [DesireCore Control 1.4.0](entries/desirecore-control/) 是面向外部智能体的独立宿主机应用，包含 ChatGPT 隧道管理。它以 `type: native-app`、`install.method: native-node`、`identity.kind: app` 收录；MCP 只是对外协议，不注册到 DesireCore 内部工具列表，不伪装为 Docker。
 
-原生应用必须声明宿主机 Node 版本、`docker: false`、精确管理端口、最低客户端版本、不可变 Release URL/ref/SHA-256 和审核记录。安装说明同时覆盖安装、升级、验证及卸载，不随 DesireCore 启停，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；`allowAgentBinding` 为 false。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
+原生应用必须声明宿主机 Node 版本、`docker: false`、明确的管理端口安装约定、最低客户端版本、不可变制品或固定 Git 源和审核记录。安装说明同时覆盖安装、升级、验证及卸载，生命周期由其实际 owner 管理，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；Control 的 `allowAgentBinding` 为 false，视频应用按自身 placementPolicy 声明可关联范围。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
 
 安装要求支持 native-app 的客户端（Control 条目最低 10.0.170）及核心应用安装技能 >=1.5.0。目录同步不能升级桌面客户端或技能；旧版看不到条目或提示升级时，不得修改类型绕过兼容检查。新制品已发布不代表新版桌面客户端已发布，也不代表用户已完成 ChatGPT 联调。
 
-English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. The Control listing is the sole application entry, not a Docker or MCP duplicate.
+English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts or fixed Git source, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. Control remains a single application entry without a Docker or MCP duplicate; each application's placement policy controls whether users may associate an agent.
 
 [视频创作 0.3.0](entries/video-creation/)以完整Git提交固定源码，通过现有app-authoring-v1安装与运行合同提供编辑器、原创场景和带版本时点的审片。需支持该合同的客户端（已验证下限10.0.186）和独立运行依赖；目录约定的管理端口可调整，实际端口/健康/权限仍以安装回执为准。视频导演在Agent市场单独获取，目录发布不更新生产安装。
 
 English: Video Creation is a source-pinned native application using the existing authoring/runtime contract. Its tested client floor and separate dependencies are declared; catalog ports do not establish live readiness or permission. The companion Director is acquired separately from the Agent market.
+
+[视频剪辑 0.1.0](entries/video-editing/)复用 FableCut 时间线、合成器与 MCP 核心，使用独立产品和 Agent“视频剪辑师”。固定源码与第三方许可、显式原生依赖准备、正式受管安装和同实例 MCP 连接见条目材料。客户端下限选择已测平台版本 10.0.195，安装仍检查真实 capabilities；当前目录平台范围限定 Windows 与 Ubuntu/WSLg，macOS 待验。目录 PR 与产品 PR 的剩余验收/合并门禁未完成前不代表正式上架，从市场安装与关联仍需实际验证。
+
+English: Video Editing reuses the FableCut core with an independent Video Editor agent. The listing pins source, separates dependency licenses and requires explicit runtime preparation plus normal managed installation. The tested 10.0.195 client floor does not replace capability checks. Scope currently covers Windows and Ubuntu/WSLg; macOS and final product/catalog publication gates remain pending.
 
 ## 应用与插件（4.2）
 

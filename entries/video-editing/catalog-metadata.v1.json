@@ -1,0 +1,115 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "video-editing"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "视频剪辑",
+        "summary": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
+        "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。 复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。需要 Node.js 22+、显式准备的浏览器和 FFmpeg/ffprobe，以及 app-authoring-v1 的 release/runtime-binding 能力。当前目录限定 Windows 与 Ubuntu/WSLg 已测范围；macOS 待验，不声明正式签名安装器或自主模型质量已通过。 模型额度、可选外部媒体服务的许可、账户与费用另计；应用不默认选择付费生成。"
+      },
+      "en-US": {
+        "name": "Video Editing",
+        "summary": "Multitrack editing, sound and original motion with the independent Video Editor agent, preserving human edits.",
+        "description": "Reuses the FableCut timeline, browser compositor and MCP core with DesireCore light/dark appearance. Requires Node.js 22+, explicitly prepared browser and FFmpeg/ffprobe assets, and app-authoring-v1 release/runtime-binding capabilities. The listing covers bounded Windows and Ubuntu/WSLg source-GUI qualification. macOS is pending; signed installers, official Linux packages, bare-metal GPU and autonomous model quality are not qualified. Model quota and optional external media service licenses, accounts and fees are separate; the application selects no paid generation service by default."
+      }
+    },
+    "tags": [
+      "video",
+      "editing",
+      "timeline",
+      "motion"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/video-editing.git",
+      "ref": "be7680fb90e1f3d8e52a6d9e00ab91db64cbd5a2"
+    }
+  },
+  "governance": {
+    "stewardship": "pointer",
+    "availability": "installable",
+    "redistribution": "source-pointer-only",
+    "listingMaintainer": {
+      "name": "DesireCore Registry maintainers",
+      "url": "https://github.com/desirecore/registry"
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "url": "https://github.com/desirecore-agent/video-editing"
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE.md",
+      "reviewedRef": "be7680fb90e1f3d8e52a6d9e00ab91db64cbd5a2",
+      "reviewedAt": "2026-11-01",
+      "reviewedBy": "fixed-source-and-bounded-runtime-review (see review.md)",
+      "upstreamEndorsed": false
+    },
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "windows",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.195"
+  },
+  "spec": {
+    "kind": "app",
+    "category": "tools",
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": true
+    },
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
+  }
+}
