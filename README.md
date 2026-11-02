@@ -76,6 +76,16 @@ Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口
 
 English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 
+## 固定应用材料的作者契约
+
+仓库根 `SCHEMA_VERSION` 与 `schemas/registry-entry.schema.json` 继续保留已发布的 4.2 格式及其原始摘要。`type: web-bundle` 或显式声明 `appRelease` 的条目，由两个校验入口统一选择独立的 `schemas/registry-entry.v4.3.schema.json`；普通应用、服务和外部集成继续使用原有 Schema。作者 Schema 不升级客户端，也不允许条目自报官方来源或信任。
+
+`appRelease` 固定材料的 `releaseDigest`、`app-release.json` 与必要 capabilities。作者定义来自清单内联 `definition` 时声明 `definitionSource: manifest`；旧包内独立定义文件继续声明 `definitionPath`。两种来源互斥，不可为内联定义编造一个文件路径。获取后，客户端仍须核验归档字节、清单与文件，并比较真实产品 UUID、入口和放置策略。
+
+作者材料来源只允许不可变 HTTPS `git` 或 `release`，必须分别提供固定提交 `source.ref` 和实际归档响应体的 `source.sha256`；归档摘要不能用 `releaseDigest` 代替。Git 归档还需声明实际包内的规范相对目录 `source.path`。`native-app` 和 Docker 作者条目使用 `install.method: release`，Web bundle 使用 `web-bundle`；能力握手、MCP 授权与运行归属仍以真实安装流程为准。
+
+English: The published root format and global 4.2 Schema remain unchanged. Both validators select the separate reviewed authoring Schema only for `web-bundle` or an explicit `appRelease`; ordinary listings retain their existing Schema. Inline definitions use `definitionSource: manifest`, while legacy payload definitions use `definitionPath`, exclusively. Fixed source commits, the downloaded archive SHA-256 and the canonical release digest are separate identities. Validation does not establish client support, source trust, installation, authorization or runtime ownership.
+
 ## 条目格式
 
 每个条目是 `entries/<id>/` 下的一个目录，目录名即条目 ID。

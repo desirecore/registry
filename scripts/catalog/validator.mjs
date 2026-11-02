@@ -4,6 +4,7 @@ import { basename, join, relative, resolve, sep } from 'node:path'
 import { validateJsonSchema } from './json-schema.mjs'
 import { findStaticMetrics } from './static-metadata.mjs'
 import { validateApplicationContract } from './application-contract.mjs'
+import { AUTHORED_ENTRY_SCHEMA_FILENAME, isApplicationEntry, isAuthoredRegistryEntry } from './entry-schema.mjs'
 
 export const CATALOG_SIDECAR_FILENAME = 'catalog-metadata.v1.json'
 
@@ -31,6 +32,15 @@ function schemaDiagnostics(value, schema, file) {
   return validateJsonSchema(value, schema).map((error) =>
     diagnostic('error', 'schema', file, error.path, error.message),
   )
+}
+
+function readSchema(file, diagnostics) {
+  const schema = readJson(file, diagnostics)
+  if (schema === null || Array.isArray(schema) || !['object', 'boolean'].includes(typeof schema)) {
+    diagnostics.push(diagnostic('error', 'invalid-schema', file, '$', 'Schema 根必须是对象或 boolean'))
+    return null
+  }
+  return schema
 }
 
 function safeRelativePath(value) {
@@ -77,7 +87,7 @@ function timestampShapeIsConsistent(timestamp) {
 function validateSidecarSemantics(manifest, sidecar, file) {
   const errors = []
   const add = (code, path, message) => errors.push(diagnostic('error', code, file, path, message))
-  const expectedKind = ['docker-app', 'native-app', 'artifact'].includes(manifest.type) ? 'app' : 'service'
+  const expectedKind = isApplicationEntry(manifest) ? 'app' : 'service'
 
   if (sidecar.identity?.id !== manifest.id) add('identity-mismatch', '$.identity.id', 'sidecar identity.id 必须与 legacy manifest.id 一致')
   if (sidecar.identity?.kind !== expectedKind) add('kind-mismatch', '$.identity.kind', `legacy ${manifest.type} 必须映射为 ${expectedKind}`)
@@ -140,7 +150,7 @@ function validateSidecarSemantics(manifest, sidecar, file) {
     if (manifest.toolCount !== undefined && sidecar.spec?.toolCount !== manifest.toolCount) add('spec-mismatch', '$.spec.toolCount', 'toolCount 必须与 legacy 一致')
   }
 
-  if (['native-app', 'artifact'].includes(manifest.type)) {
+  if (['native-app', 'artifact', 'web-bundle'].includes(manifest.type) || isAuthoredRegistryEntry(manifest)) {
     for (const field of ['stewardship', 'availability', 'redistribution', 'listingMaintainer', 'upstreamMaintainer', 'branding', 'compliance']) {
       if (!isDeepStrictEqual(manifest[field], sidecar.governance?.[field])) add('native-governance-mismatch', '$.governance.' + field, '原生应用 manifest 与 sidecar 的治理事实必须一致')
     }
@@ -205,15 +215,16 @@ export function validateRegistry(repoRoot, options = {}) {
   const diagnostics = []
   const manifestFile = join(root, 'manifest.json')
   const schemaVersionFile = join(root, 'SCHEMA_VERSION')
-  const rootSchema = readJson(join(root, 'schemas', 'registry-manifest.v3.schema.json'), diagnostics)
-  const legacyEntrySchema = readJson(join(root, 'schemas', 'registry-entry.v3.schema.json'), diagnostics)
-  const externalEntrySchema = readJson(join(root, 'schemas', 'registry-entry.schema.json'), diagnostics)
-  const sidecarSchema = readJson(join(root, 'schemas', 'catalog-metadata.v1.schema.json'), diagnostics)
+  const rootSchema = readSchema(join(root, 'schemas', 'registry-manifest.v3.schema.json'), diagnostics)
+  const legacyEntrySchema = readSchema(join(root, 'schemas', 'registry-entry.v3.schema.json'), diagnostics)
+  const externalEntrySchema = readSchema(join(root, 'schemas', 'registry-entry.schema.json'), diagnostics)
+  const authoredEntrySchema = readSchema(join(root, 'schemas', AUTHORED_ENTRY_SCHEMA_FILENAME), diagnostics)
+  const sidecarSchema = readSchema(join(root, 'schemas', 'catalog-metadata.v1.schema.json'), diagnostics)
   const rootManifest = readJson(manifestFile, diagnostics)
   const entryDirs = findEntryDirs(join(root, 'entries'))
   const counts = { totalEntries: 0, dockerApps: 0, mcpServices: 0, httpApis: 0, externalIntegrations: 0, sidecars: 0, legacyOnly: 0 }
 
-  if (rootManifest && rootSchema) diagnostics.push(...schemaDiagnostics(rootManifest, rootSchema, relativeFile(root, manifestFile)))
+  if (rootManifest && rootSchema !== null) diagnostics.push(...schemaDiagnostics(rootManifest, rootSchema, relativeFile(root, manifestFile)))
   const schemaVersion = existsSync(schemaVersionFile) ? readFileSync(schemaVersionFile, 'utf8').trim() : ''
   const currentEntrySchema = /^4\./.test(schemaVersion) ? externalEntrySchema : legacyEntrySchema
   if (!schemaVersion) diagnostics.push(diagnostic('error', 'missing-schema-version', 'SCHEMA_VERSION', '$', 'SCHEMA_VERSION 不能为空'))
@@ -240,8 +251,9 @@ export function validateRegistry(repoRoot, options = {}) {
     if (entry.type === 'mcp') counts.mcpServices += 1
     if (entry.type === 'http-api') counts.httpApis += 1
     if (entry.type === 'external-integration') counts.externalIntegrations += 1
-    const effectiveEntrySchema = ['external-integration', 'native-app', 'artifact'].includes(entry.type) ? externalEntrySchema : currentEntrySchema
-    if (effectiveEntrySchema) diagnostics.push(...schemaDiagnostics(entry, effectiveEntrySchema, manifestRelative))
+    const effectiveEntrySchema = isAuthoredRegistryEntry(entry) ? authoredEntrySchema
+      : ['external-integration', 'native-app', 'artifact'].includes(entry.type) ? externalEntrySchema : currentEntrySchema
+    if (effectiveEntrySchema !== null && effectiveEntrySchema !== undefined) diagnostics.push(...schemaDiagnostics(entry, effectiveEntrySchema, manifestRelative))
     for (const message of validateApplicationContract(entry)) diagnostics.push(diagnostic('error', 'application-contract', manifestRelative, '$', message))
     if (entry.id !== basename(entryDir)) diagnostics.push(diagnostic('error', 'directory-id-mismatch', manifestRelative, '$.id', 'manifest.id 必须与 entries/<id> 目录名一致'))
     if (seenIds.has(entry.id)) diagnostics.push(diagnostic('error', 'duplicate-id', manifestRelative, '$.id', 'Registry 条目 ID 重复'))
@@ -259,7 +271,7 @@ export function validateRegistry(repoRoot, options = {}) {
     const sidecar = readJson(sidecarPath, diagnostics)
     if (!sidecar) continue
     const sidecarRelative = relativeFile(root, sidecarPath)
-    if (sidecarSchema) diagnostics.push(...schemaDiagnostics(sidecar, sidecarSchema, sidecarRelative))
+    if (sidecarSchema !== null) diagnostics.push(...schemaDiagnostics(sidecar, sidecarSchema, sidecarRelative))
     diagnostics.push(...validateSidecarSemantics(entry, sidecar, sidecarRelative))
   }
 
