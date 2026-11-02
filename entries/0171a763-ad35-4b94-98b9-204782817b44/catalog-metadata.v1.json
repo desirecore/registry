@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "视频剪辑",
         "summary": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
-        "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。需要包含新应用目录读取能力的 DesireCore 10.0.197 或更新版本、Node.js >=22，及显式准备的固定浏览器和 FFmpeg/ffprobe。197 客户端正在发行准备，旧公开196包缺少该reader。限定功能已在 macOS 源码 GUI、Windows 未签 GUI 和 Ubuntu/WSLg 源码 GUI 实测；不扩展为正式签名安装器、官方 Linux 包、裸机 GPU 或模型自主规划质量。模型及可选媒体服务的许可、账号与费用另计，不默认调用付费生成。"
+        "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。需要包含新应用目录读取能力的 DesireCore 10.0.197 或更新版本、Node.js >=22，及显式准备的固定浏览器和 FFmpeg/ffprobe。公开196标签源不含该reader；安装时须核对实际发行源码与能力，版本号本身不足以证明支持。限定功能已在 macOS 源码 GUI、Windows 未签 GUI 和 Ubuntu/WSLg 源码 GUI 实测；不扩展为正式签名安装器、官方 Linux 包、裸机 GPU 或模型自主规划质量。模型及可选媒体服务的许可、账号与费用另计，不默认调用付费生成。"
       },
       "en-US": {
         "name": "Video Editing",
         "summary": "Multitrack editing, sound and original motion with the independent Video Editor agent, preserving human edits.",
-        "description": "Multitrack editing, sound and editable original motion using the retained FableCut timeline, browser compositor and MCP core, with DesireCore light/dark appearance. Requires a client >=10.0.197 containing the new official UUID catalog and manifest-inline appRelease reader, Node.js >=22 and explicit preparation of pinned browser/FFmpeg dependencies. Client 197 is being prepared; the public 196 package lacks the reader. Bounded functionality was tested on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI. Production installers, official Linux packages, bare-metal GPU and autonomous model reasoning are not qualified. Model and optional media-service licenses, accounts and fees are separate; no paid generation service is selected by default."
+        "description": "Multitrack editing, sound and editable original motion using the retained FableCut timeline, browser compositor and MCP core, with DesireCore light/dark appearance. Requires a client >=10.0.197 containing the new official UUID catalog and manifest-inline appRelease reader, Node.js >=22 and explicit preparation of pinned browser/FFmpeg dependencies. The public 196 tag source lacks the reader; check the actual release source and capabilities before installation, not only its version number. Bounded functionality was tested on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI. Production installers, official Linux packages, bare-metal GPU and autonomous model reasoning are not qualified. Model and optional media-service licenses, accounts and fees are separate; no paid generation service is selected by default."
       }
     },
     "tags": [
@@ -34,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-02",
+      "value": "2026-11-03",
       "precision": "day"
     },
     "releasePublishedAt": {

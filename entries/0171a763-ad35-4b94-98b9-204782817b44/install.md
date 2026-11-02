@@ -4,7 +4,7 @@
 
 ## 兼容客户端与官方获取
 
-最低版本预定DesireCore10.0.197；该公开客户端仍在发行准备，公开196标签源缺少官方UUID目录/manifest内联appRelease读取能力，不能仅凭同号版本或capability字符串判断兼容。正常安装前检查真实app-authoring-v1的release/runtime-binding与App管理能力；缺失时报告，不改类型绕过。
+最低版本预定DesireCore10.0.197；公开196标签源缺少官方UUID目录/manifest内联appRelease读取能力，安装时须核对实际发行源码与能力，不能仅凭同号版本或capability字符串判断兼容。正常安装前检查真实app-authoring-v1的release/runtime-binding与App管理能力；缺失时报告，不改类型绕过。
 
 沿默认官方应用市场获取本UUID条目。唯一材料为 [video-editing-0.1.3.zip](https://github.com/desirecore-agent/video-editing/releases/download/v0.1.3/video-editing-0.1.3.zip)，响应体 **1372662B**，SHA256 `fa9128606390a17409ff4eba46c13988df17f55cb8bbd3f21c6066cb5f9940b4`；来源提交 `e1e5d12ce95854ca7cb02d277f955abb1536c5ac`。ZIP根含app-release.json与130个payload文件/3104880B；releaseDigest `205ca1f94ae71ce4b86984328ab9914d477fcc9428fd69c6dc5789f93de0e68b`。归档SHA、产品Git提交与规范releaseDigest是三种不同事实。客户端正常获取需核验实际响应字节、包根清单、逐文件大小与摘要及真实UUID/版本/入口/placement。definitionSource=manifest直接采用已核验内联definition，不编造definitionPath。不要使用可变main、上游npx/npm服务或源码内嵌草稿清单代替该归档。
 
@@ -26,4 +26,4 @@ Node.js >=22使用平台正常受管PATH。在平台返回的固定材料根为c
 
 保留人工时间线与草稿，沿精确owner正常停止并等实际Root/编码器退出。用已授权文件工具备份dataRoot、外部媒体与摘要；video-editing-home-v1中的工程/素材/成片不是缓存。runtime依赖可按固定合同重建。新版本正常prepare/数据合同比较/expectedRevision CAS，不复用旧PID、锁、proof或hint。恢复在停止状态核对格式、相对路径与媒体再测试；不支持的格式保持原数据并失败，没有自动降级或后台续渲染承诺。卸载沿正式入口停止精确安装并默认保留用户数据；不能清材料时顺带删工程成片。
 
-English: Acquire only the fixed published archive through the normal official UUID catalog. Verify its archive SHA separately from the manifest release digest and every listed file. Client 197 is being prepared; public 196 lacks the reader. Normal owner admission, explicit pinned runtime preparation, current-instance MCP authorization and observed readiness remain necessary. Dependencies and model/media terms are separate. Preserve user data and human edits through updates, backup, restore and uninstall; uncertain submissions are queried before retrying.
+English: Acquire only the fixed published archive through the normal official UUID catalog. Verify its archive SHA separately from the manifest release digest and every listed file. Public 196 lacks the reader; verify the actual release source and capabilities. Normal owner admission, explicit pinned runtime preparation, current-instance MCP authorization and observed readiness remain necessary. Dependencies and model/media terms are separate. Preserve user data and human edits through updates, backup, restore and uninstall; uncertain submissions are queried before retrying.

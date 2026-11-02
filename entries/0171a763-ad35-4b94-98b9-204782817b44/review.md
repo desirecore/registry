@@ -14,8 +14,12 @@
 
 资格不扩展为正式签名系统安装器/官方Linux包、裸机GPU、所有版本或商业模型自主规划质量。依赖固定档案校验与原setupRuntime新回执不冒全部OS首次公网下载。原生源码平台Mac eb31、Windows/WSL f5；最新平台实际合并f897完整CI已过，新增启动审批/PORT影响尚待最终fresh-home官方市场链验证。目录Schema和CI不是安装成功证明。
 
-## 正式客户端和市场验收
+## 客户端与默认市场实测
 
-最低客户端预定10.0.197，包含平台PR5598新reader并须实际capability检查；197正在发行准备，公开196实际tag源没有该reader。目录main未合前保持Draft，不宣称上架。两个目录合入与兼容客户端实际可得后，仍需全新隔离home沿默认官方main获取/安装应用和数字员工、核所有者、正常关联/独立MCP授权与实际编辑预览/导出。availability=installable只允许现有受治理获取流程，不是当前安装、运行或授权事实。
+最低兼容要求为10.0.197并实际包含平台PR5598的新reader、release/runtime-binding。公开196标签源不含该reader；版本号、capability字符串或目录availability均不能替代实际来源与安装观测。
 
-English: The fixed 0.1.3 archive is publicly available and downloaded bytes match the reviewed material and merged source. The independent fork retains FableCut history and notices. Qualification is bounded to the stated macOS source, unsigned Windows and Ubuntu/WSLg source GUIs; original recovery/timing failures and unchanged-domain boundaries remain explicit. The new client reader, catalog publication and fresh default-market acquisition/use are separate gates. Client 197 is not public yet; public 196 lacks the reader. This listing grants no permissions or runtime ownership.
+已在客户端197源码候选11285bc284bb0533f24851f9dc6d2f9b60324361的全新隔离home，通过默认官方registry main与market main实际获取固定App和独立Agent。原AppManage prepare、实际TaskHost命令接纳/enroll/CAS commit、关联空权限、独立同实例MCP24、真实Agent改名/改字幕/新影片输出及完整解码/画面声音校验、原生关联guest播放暂停/明暗主题均完成；没有目录override或手塞seed。该结果是macOS源码候选，不是公开197签名包的安装结论。
+
+核验后旧运行修订失效和待审批停止请求的未知结果均保留。原恢复守卫正确拒绝无可信终态的旧命令，沿已有接纳流程修复同一部署，数据与影片保持；完整宿主ApplicationRuntime.stop审批允许后原HTTP200、可信TaskHost user_stopped/exit0与物理退出闭合。QA误用manage提交被writer拒绝，改合法update后通过，没有放宽校验或手写账本。源码候选的限定功能实测不代替正式发行包验收，也不证明商业模型自主质量。
+
+English: The fixed archive and default official catalogs were actually acquired in a fresh isolated 197 source-GUI candidate. Managed admission/CAS, independent Agent installation and association, same-instance MCP, real Agent edits and output validation, native playback and both themes passed within that scope. A pending stop approval was not treated as completed; the original recovery guard remained intact, existing admission repaired the same deployment, and explicit stop approval produced HTTP200 and trusted TaskHost exit evidence without changing media. This is not qualification of a publicly distributed signed 197 client. Verify actual release source and capabilities; public 196 lacks the reader.
