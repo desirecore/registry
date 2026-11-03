@@ -1,0 +1,100 @@
+{
+  "id": "0171a763-ad35-4b94-98b9-204782817b44",
+  "name": "视频剪辑",
+  "type": "native-app",
+  "version": "0.1.3",
+  "author": "desirecore-agent",
+  "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
+  "shortDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
+  "fullDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。需要包含新应用目录读取能力的 DesireCore 10.0.197 或更新版本、Node.js >=22，及显式准备的固定浏览器和 FFmpeg/ffprobe。公开196标签源不含该reader；安装时须核对实际发行源码与能力，版本号本身不足以证明支持。限定功能已在 macOS 源码 GUI、Windows 未签 GUI 和 Ubuntu/WSLg 源码 GUI 实测；不扩展为正式签名安装器、官方 Linux 包、裸机 GPU 或模型自主规划质量。模型及可选媒体服务的许可、账号与费用另计，不默认调用付费生成。",
+  "tags": [
+    "video",
+    "editing",
+    "timeline",
+    "motion"
+  ],
+  "icon": "film",
+  "iconLetter": "剪",
+  "platformSupport": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "category": "tools",
+  "githubUrl": "https://github.com/desirecore-agent/video-editing",
+  "requiredClientVersion": "10.0.197",
+  "install": {
+    "method": "release",
+    "requirements": {
+      "docker": false,
+      "node": ">=22",
+      "minMemory": "未声明固定最低值；预览和渲染开销随工程与输出尺寸变化。",
+      "minDisk": "需容纳固定浏览器、FFmpeg/ffprobe、原媒体、输入快照和导出文件；按实际容量核对。",
+      "ports": [
+        7777
+      ]
+    },
+    "configNeeded": [
+      "客户端 >=10.0.197，且实际包含官方 UUID 应用目录与 manifest 内联 appRelease reader；核对 app-authoring-v1 release/runtime-binding 与正常应用管理能力。公开196标签源不包含该reader。",
+      "从固定 Release 下载并核验 source.sha256，根 app-release.json 和130个文件逐项核验；由正常应用获取及 AppManage/AppHost/TaskHost 流程安装，不用可变main或npm命令替代。",
+      "显式执行固定材料中的 setup-runtime，准备Node >=22、浏览器、FFmpeg/ffprobe；这些二进制不包含在 ZIP，遵循各自许可，所需系统库和原sandbox前提不可跳过。",
+      "7777 是源码fallback对应的可调默认约定，不是当前端口或已安装事实。真实owner选择可用PORT并注入原启动契约，不结束其它进程。",
+      "独立安装视频剪辑师，关联只设置入口偏好。MCP须另行授权连接同一个当前release/安装/instance/generation/dataRoot；版本号、能力字符串或目录不替代真实就绪观测。"
+    ]
+  },
+  "placementPolicy": {
+    "showInMyApps": true,
+    "allowNavPin": true,
+    "allowAgentBinding": true
+  },
+  "source": {
+    "kind": "release",
+    "url": "https://github.com/desirecore-agent/video-editing/releases/download/v0.1.3/video-editing-0.1.3.zip",
+    "ref": "e1e5d12ce95854ca7cb02d277f955abb1536c5ac",
+    "sha256": "fa9128606390a17409ff4eba46c13988df17f55cb8bbd3f21c6066cb5f9940b4"
+  },
+  "stewardship": "pointer",
+  "availability": "installable",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "listingMaintainer": {
+    "name": "DesireCore Registry maintainers",
+    "url": "https://github.com/desirecore/registry"
+  },
+  "upstreamMaintainer": {
+    "name": "desirecore-agent",
+    "url": "https://github.com/desirecore-agent/video-editing"
+  },
+  "branding": {
+    "relationship": "independent-listing",
+    "nameUsage": "nominative",
+    "logoStatus": "not-used"
+  },
+  "compliance": {
+    "licenseEvidencePath": "LICENSE",
+    "noticePath": "NOTICE.md",
+    "reviewedRef": "e1e5d12ce95854ca7cb02d277f955abb1536c5ac",
+    "reviewedAt": "2026-11-02",
+    "reviewedBy": "fixed-source-and-bounded-runtime-review (see review.md)",
+    "upstreamEndorsed": false
+  },
+  "entrypoints": [
+    {
+      "id": "editor",
+      "name": "剪辑工作台",
+      "kind": "embedded-web",
+      "serviceRef": "video-editing:editor"
+    }
+  ],
+  "appRelease": {
+    "schemaVersion": 1,
+    "releaseDigest": "205ca1f94ae71ce4b86984328ab9914d477fcc9428fd69c6dc5789f93de0e68b",
+    "manifestPath": "app-release.json",
+    "definitionSource": "manifest",
+    "requiredCapabilities": [
+      "app-authoring-v1",
+      "release",
+      "runtime-binding"
+    ]
+  }
+}

@@ -3477,7 +3477,6 @@
         "schemaVersion",
         "releaseDigest",
         "manifestPath",
-        "definitionPath",
         "requiredCapabilities"
       ],
       "properties": {
@@ -3501,6 +3500,10 @@
           "maxLength": 512,
           "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*[\\\\\\x00-\\x1f])[^?#]+$",
           "description": "同一 release 文件清单中的作者定义路径；相对 POSIX 路径，禁止宿主路径、穿越和 URL。"
+        },
+        "definitionSource": {
+          "const": "manifest",
+          "description": "作者定义直接来自已核验 app-release.json 的 definition；包中不另外声明 definition 文件。"
         },
         "requiredCapabilities": {
           "type": "array",
@@ -3532,6 +3535,30 @@
           "description": "仅容器release从同一delivery映射的固定镜像依赖；不包含登录凭据，不假定本机Docker可用。"
         }
       },
+      "oneOf": [
+        {
+          "required": [
+            "definitionPath"
+          ],
+          "not": {
+            "required": [
+              "definitionSource"
+            ]
+          },
+          "description": "兼容已有包内独立作者定义文件。"
+        },
+        {
+          "required": [
+            "definitionSource"
+          ],
+          "not": {
+            "required": [
+              "definitionPath"
+            ]
+          },
+          "description": "使用 release 清单中的内联作者定义，不能同时声称存在独立文件。"
+        }
+      ],
       "additionalProperties": false
     },
     "webBundle": {

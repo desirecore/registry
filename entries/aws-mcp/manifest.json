@@ -1,0 +1,59 @@
+{
+  "id": "aws-mcp",
+  "name": "AWS MCP",
+  "type": "mcp",
+  "version": "1.7.0",
+  "author": "Amazon Web Services",
+  "description": "AWS 托管 MCP 服务的本地代理入口：固定代理 1.7.0，需 Python 3.10–3.14、uv/uvx 与自行配置的 AWS 凭据和 IAM 权限；默认只读，云资源费用另计。",
+  "tags": [
+    "aws",
+    "mcp",
+    "cloud",
+    "sigv4",
+    "documentation"
+  ],
+  "icon": "cloud",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "capabilities": [
+    "aws_documentation",
+    "aws_service_reference",
+    "iam_authenticated_access"
+  ],
+  "install": {
+    "method": "uvx",
+    "packageName": "mcp-proxy-for-aws-cli",
+    "command": "uvx",
+    "args": [
+      "--from",
+      "mcp-proxy-for-aws-cli @ https://files.pythonhosted.org/packages/5d/ec/2faa62a1c8186966d73b4d3069d7098f08e1891b2f5141dd7bcf135c3561/mcp_proxy_for_aws_cli-1.7.0-py3-none-any.whl#sha256=75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e",
+      "--with",
+      "mcp-proxy-for-aws @ https://files.pythonhosted.org/packages/73/df/04a7dba8d3ed744daff2783b220e9239969f0e0714266c52f0ced8d4ebf2/mcp_proxy_for_aws-1.7.0-py3-none-any.whl#sha256=d7e6c8f45ef89303cb48822e25f91c0234bb28ee987ebb56615cd16a5d044a1b",
+      "mcp-proxy-for-aws-cli",
+      "https://aws-mcp.us-east-1.api.aws/mcp",
+      "--read-only",
+      "--disable-telemetry",
+      "--metadata",
+      "AWS_REGION=us-east-1"
+    ]
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "uvx",
+    "args": [
+      "--from",
+      "mcp-proxy-for-aws-cli @ https://files.pythonhosted.org/packages/5d/ec/2faa62a1c8186966d73b4d3069d7098f08e1891b2f5141dd7bcf135c3561/mcp_proxy_for_aws_cli-1.7.0-py3-none-any.whl#sha256=75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e",
+      "--with",
+      "mcp-proxy-for-aws @ https://files.pythonhosted.org/packages/73/df/04a7dba8d3ed744daff2783b220e9239969f0e0714266c52f0ced8d4ebf2/mcp_proxy_for_aws-1.7.0-py3-none-any.whl#sha256=d7e6c8f45ef89303cb48822e25f91c0234bb28ee987ebb56615cd16a5d044a1b",
+      "mcp-proxy-for-aws-cli",
+      "https://aws-mcp.us-east-1.api.aws/mcp",
+      "--read-only",
+      "--disable-telemetry",
+      "--metadata",
+      "AWS_REGION=us-east-1"
+    ]
+  }
+}

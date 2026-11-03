@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import Ajv from 'ajv'
 import { findStaticMetrics } from './catalog/static-metadata.mjs'
 import { validateApplicationContract } from './catalog/application-contract.mjs'
-import { validateApplicationReleaseContract } from './catalog/application-release-contract.mjs'
+import { AUTHORED_ENTRY_SCHEMA_FILENAME, isAuthoredRegistryEntry } from './catalog/entry-schema.mjs'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const rootArgumentIndex = process.argv.indexOf('--root')
@@ -282,6 +282,7 @@ const validateExternalIntegration = async (entryDirectory, manifest) => {
 const schemaVersion = (await readText(join(repositoryRoot, 'SCHEMA_VERSION')))?.trim()
 const rootManifest = await readJson(join(repositoryRoot, 'manifest.json'))
 const entrySchema = await readJson(join(repositoryRoot, 'schemas', 'registry-entry.schema.json'))
+const authoredEntrySchema = await readJson(join(repositoryRoot, 'schemas', AUTHORED_ENTRY_SCHEMA_FILENAME))
 
 if (!schemaVersion || !/^\d+\.\d+\.\d+$/.test(schemaVersion)) {
   addError('SCHEMA_VERSION: expected a semantic version')
@@ -291,16 +292,22 @@ if (rootManifest) {
   if (rootManifest.dataVersion !== schemaVersion) addError('manifest.json#dataVersion must equal SCHEMA_VERSION')
 }
 
-let validateEntry = null
-if (entrySchema) {
+const compileEntrySchema = (schema, filename) => {
+  if (schema === null || Array.isArray(schema) || !['object', 'boolean'].includes(typeof schema)) {
+    addError(`schemas/${filename}: Schema root must be an object or boolean`)
+    return null
+  }
   try {
     // Draft-07 条件块补充父 Schema 的约束；无需在每个 then/not 再写局部 type。
     const ajv = new Ajv({ allErrors: true, strict: true, strictTypes: false, strictRequired: false, validateFormats: false })
-    validateEntry = ajv.compile(entrySchema)
+    return ajv.compile(schema)
   } catch (error) {
-    addError(`schemas/registry-entry.schema.json: unable to compile (${error.message})`)
+    addError(`schemas/${filename}: unable to compile (${error.message})`)
+    return null
   }
 }
+const validateEntry = compileEntrySchema(entrySchema, 'registry-entry.schema.json')
+const validateAuthoredEntry = compileEntrySchema(authoredEntrySchema, AUTHORED_ENTRY_SCHEMA_FILENAME)
 
 const manifests = []
 const seenIds = new Set()
@@ -345,11 +352,11 @@ for (const directoryEntry of await readdir(entriesRoot, { withFileTypes: true })
     }
   }
 
-  if (validateEntry && !validateEntry(manifest)) {
-    addError(`entries/${directoryEntry.name}/manifest.json: ${formatAjvErrors(validateEntry.errors)}`)
+  const validateManifest = isAuthoredRegistryEntry(manifest) ? validateAuthoredEntry : validateEntry
+  if (validateManifest && !validateManifest(manifest)) {
+    addError(`entries/${directoryEntry.name}/manifest.json: ${formatAjvErrors(validateManifest.errors)}`)
   }
   for (const message of validateApplicationContract(manifest)) addError(`entries/${directoryEntry.name}/manifest.json: ${message}`)
-  for (const message of validateApplicationReleaseContract(manifest)) addError(`entries/${directoryEntry.name}/manifest.json: ${message}`)
   if (manifest.type === 'external-integration') {
     await validateExternalIntegration(entryDirectory, manifest)
   }

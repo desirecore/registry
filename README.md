@@ -9,12 +9,13 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ```text
 .
 ├── README.md              # 本文件
-├── SCHEMA_VERSION         # 正式数据格式仍为4.2.0；4.3候选另存独立Schema文件
+├── SCHEMA_VERSION         # 数据格式版本号（当前 4.2.0）
 ├── manifest.json          # 仓库元数据（版本、统计、维护者）
 ├── package.json           # Registry 校验入口
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
 ├── scripts/               # Registry v4 校验入口与回归测试
 ├── scripts/catalog/       # 零依赖离线 validator 与 node:test
+├── fixtures/authoring/    # 合成的作者契约样本（listing-only，不进入正式目录）
 ├── entries/               # 🔑 所有注册表条目（统一格式）
 │   ├── n8n/               # 示例：Docker 应用
 │   │   ├── manifest.json  # 条目元数据（必需）
@@ -42,11 +43,19 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 
 [DesireCore Control 1.4.0](entries/desirecore-control/) 是面向外部智能体的独立宿主机应用，包含 ChatGPT 隧道管理。它以 `type: native-app`、`install.method: native-node`、`identity.kind: app` 收录；MCP 只是对外协议，不注册到 DesireCore 内部工具列表，不伪装为 Docker。
 
-原生应用必须声明宿主机 Node 版本、`docker: false`、精确管理端口、最低客户端版本、不可变 Release URL/ref/SHA-256 和审核记录。安装说明同时覆盖安装、升级、验证及卸载，不随 DesireCore 启停，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；`allowAgentBinding` 为 false。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
+原生应用必须声明宿主机 Node 版本、`docker: false`、明确的管理端口安装约定、最低客户端版本、不可变制品或固定 Git 源和审核记录。安装说明同时覆盖安装、升级、验证及卸载，生命周期由其实际 owner 管理，不默认启用控制或隧道。条目禁止 `connection`、`exposes`、`endpoint`、工具数等内部服务配置；Control 的 `allowAgentBinding` 为 false，视频应用按自身 placementPolicy 声明可关联范围。兼容来源字段只写在 manifest.source 与 sidecar.provenance.content，二者必须一致；sidecar 不写运行时 governance.source。
 
 安装要求支持 native-app 的客户端（Control 条目最低 10.0.170）及核心应用安装技能 >=1.5.0。目录同步不能升级桌面客户端或技能；旧版看不到条目或提示升级时，不得修改类型绕过兼容检查。新制品已发布不代表新版桌面客户端已发布，也不代表用户已完成 ChatGPT 联调。
 
-English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. The Control listing is the sole application entry, not a Docker or MCP duplicate.
+English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts or fixed Git source, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. Control remains a single application entry without a Docker or MCP duplicate; each application's placement policy controls whether users may associate an agent.
+
+[视频创作 0.3.0](entries/video-creation/)以完整Git提交固定源码，通过现有app-authoring-v1安装与运行合同提供编辑器、原创场景和带版本时点的审片。需支持该合同的客户端（已验证下限10.0.186）和独立运行依赖；目录约定的管理端口可调整，实际端口/健康/权限仍以安装回执为准。视频导演在Agent市场单独获取，目录发布不更新生产安装。
+
+English: Video Creation is a source-pinned native application using the existing authoring/runtime contract. Its tested client floor and separate dependencies are declared; catalog ports do not establish live readiness or permission. The companion Director is acquired separately from the Agent market.
+
+[视频剪辑 0.1.0](entries/video-editing/)复用 FableCut 时间线、合成器与 MCP 核心，使用独立产品和 Agent“视频剪辑师”。固定源码与第三方许可、显式原生依赖准备、正式受管安装和同实例 MCP 连接见条目材料。客户端下限选择已测平台版本 10.0.195，安装仍检查真实 capabilities；当前目录平台范围限定 Windows 与 Ubuntu/WSLg，macOS 待验。目录 PR 与产品 PR 的剩余验收/合并门禁未完成前不代表正式上架，从市场安装与关联仍需实际验证。
+
+English: Video Editing reuses the FableCut core with an independent Video Editor agent. The listing pins source, separates dependency licenses and requires explicit runtime preparation plus normal managed installation. The tested 10.0.195 client floor does not replace capability checks. Scope currently covers Windows and Ubuntu/WSLg; macOS and final product/catalog publication gates remain pending.
 
 ## 应用与插件（4.2）
 
@@ -62,29 +71,35 @@ English: Native applications are independently installed host processes. Their o
 
 依赖中的 `extension.requires[].sourceId` 是产品引用；条目自身的 `sourceId` 与 `hasInstall` 仍只由受信客户端注入。贡献材料必须使用规范 POSIX 包内相对路径并固定摘要；实际获取与消费仍由客户端核验字节与文件归属。
 
-4.2 对现有 9 个应用在 sidecar 中声明 `application` 身份，legacy manifest 省略旧客户端不认识的 `productKind`，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。当前官方条目数仍为 23，没有新增或默认启用插件。
+4.2 对现有 9 个应用在 sidecar 中声明 `application` 身份，legacy manifest 省略旧客户端不认识的 `productKind`，并提供读取安装/使用材料后委派 Agent 的真实维护入口。现有目录没有可引用的用户 UI 服务 ID，不猜测 API endpoint 或任意本机端口为 Web 页面；`legacy-port:`/`native-port:` 仅供客户端兼容适配层生成，发布者不能自行声明。原有版本、来源、许可证、审核及 `listing-only` 事实保留，未完成治理证据的条目不会因为格式迁移变为可安装。该次格式迁移没有新增条目或默认启用插件；当前条目数以 manifest.json 的实际统计为准。
 
 Catalog sidecar 的 App spec 同步 `productKind`、可选 `extension` 和入口类型摘要；与 manifest 的受信归一结果必须一致。4.2 Schema 的固定 LF SHA-256 为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`。旧普通应用 manifest 保留已发布 10.0.177 可读取的字段；这不表示旧客户端支持 4.2 插件、artifact 或受新 authored 契约校验的外部集成。新能力上线前须确保目标客户端固定了此摘要并支持 4.2，目录发布不会升级客户端。
 
 English: Plugins are App products with host contributions, sharing the canonical catalog and installation identity. Deployment type does not decide product kind. Applications may provide contributions or consume direct dependencies; a plugin must provide a real contribution. Artifact packages contain declarative materials without ports or processes. Dependency product references do not grant installation, activation or permission. Existing listings retain their source and compliance evidence; schema migration does not make listing-only content installable or publish a client release.
 
-## 固定工作台应用（4.3兼容候选）
+## 固定应用材料的作者契约
 
-本PR只新增 `schemas/registry-entry.v4.3.schema.json` 和合成fixtures/validator，正式 `SCHEMA_VERSION`、manifest数据版本与 `schemas/registry-entry.schema.json` 原4.2字节保持。正式Schema SHA-256仍为 `ea63d6305ae17994e595aea009a131c41300d2b7fdb07ec83cc2c19c37b32038`；4.3候选为 `29ece0b6ae92d2b31d18bbb288b5ed33220dde125924082e1e38c20ace900200`。旧已发行客户端不会因为此Schema先行PR丢失原外部listing或其他类目。
+仓库根 `SCHEMA_VERSION` 与 `schemas/registry-entry.schema.json` 继续保留已发布的 4.2 格式及其原始摘要。`type: web-bundle` 或显式声明 `appRelease` 的条目，由两个校验入口统一选择独立的 `schemas/registry-entry.v4.3.schema.json`；普通应用、服务和外部集成继续使用原有 Schema。作者 Schema 不升级客户端，也不允许条目自报官方来源或信任。
 
-发布顺序：先review候选Schema/fixtures → 主仓固定候选摘要并交付兼容reader（官方候选只允许原类目，可信非官方测试源可验新类型）→ 客户端能力实际发行并验收 → 核心Agent/Market知识经各自PR合入再同步真实main bootstrap → 单独PR将正式Schema激活4.3并开放新entries。每一步取实际提交/发行/目录回执，不把未合入commit固定成官方seed；知识正式启用及seed交付须等待兼容客户端实际发行验收。若有4.3checkout先到新reader，只有版本/字节摘要完全匹配才读原类目；未知或被篡改Schema继续关闭，新作者条目仍等待正式准入。
+`appRelease` 固定材料的 `releaseDigest`、`app-release.json` 与必要 capabilities。作者定义来自清单内联 `definition` 时声明 `definitionSource: manifest`；旧包内独立定义文件继续声明 `definitionPath`。两种来源互斥，不可为内联定义编造一个文件路径。获取后，客户端仍须核验归档字节、清单与文件，并比较真实产品 UUID、入口和放置策略。
 
-4.3保留全部4.2旧分支，新增 `web-bundle` 与带 `appRelease` 的 `native-app`/`docker-app` 严格分支。网页包不冒充无执行声明artifact；宿主/容器服务应用使用 `install.method: release`，运行知识与依赖在固定清单中，不限定Node技术栈，也不自动执行说明文字。Docker显式声明固定imageRefs，每项是repository@sha256，复用原容器/执行/服务owner；没有真实身份adapter时保留Agent管理，不因为Schema合法声称直开。新分支声明来源无关releaseDigest、包内manifestPath/definitionPath与实际能力要求，source.sha256仍为下载归档原始字节摘要；descriptor在安装时按来源物化并单独核验。
+作者材料来源只允许不可变 HTTPS `git` 或 `release`，必须分别提供固定提交 `source.ref` 和实际归档响应体的 `source.sha256`；归档摘要不能用 `releaseDigest` 代替。Git 归档还需声明实际包内的规范相对目录 `source.path`。`native-app` 和 Docker 作者条目使用 `install.method: release`，Web bundle 使用 `web-bundle`；能力握手、MCP 授权与运行归属仍以真实安装流程为准。
 
-正式目录未新增工作台条目。`fixtures/authoring/`只有合成的listing-only契约样本，example.test地址不是可获取的应用发行物，不表示上传、审核、运行或第二用户安装已完成。主仓内置seed保持旧受审提交；此候选先经外仓与客户端reader分别review，只有客户端真实app-authoring-v1/web-bundle等能力发行后才能开放新entries。最低版本字符串不能代替握手，旧客户端继续读取旧条目并忽略未知类型，不允许改交付类型绕过。
+English: The published root format and global 4.2 Schema remain unchanged. Both validators select the separate reviewed authoring Schema only for `web-bundle` or an explicit `appRelease`; ordinary listings retain their existing Schema. Inline definitions use `definitionSource: manifest`, while legacy payload definitions use `definitionPath`, exclusively. Fixed source commits, the downloaded archive SHA-256 and the canonical release digest are separate identities. Validation does not establish client support, source trust, installation, authorization or runtime ownership.
 
-作者从同一固定导出生成manifest.json、catalog-metadata.v1.json、install.md三文件，产品ID/版本/入口保持一致。证据不足保持listing-only；installable需真实来源、许可和审核记录。用户实例/数据/平台secret/开发机路径不写目录。目录PR、来源上传、准入和安装各自核验；同版本异内容创建新修订，目录更新不热替换已安装快照，撤回不自动卸载或删除数据。
+作者 Schema 保留全部 4.2 旧分支，新增 `web-bundle` 与带 `appRelease` 的 `native-app`/`docker-app` 严格分支；其字节由主仓生成并固定，SHA-256 为 `95afcffce0c985215685554ec8b3f5e3012036bf2c4ecc4214c23e4eff895b10`，修改须先更新主仓并经 review。网页包不冒充无执行声明 artifact；宿主/容器服务应用的运行知识与依赖在固定清单中，不限定 Node 技术栈，也不自动执行说明文字。Docker 显式声明固定 `imageRefs`，每项是 `repository@sha256`，复用原容器/执行/服务 owner；没有真实身份 adapter 时保留 Agent 管理，不因为 Schema 合法声称直开。descriptor 在安装时按来源物化并单独核验。最低版本字符串不能代替握手，旧客户端继续读取旧条目并忽略未知类型，不允许改交付类型绕过。
 
-GitHub/Gitea私有来源依真实ACL和连接；客户端private来源不走公开镜像回退，认证失败拒绝新获取。团队移除不自动改来源ACL，需实际源管理员处理；已下载字节不能收回。离线已安装应用按保存事实维护，不把目录缓存当新安装的完整运行环境。
+根 `SCHEMA_VERSION` 与 global Schema 升级到 4.3 须另提 PR，并等待兼容客户端实际发行验收；知识正式启用及 seed 交付同样须等待该验收。每一步取实际提交/发行/目录回执，不把未合入 commit 固定成官方 seed。
 
-English: Version 4.3 is a compatibility candidate, preserving legacy branches and adding fixed web-bundle and authored native release contracts. Synthetic listing-only fixtures are not published artifacts. Official entries wait for reviewed Schema/client support and actual capability release. Archive bytes, portable release identity and source-materialized descriptor identity are distinct. Private-source access depends on actual Git ACL; team membership does not automatically revoke source access, and catalog withdrawal does not delete installed data.
+`fixtures/authoring/` 只有合成的 listing-only 契约样本，不进入 `entries/` 或目录统计；example.test 地址不是可获取的应用发行物，不表示上传、审核、运行或第二用户安装已完成。
 
-## 条目格式（兼容字段）
+作者从同一固定导出生成 manifest.json、catalog-metadata.v1.json、install.md 三文件，产品 ID/版本/入口保持一致。证据不足保持 listing-only；installable 需真实来源、许可和审核记录。用户实例/数据/平台 secret/开发机路径不写目录。目录 PR、来源上传、准入和安装各自核验；同版本异内容创建新修订，目录更新不热替换已安装快照，撤回不自动卸载或删除数据。
+
+GitHub/Gitea 私有来源依真实 ACL 和连接；客户端 private 来源不走公开镜像回退，认证失败拒绝新获取。团队移除不自动改来源 ACL，需实际源管理员处理；已下载字节不能收回。离线已安装应用按保存事实维护，不把目录缓存当新安装的完整运行环境。
+
+English: The authoring Schema preserves legacy branches and adds strict web-bundle and authored native/Docker release branches; its bytes are generated and pinned by the main repository. Upgrading the root format to 4.3 takes a separate PR after a compatible client release is accepted. Synthetic listing-only fixtures under `fixtures/authoring/` are not published artifacts and stay out of the catalog and its statistics. Private-source access depends on actual Git ACL; team membership does not automatically revoke source access, and catalog withdrawal does not delete installed data.
+
+## 条目格式
 
 每个条目是 `entries/<id>/` 下的一个目录，目录名即条目 ID。
 
@@ -476,3 +491,9 @@ external integration 需要额外安全、供应链、商标和隐私 review，�
 
 - GitHub（主）：https://github.com/desirecore/registry.git
 - git.hxr.so（镜像）：https://git.hxr.so/desirecore/registry.git
+
+## MCP 上游更新维护
+
+每日检查 npm、PyPI 与已登记的 GitHub MCP 容器发行源，输出所有 MCP 条目的版本状态或阻碍；远程服务和关联应用分别标明维护归属。证据完整、许可与结构化前置条件不变时，自动填写机器核验记录并创建普通 PR；受阻只创建说明草稿，旧目录和准入不变。没有自动合并、上游执行或用户服务升级。客户端更新仍需用户操作，并由原安装回执与新审核目标共同约束。
+
+规则、预算与验收入口见 [MCP 上游更新](scripts/upstream/README.md)。

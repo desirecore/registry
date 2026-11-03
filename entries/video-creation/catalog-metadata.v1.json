@@ -1,0 +1,116 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "video-creation"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "视频创作",
+        "summary": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。",
+        "description": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。 复用OpenFilm渲染与编辑内核，支持HTML/SVG/Canvas/WebGL自主场景、时间窗总览、多尺寸与修订对照。需单独准备Node.js、pnpm、浏览器和FFmpeg；可选生成服务的许可、账户与费用另计。安装前检查app-authoring-v1的release/runtime-binding能力；目录来源或端口声明不等于已安装、已授权或当前在线。"
+      },
+      "en-US": {
+        "name": "Video Creation",
+        "summary": "Editable films, original motion scenes and versioned timed visual review, preserving human edits.",
+        "description": "Reuses the OpenFilm editor and renderer for autonomous HTML/SVG/Canvas/WebGL scenes, temporal overviews, size comparison and revision pairs. Requires Node.js, pnpm, browser/FFmpeg and app-authoring-v1 release/runtime-binding capabilities. Optional model/media licenses, accounts and usage fees are separate. Catalog ports are adjustable installation defaults, not proof of a live runtime."
+      }
+    },
+    "tags": [
+      "video",
+      "motion",
+      "editing",
+      "visual-review"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.3.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/video-creation.git",
+      "ref": "f44e7f53ba928b77ce30db843a1d17d6c3163d52"
+    }
+  },
+  "governance": {
+    "stewardship": "pointer",
+    "availability": "installable",
+    "redistribution": "source-pointer-only",
+    "listingMaintainer": {
+      "name": "DesireCore Registry maintainers",
+      "url": "https://github.com/desirecore/registry"
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "url": "https://github.com/desirecore-agent/video-creation"
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "THIRD_PARTY_NOTICES.md",
+      "reviewedRef": "f44e7f53ba928b77ce30db843a1d17d6c3163d52",
+      "reviewedAt": "2026-10-25",
+      "reviewedBy": "repository-and-runtime-validation (see review.md)",
+      "upstreamEndorsed": false
+    },
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.186"
+  },
+  "spec": {
+    "kind": "app",
+    "category": "tools",
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": true
+    },
+    "productKind": "application",
+    "entrypointKinds": [
+      "agent"
+    ]
+  }
+}

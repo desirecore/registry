@@ -141,6 +141,13 @@ function validateNode(value, schema, rootSchema, path, errors) {
     if (schema.items) {
       value.forEach((item, index) => validateNode(item, schema.items, rootSchema, joinPath(path, index), errors))
     }
+    if (schema.contains !== undefined && !value.some((item, index) => {
+      const candidateErrors = []
+      validateNode(item, schema.contains, rootSchema, joinPath(path, index), candidateErrors)
+      return candidateErrors.length === 0
+    })) {
+      errors.push({ path, message: '数组必须包含符合 contains 的元素' })
+    }
   }
 
   if (value !== null && typeof value === 'object' && !Array.isArray(value)) {

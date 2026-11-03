@@ -1,0 +1,85 @@
+{
+  "id": "video-creation",
+  "name": "视频创作",
+  "type": "native-app",
+  "version": "0.3.0",
+  "author": "desirecore-agent",
+  "description": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。",
+  "shortDesc": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。",
+  "fullDesc": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。 复用OpenFilm渲染与编辑内核，支持HTML/SVG/Canvas/WebGL自主场景、时间窗总览、多尺寸与修订对照。需单独准备Node.js、pnpm、浏览器和FFmpeg；可选生成服务的许可、账户与费用另计。安装前检查app-authoring-v1的release/runtime-binding能力；目录来源或端口声明不等于已安装、已授权或当前在线。",
+  "tags": [
+    "video",
+    "motion",
+    "editing",
+    "visual-review"
+  ],
+  "icon": "film",
+  "iconLetter": "影",
+  "platformSupport": [
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "category": "tools",
+  "githubUrl": "https://github.com/desirecore-agent/video-creation",
+  "requiredClientVersion": "10.0.186",
+  "install": {
+    "method": "native-node",
+    "requirements": {
+      "docker": false,
+      "node": ">=22.18",
+      "minMemory": "未声明固定最低值；渲染开销随影片内容和尺寸变化。",
+      "minDisk": "未声明固定最低值；需按浏览器、依赖、素材和输出实际空间核对。",
+      "ports": [
+        6390
+      ]
+    },
+    "configNeeded": [
+      "pnpm 9.15.9、浏览器与FFmpeg运行依赖；不包含模型额度或付费媒体服务。",
+      "本目录安装约定管理端口6390、只读影片端口6391；这是可调安装约定，源码CLI默认port0。若占用，可由原owner选择可用连续端口，以正式运行回执记录实际端口。",
+      "支持app-authoring-v1的release/runtime-binding能力；先检查公开capabilities，缺失时停止并报告需要升级。"
+    ]
+  },
+  "placementPolicy": {
+    "showInMyApps": true,
+    "allowNavPin": true,
+    "allowAgentBinding": true
+  },
+  "source": {
+    "kind": "git",
+    "url": "https://github.com/desirecore-agent/video-creation.git",
+    "ref": "f44e7f53ba928b77ce30db843a1d17d6c3163d52"
+  },
+  "stewardship": "pointer",
+  "availability": "installable",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "listingMaintainer": {
+    "name": "DesireCore Registry maintainers",
+    "url": "https://github.com/desirecore/registry"
+  },
+  "upstreamMaintainer": {
+    "name": "desirecore-agent",
+    "url": "https://github.com/desirecore-agent/video-creation"
+  },
+  "branding": {
+    "relationship": "independent-listing",
+    "nameUsage": "nominative",
+    "logoStatus": "not-used"
+  },
+  "compliance": {
+    "licenseEvidencePath": "LICENSE",
+    "noticePath": "THIRD_PARTY_NOTICES.md",
+    "reviewedRef": "f44e7f53ba928b77ce30db843a1d17d6c3163d52",
+    "reviewedAt": "2026-10-25",
+    "reviewedBy": "repository-and-runtime-validation (see review.md)",
+    "upstreamEndorsed": false
+  },
+  "entrypoints": [
+    {
+      "id": "manage",
+      "name": "委派Agent安装、打开与维护视频创作",
+      "kind": "agent"
+    }
+  ]
+}
