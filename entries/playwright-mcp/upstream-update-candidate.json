@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "entryId": "playwright-mcp",
+  "listedVersion": "0.0.68",
+  "observedVersion": "0.0.84",
+  "metadataUrl": "https://registry.npmjs.org/@playwright/mcp/latest",
+  "reason": "旧版本缺少完整准入与固定制品审核证据",
+  "reviewPassed": false,
+  "findings": {},
+  "note": "仅候选说明，不修改当前 manifest、sidecar、审核结论或安装状态。"
+}
