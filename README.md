@@ -15,6 +15,7 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 ├── schemas/               # legacy entry、仓库 manifest 与 catalog sidecar Schema
 ├── scripts/               # Registry v4 校验入口与回归测试
 ├── scripts/catalog/       # 零依赖离线 validator 与 node:test
+├── fixtures/authoring/    # 合成的作者契约样本（listing-only，不进入正式目录）
 ├── entries/               # 🔑 所有注册表条目（统一格式）
 │   ├── n8n/               # 示例：Docker 应用
 │   │   ├── manifest.json  # 条目元数据（必需）
@@ -86,6 +87,18 @@ English: Plugins are App products with host contributions, sharing the canonical
 
 English: The published root format and global 4.2 Schema remain unchanged. Both validators select the separate reviewed authoring Schema only for `web-bundle` or an explicit `appRelease`; ordinary listings retain their existing Schema. Inline definitions use `definitionSource: manifest`, while legacy payload definitions use `definitionPath`, exclusively. Fixed source commits, the downloaded archive SHA-256 and the canonical release digest are separate identities. Validation does not establish client support, source trust, installation, authorization or runtime ownership.
 
+作者 Schema 保留全部 4.2 旧分支，新增 `web-bundle` 与带 `appRelease` 的 `native-app`/`docker-app` 严格分支；其字节由主仓生成并固定，SHA-256 为 `95afcffce0c985215685554ec8b3f5e3012036bf2c4ecc4214c23e4eff895b10`，修改须先更新主仓并经 review。网页包不冒充无执行声明 artifact；宿主/容器服务应用的运行知识与依赖在固定清单中，不限定 Node 技术栈，也不自动执行说明文字。Docker 显式声明固定 `imageRefs`，每项是 `repository@sha256`，复用原容器/执行/服务 owner；没有真实身份 adapter 时保留 Agent 管理，不因为 Schema 合法声称直开。descriptor 在安装时按来源物化并单独核验。最低版本字符串不能代替握手，旧客户端继续读取旧条目并忽略未知类型，不允许改交付类型绕过。
+
+根 `SCHEMA_VERSION` 与 global Schema 升级到 4.3 须另提 PR，并等待兼容客户端实际发行验收；知识正式启用及 seed 交付同样须等待该验收。每一步取实际提交/发行/目录回执，不把未合入 commit 固定成官方 seed。
+
+`fixtures/authoring/` 只有合成的 listing-only 契约样本，不进入 `entries/` 或目录统计；example.test 地址不是可获取的应用发行物，不表示上传、审核、运行或第二用户安装已完成。
+
+作者从同一固定导出生成 manifest.json、catalog-metadata.v1.json、install.md 三文件，产品 ID/版本/入口保持一致。证据不足保持 listing-only；installable 需真实来源、许可和审核记录。用户实例/数据/平台 secret/开发机路径不写目录。目录 PR、来源上传、准入和安装各自核验；同版本异内容创建新修订，目录更新不热替换已安装快照，撤回不自动卸载或删除数据。
+
+GitHub/Gitea 私有来源依真实 ACL 和连接；客户端 private 来源不走公开镜像回退，认证失败拒绝新获取。团队移除不自动改来源 ACL，需实际源管理员处理；已下载字节不能收回。离线已安装应用按保存事实维护，不把目录缓存当新安装的完整运行环境。
+
+English: The authoring Schema preserves legacy branches and adds strict web-bundle and authored native/Docker release branches; its bytes are generated and pinned by the main repository. Upgrading the root format to 4.3 takes a separate PR after a compatible client release is accepted. Synthetic listing-only fixtures under `fixtures/authoring/` are not published artifacts and stay out of the catalog and its statistics. Private-source access depends on actual Git ACL; team membership does not automatically revoke source access, and catalog withdrawal does not delete installed data.
+
 ## 条目格式
 
 每个条目是 `entries/<id>/` 下的一个目录，目录名即条目 ID。
@@ -100,7 +113,7 @@ English: The published root format and global 4.2 Schema remain unchanged. Both 
 |------|------|------|------|
 | `id` | string | ✅ | 唯一标识，与目录名一致 |
 | `name` | string | ✅ | 显示名称 |
-| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `artifact` / `mcp` / `http-api` / `external-integration` |
+| `type` | string | ✅ | 条目类型：`native-app` / `docker-app` / `artifact` / `web-bundle` / `mcp` / `http-api` / `external-integration` |
 | `version` | string | ✅ | 上游原始版本字符串；可为 SemVer、CalVer 或不透明版本 |
 | `description` | string | ✅ | 一行功能摘要 |
 | `author` | string | | 作者或组织 |

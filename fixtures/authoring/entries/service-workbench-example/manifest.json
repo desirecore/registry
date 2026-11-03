@@ -1,0 +1,65 @@
+{
+  "id": "service-workbench-example",
+  "name": "服务工作台示例",
+  "type": "native-app",
+  "productKind": "application",
+  "version": "1.0.0",
+  "author": "Example Author",
+  "description": "仅用于契约核验的合成工作台材料。",
+  "tags": [
+    "workbench",
+    "example"
+  ],
+  "icon": "AppWindow",
+  "iconLetter": "服",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "category": "tools",
+  "shortDesc": "仅用于契约核验的合成工作台材料。",
+  "fullDesc": "仅用于契约核验的合成工作台材料。",
+  "install": {
+    "method": "release",
+    "requirements": {
+      "docker": false,
+      "ports": []
+    }
+  },
+  "appRelease": {
+    "schemaVersion": 1,
+    "releaseDigest": "73393f784bede68657be54fdfcbb9dcb083a5a15f8e272d01dce453152cc966f",
+    "manifestPath": "app-release.json",
+    "definitionPath": "application.json",
+    "requiredCapabilities": [
+      "app-authoring-v1",
+      "release",
+      "runtime-binding"
+    ]
+  },
+  "source": {
+    "kind": "release",
+    "url": "https://git.example.test/examples/releases/download/1.0.0/workbench.zip",
+    "ref": "1111111111111111111111111111111111111111",
+    "sha256": "ed9b876d3162d09d5d7264cf552079d44e8a17d14665a00fb97bffb94c121284"
+  },
+  "requiredClientVersion": "10.0.180",
+  "entrypoints": [
+    {
+      "id": "main",
+      "name": "工作台",
+      "kind": "embedded-web",
+      "serviceRef": "workbench:main"
+    }
+  ],
+  "placementPolicy": {
+    "showInMyApps": true,
+    "allowNavPin": true,
+    "allowAgentBinding": true
+  },
+  "stewardship": "community",
+  "availability": "listing-only",
+  "license": "MIT",
+  "redistribution": "verify-package-terms"
+}

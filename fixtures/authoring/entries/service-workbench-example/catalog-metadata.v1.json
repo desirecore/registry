@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "app",
+    "id": "service-workbench-example"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "服务工作台示例",
+        "summary": "仅用于契约核验的合成工作台材料。",
+        "description": "仅用于契约核验的合成工作台材料。"
+      }
+    },
+    "tags": [
+      "workbench",
+      "example"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "unknown"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "release",
+      "url": "https://git.example.test/examples/releases/download/1.0.0/workbench.zip",
+      "ref": "1111111111111111111111111111111111111111",
+      "sha256": "ed9b876d3162d09d5d7264cf552079d44e8a17d14665a00fb97bffb94c121284"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT"
+    },
+    "redistribution": "verify-package-terms"
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.180"
+  },
+  "spec": {
+    "kind": "app",
+    "category": "tools",
+    "productKind": "application",
+    "entrypointKinds": [
+      "embedded-web"
+    ],
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": true
+    }
+  }
+}

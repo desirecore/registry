@@ -26,6 +26,9 @@ export function validateApplicationContract(manifest) {
       if (url.protocol !== 'https:' || url.username || url.password || url.hash || url.search) errors.push('source: credential-free fixed HTTPS URL required')
     } catch { errors.push('source: invalid URL') }
     if (source?.kind === 'git' && (typeof source.path !== 'string' || !isPortablePath(source.path))) errors.push('source: git archive path must be canonical and relative')
+    // 内联定义不声明 definitionPath；声明时才要求规范相对路径。
+    const definitionPath = manifest.appRelease?.definitionPath
+    if (definitionPath !== undefined && (typeof definitionPath !== 'string' || !isPortablePath(definitionPath))) errors.push('appRelease: definitionPath must be canonical and relative')
   }
   const ids = new Set()
   for (const entrypoint of Array.isArray(manifest.entrypoints) ? manifest.entrypoints : []) {

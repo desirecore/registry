@@ -249,6 +249,7 @@ export function validateRegistry(repoRoot, options = {}) {
     if (entry.type === 'docker-app') counts.dockerApps += 1
     if (entry.type === 'native-app') counts.nativeApps = (counts.nativeApps ?? 0) + 1
     if (entry.type === 'artifact') counts.artifactApps = (counts.artifactApps ?? 0) + 1
+    if (entry.type === 'web-bundle') counts.webBundles = (counts.webBundles ?? 0) + 1
     if (entry.type === 'mcp') counts.mcpServices += 1
     if (entry.type === 'http-api') counts.httpApis += 1
     if (entry.type === 'external-integration') counts.externalIntegrations += 1
@@ -284,8 +285,8 @@ export function validateRegistry(repoRoot, options = {}) {
   }
 
   if (rootManifest?.stats) {
-    for (const key of ['totalEntries', 'dockerApps', 'nativeApps', 'artifactApps', 'mcpServices', 'httpApis', 'externalIntegrations']) {
-      if (['nativeApps', 'artifactApps'].includes(key) && rootManifest.stats[key] === undefined && !counts[key]) continue
+    for (const key of ['totalEntries', 'dockerApps', 'nativeApps', 'artifactApps', 'webBundles', 'mcpServices', 'httpApis', 'externalIntegrations']) {
+      if (['nativeApps', 'artifactApps', 'webBundles'].includes(key) && rootManifest.stats[key] === undefined && !counts[key]) continue
       if (rootManifest.stats[key] === undefined && key === 'externalIntegrations' && counts[key] === 0) continue
       if (rootManifest.stats[key] !== (counts[key] ?? 0)) diagnostics.push(diagnostic('error', 'stats-mismatch', 'manifest.json', `$.stats.${key}`, `声明 ${rootManifest.stats[key]}，实际 ${counts[key] ?? 0}`))
     }

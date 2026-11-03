@@ -28,7 +28,7 @@ function fixture(type = 'native-app') {
   cpSync(join(source, 'schemas'), join(root, 'schemas'), { recursive: true })
   cpSync(join(source, 'entries/desirecore-control'), join(root, 'entries/desirecore-control'), { recursive: true })
   const manifest = JSON.parse(readFileSync(join(source, 'manifest.json'), 'utf8'))
-  manifest.stats = { totalEntries: 1, dockerApps: 0, nativeApps: type === 'native-app' ? 1 : 0, mcpServices: 0, httpApis: 0, externalIntegrations: 0 }
+  manifest.stats = { totalEntries: 1, dockerApps: 0, nativeApps: type === 'native-app' ? 1 : 0, ...(type === 'web-bundle' ? { webBundles: 1 } : {}), mcpServices: 0, httpApis: 0, externalIntegrations: 0 }
   writeFileSync(join(root, 'manifest.json'), JSON.stringify(manifest))
   writeFileSync(join(root, 'SCHEMA_VERSION'), manifest.version + '\n')
   // 测试 release 引用仅用于校验分支；不代表线上 Control 已发布此 release。

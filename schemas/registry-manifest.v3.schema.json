@@ -23,6 +23,7 @@
         "dockerApps": { "type": "integer", "minimum": 0 },
         "nativeApps": { "type": "integer", "minimum": 0 },
         "artifactApps": { "type": "integer", "minimum": 0, "description": "纯声明制品的 App 条目数，包括插件；不是安装数。" },
+        "webBundles": { "type": "integer", "minimum": 0, "description": "固定网页包App条目数；不是安装数或验证成功数量。" },
         "mcpServices": { "type": "integer", "minimum": 0 },
         "httpApis": { "type": "integer", "minimum": 0 },
         "externalIntegrations": { "type": "integer", "minimum": 0 }
