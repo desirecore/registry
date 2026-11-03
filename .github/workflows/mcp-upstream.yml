@@ -1,0 +1,39 @@
+name: MCP Upstream Updates
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: mcp-upstream-updates
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.repository == 'desirecore/registry'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: 核验更新边界
+        run: |
+          python3 scripts/upstream/test_mcp_updates.py
+          python3 scripts/upstream/test_propose_mcp_updates.py
+          node --test scripts/catalog/automated-mcp-review.test.mjs
+      - name: 检查并提交 MCP 新版候选
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/upstream/propose_mcp_updates.py --publish --limit 5 --report mcp-upstream-report.json
+      - name: 展示全部 MCP 条目的更新状态与阻碍
+        if: always()
+        run: |
+          if [ -f mcp-upstream-report.md ]; then cat mcp-upstream-report.md >> "$GITHUB_STEP_SUMMARY"; else echo 'MCP 来源检查未完成。' >> "$GITHUB_STEP_SUMMARY"; fi

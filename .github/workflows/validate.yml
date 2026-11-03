@@ -23,6 +23,10 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Validate MCP update boundaries
+        run: |
+          python3 scripts/upstream/test_mcp_updates.py
+          python3 scripts/upstream/test_propose_mcp_updates.py
       - name: Validate Registry v4
         run: npm test
       - name: Run validator tests
