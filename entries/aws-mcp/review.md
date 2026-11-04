@@ -1,10 +1,31 @@
 # AWS MCP 收录核验 / Listing review
 
-审核日期：2026-10-25；收录维护者：mashagua。独立 community 条目，维护者不标为 verified，`upstreamEndorsed=false`。AWS 名称仅用于指称来源，使用通用 cloud 图标，不复制 AWS 标志。`installable` 表示符合目录来源和治理条件，不等于已安装、连接就绪、账户已授权或通过安全认证。
+初次收录审核：2026-10-25（1.7.0，mashagua）；1.8.0 升级复核：2026-11-04（yi-ge）。收录维护者：mashagua。独立 community 条目，维护者不标为 verified，`upstreamEndorsed=false`。AWS 名称仅用于指称来源，使用通用 cloud 图标，不复制 AWS 标志。`installable` 表示符合目录来源和治理条件，不等于已安装、连接就绪、账户已授权或通过安全认证。
 
-Reviewed on 2026-10-25 by mashagua. Independent community listing, unverified maintainers, no upstream endorsement, nominative naming and a generic icon. Installable catalog evidence is not installation, readiness, account permission or software safety certification.
+Initially reviewed on 2026-10-25 (1.7.0) by mashagua; the 1.8.0 update was re-reviewed on 2026-11-04 by yi-ge. Independent community listing, unverified maintainers, no upstream endorsement, nominative naming and a generic icon. Installable catalog evidence is not installation, readiness, account permission or software safety certification.
 
-## 制品与许可 / Artifacts and license
+## 1.8.0 升级复核 / 1.8.0 update review (2026-11-04)
+
+| 项目 / Item | 证据 / Evidence |
+| --- | --- |
+| CLI 发行包 / CLI distribution | [PyPI 1.8.0 元数据](https://pypi.org/pypi/mcp-proxy-for-aws-cli/1.8.0/json) |
+| CLI wheel | [固定下载 / fixed download](https://files.pythonhosted.org/packages/e6/a5/ea0c7aaf2df02a84bfd365a1b7449814da5c33c81dbaef9ada3d77b82bd9/mcp_proxy_for_aws_cli-1.8.0-py3-none-any.whl) |
+| CLI wheel SHA-256 | `aa0db82cfdcb0ed1c1e94b6fc7de6d8f2b2e8537a9d8ba489901fbae5363326e`，7301 字节 / bytes |
+| CLI 上传时间 / uploaded | `2026-11-03T17:46:35.135595Z`；sidecar 以秒精度保存 |
+| 实现包 / implementation | [PyPI 1.8.0 元数据](https://pypi.org/pypi/mcp-proxy-for-aws/1.8.0/json) |
+| 实现 wheel / implementation wheel | [固定下载 / fixed download](https://files.pythonhosted.org/packages/a4/cb/72a0cf893c313cd3098c97a0cac87dc75b5c71a9cd8d9f1f12a9776ca799/mcp_proxy_for_aws-1.8.0-py3-none-any.whl) |
+| 实现 wheel SHA-256 | `a9dec447aaea7b3b1563b3bc5bb412bb72768dd82c9a41c0ba7194786e554b27`，46684 字节 / bytes |
+| 上游发布代码 / release source | tag `v1.8.0`，提交 [`a5dd25e0ad99d0d874f2b779435b12b10932eae7`](https://github.com/aws/mcp-proxy-for-aws/tree/a5dd25e0ad99d0d874f2b779435b12b10932eae7) |
+
+- 两个 wheel 均从 PyPI 实际下载，核对发布摘要与大小；只按 ZIP 读取，未导入或执行。实现包 `mcp_proxy_for_aws/` 全部源文件与 v1.8.0 发布提交逐字节相同；CLI 包仍只有元数据，entry point 不变（`mcp-proxy-for-aws-cli = mcp_proxy_for_aws.server:main`）。
+- 两个包 dist-info 中的 LICENSE、NOTICE 与发布提交根目录文件逐字节相同，内容也与 1.7.0 相同（SHA-256 分别为 `09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b`、`6402dc36cc1b754d7971a80232af8804f8ed113a6ee895323f431bc289e957c8`），许可证仍为 Apache-2.0。证据路径随 dist-info 目录名改为 `mcp_proxy_for_aws_cli-1.8.0.dist-info/licenses/`。
+- `Requires-Python` 由 `>=3.10,<3.15` 改为 `>=3.11,<3.15`，分类器去掉 3.10。CLI 运行依赖由 84 条变为 83 条，仍全部是精确版本：去掉仅用于 Python 3.10 的 `tomli`，更新 `anyio` 4.14.2、`authlib` 1.9.1、`certifi` 2026.10.23、`dnspython` 2.9.1、`fastmcp` / `fastmcp-slim` 3.4.11、`joserfc` 1.7.6、`mcp` 1.30.0、`mcp-proxy-for-aws` 1.8.0、`opentelemetry-api` 1.45.2、`packaging` 26.3、`pyjwt` 2.15.1、`typing-extensions` 4.16.0、`urllib3` 2.8.0。与 1.7.0 一样，没有逐个审核这些依赖的全部平台制品、签名或供应链证明。
+- 实现代码有三处变化：只读过滤在远端无法解析工具时返回错误，提示无法核实只读注解，不再误报为只读拒绝；`initialize` 时把宿主客户端声明的 `experimental` 与扩展能力转发给远端；SigV4 传输要求 HTTPS 端点，仅本机回环地址允许 HTTP。`cli.py` 未变，本条目使用的 `--read-only`、`--disable-telemetry`、`--metadata` 及默认端点继续适用。
+- 本轮没有运行 1.8.0，也没有重新做握手、工具发现或 DesireCore 客户端验收；下文的 macOS 补测针对 1.7.0，不能视为 1.8.0 已运行验收。
+
+Both 1.8.0 wheels were downloaded from PyPI, matched their published digests and sizes, and were read as ZIP data without import or execution. The implementation sources are byte-identical to the v1.8.0 release commit, and the CLI wrapper remains metadata-only with an unchanged entry point. LICENSE and NOTICE are byte-identical to the release commit and unchanged from 1.7.0 (Apache-2.0); only the dist-info evidence paths moved. Python 3.10 is no longer supported. The wrapper now declares 83 exact-version requirements (tomli removed; the listed dependency bumps). Code changes cover a retryable error for unresolved tools in read-only mode, forwarding of host experimental/extension capabilities during `initialize`, and enforced HTTPS endpoints except for loopback. The launch flags used by this entry are unchanged. 1.8.0 was not executed; the macOS runtime acceptance below applies to 1.7.0 only.
+
+## 制品与许可（1.7.0 初次收录）/ Artifacts and license (initial 1.7.0 listing)
 
 | 项目 / Item | 证据 / Evidence |
 | --- | --- |
@@ -57,7 +78,7 @@ The release supports the declared flags, but no generic --version option. Read-o
 
 Official service documentation was checked on the review date, but does not pin the managed backend. No additional toolkit/MCP fee does not make all resource usage free. Account/organization terms, regions, quotas, data handling and authorization remain prerequisites.
 
-## macOS 补测 / macOS runtime acceptance (2026-10-25)
+## macOS 补测（1.7.0）/ macOS runtime acceptance for 1.7.0 (2026-10-25)
 
 - 在独立 Python 3.12.13、uv 0.11.2 环境使用本条目的真实 uvx 定义；两份 wheel 仍按 URL 与 SHA-256 固定，实际安装 76 个符合本平台条件的包。
 - 显式空 AWS config/credentials、空登录缓存、禁用 IMDS，子进程环境采用白名单；没有读取真实 AWS 凭据或登录账户。

@@ -12,9 +12,9 @@ Read installation and review notes first. This is a proxy to a managed service, 
   "command": "uvx",
   "args": [
     "--from",
-    "mcp-proxy-for-aws-cli @ https://files.pythonhosted.org/packages/5d/ec/2faa62a1c8186966d73b4d3069d7098f08e1891b2f5141dd7bcf135c3561/mcp_proxy_for_aws_cli-1.7.0-py3-none-any.whl#sha256=75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e",
+    "mcp-proxy-for-aws-cli @ https://files.pythonhosted.org/packages/e6/a5/ea0c7aaf2df02a84bfd365a1b7449814da5c33c81dbaef9ada3d77b82bd9/mcp_proxy_for_aws_cli-1.8.0-py3-none-any.whl#sha256=aa0db82cfdcb0ed1c1e94b6fc7de6d8f2b2e8537a9d8ba489901fbae5363326e",
     "--with",
-    "mcp-proxy-for-aws @ https://files.pythonhosted.org/packages/73/df/04a7dba8d3ed744daff2783b220e9239969f0e0714266c52f0ced8d4ebf2/mcp_proxy_for_aws-1.7.0-py3-none-any.whl#sha256=d7e6c8f45ef89303cb48822e25f91c0234bb28ee987ebb56615cd16a5d044a1b",
+    "mcp-proxy-for-aws @ https://files.pythonhosted.org/packages/a4/cb/72a0cf893c313cd3098c97a0cac87dc75b5c71a9cd8d9f1f12a9776ca799/mcp_proxy_for_aws-1.8.0-py3-none-any.whl#sha256=a9dec447aaea7b3b1563b3bc5bb412bb72768dd82c9a41c0ba7194786e554b27",
     "mcp-proxy-for-aws-cli",
     "https://aws-mcp.us-east-1.api.aws/mcp",
     "--read-only",
@@ -39,9 +39,10 @@ Local stdio does not require an API key field, but the upstream request is SigV4
 - `--read-only` 依据远端的 `readOnlyHint=true` 展示工具并限制相应调用；未标注、可写或混合 API 工具可能被排除。读操作也可能产生资源或服务费用。此模式不能代替 IAM 最小权限和宿主工具审批，不是对远端工具实现的安全证明。
 - 默认不传 `--skip-auth`。AWS 支持公开文档查询以及另一套直接 OAuth 接入，但这不等于本条目无需凭据即可操作账户，也不意味着本轮验收了 OAuth。仅当用户明确选择其他方案并完成客户端兼容性检查后，才在私有配置中调整，不静默降级。
 - 远端工具清单会变化，需实际 `initialize`、`notifications/initialized` 和 `tools/list`（含分页）后才能得知本次能力。进程启动、工具被列出、IAM 允许和业务执行成功分别验证；不要把某一步成功泛化成全部成功。
+- 1.8.0 的行为变化：只读模式下远端无法解析某个工具（例如被限流）时，返回“无法核实只读注解”的错误供重试，不再当作只读拒绝；`initialize` 时把宿主客户端声明的 `experimental` 与扩展能力一并转发给远端；端点必须是 HTTPS，只有 `localhost` / `127.0.0.1` / `::1` 允许 HTTP。
 - `--disable-telemetry` 关闭代理的可选遥测，不会关闭到 AWS 的 HTTPS、认证、请求参数传输或 AWS 审计日志。CloudTrail/CloudWatch 等实际采集、保留和费用按账户配置与服务要求核对。
 
-The endpoint Region and operational default Region are distinct. Confirm both rather than guessing from host location. Read-only annotation filtering may exclude mixed-operation tools and does not replace IAM, host consent or cost review. Anonymous documentation and direct OAuth are separate flows, not implicit fallbacks. Discover actual capabilities after initialization and paginated tool listing. Process startup, tool discovery, permission and task success are separate checks. Disabling optional proxy telemetry does not disable AWS traffic, authentication or audit logging.
+The endpoint Region and operational default Region are distinct. Confirm both rather than guessing from host location. Read-only annotation filtering may exclude mixed-operation tools and does not replace IAM, host consent or cost review. Anonymous documentation and direct OAuth are separate flows, not implicit fallbacks. Discover actual capabilities after initialization and paginated tool listing. Process startup, tool discovery, permission and task success are separate checks. In 1.8.0, an unresolved upstream tool lookup under read-only mode returns a retryable error instead of a read-only denial, the host client’s experimental and extension capabilities are forwarded in `initialize`, and endpoints must use HTTPS except for localhost. Disabling optional proxy telemetry does not disable AWS traffic, authentication or audit logging.
 
 ## 可提出的需求示例 / Example requests
 
@@ -67,6 +68,6 @@ The Apache-2.0 proxy license does not license AWS or other services. AWS documen
 
 Request parameters and business content can reach AWS and configured logs; the host model’s data boundary also applies. Operate only on authorized accounts/data. Never publish credentials, private account/resource identifiers, business data or raw logs in the catalog, PR or screenshots. AWS agreements, organizational terms and dependency licenses remain applicable.
 
-本次未执行上游代码、读取 AWS 凭据、登录、真实握手或业务工具调用，也未做 DesireCore GUI/跨平台验收。来源与目录核验记录见 [review.md](review.md)；不能把这些记录当作你的连接或业务已验证。
+升级到 1.8.0 的复核未执行上游代码、读取 AWS 凭据、登录、真实握手或业务工具调用，也未做 DesireCore GUI/跨平台验收；此前固定的 1.7.0 的 macOS 运行补测与来源核验记录见 [review.md](review.md)；不能把这些记录当作你的连接或业务已验证。
 
-This listing review did not execute upstream code, read credentials, sign in, perform a live handshake/tool call or test DesireCore GUI/cross-platform functionality. Catalog evidence does not establish readiness for your connection or task.
+The 1.8.0 update review did not execute upstream code, read credentials, sign in, perform a live handshake/tool call or test DesireCore GUI/cross-platform functionality; the earlier macOS runtime acceptance of 1.7.0 is recorded in review.md. Catalog evidence does not establish readiness for your connection or task.
