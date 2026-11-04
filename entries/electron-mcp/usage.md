@@ -21,7 +21,7 @@
 ## 连接方式
 
 - **传输协议**：stdio
-- **启动命令**：`npx -y electron-mcp-server@1.5.0`
+- **启动命令**：`npx -y electron-mcp-server@1.5.1`
 
 ### 连接配置
 
@@ -29,7 +29,7 @@
 {
   "transport": "stdio",
   "command": "npx",
-  "args": ["-y", "electron-mcp-server@1.5.0"],
+  "args": ["-y", "electron-mcp-server@1.5.1"],
   "env": {
     "SCREENSHOT_ENCRYPTION_KEY": "{{secrets.SCREENSHOT_ENCRYPTION_KEY}}"
   }
@@ -80,7 +80,7 @@
 
 ### 1. 端口不可配置，超出扫描范围就完全连不上
 
-v1.5.0 硬编码扫描 `9222-9225`、`9200-9205`、`9300-9305`、`9400-9405`，**不读任何环境变量**。
+v1.5.1 硬编码扫描 `9222-9225`、`9200-9205`、`9300-9305`、`9400-9405`，**不读任何环境变量**。
 应用若把调试端口自动分配到列表外（多实例并行开发时很常见），MCP 会直接报「未找到运行中的
 Electron 应用」。此时只能改用直连 CDP（见第 5 条）。
 
@@ -98,8 +98,10 @@ Electron 应用」。此时只能改用直连 CDP（见第 5 条）。
 
 ### 3. `eval` 被安全策略静默过滤（不是报错，是悄悄返回错值）
 
-v1.5.0 的安全级别**永远是 `balanced`**——运行代码里没有任何地方读取 `SECURITY_LEVEL`
-环境变量，配了也不生效。`balanced` 下：
+v1.5.1 起会读取 `SECURITY_LEVEL` 环境变量（`strict` / `balanced` / `permissive` / `development`），
+未设置或取值无效时为 `balanced`；1.5.0 不读取该变量，始终是 `balanced`。服务启动时还会加载当前工作目录
+下的 `.env`，其中的 `SECURITY_LEVEL` 同样生效。本条目的连接配置不设置该变量，因此默认仍按 `balanced`
+运行；`permissive` / `development` 会放行赋值和更多函数调用，改用前须经用户明确同意。`balanced` 下：
 
 - **赋值语句被禁**（`allowAssignments: false`）
 - 只放行白名单函数：`querySelector(All)`、`getElementById`、`getElementsBy*`、
