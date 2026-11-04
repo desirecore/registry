@@ -1,31 +1,31 @@
 # AWS MCP 安装 / Installation
 
-这是 AWS 托管 MCP 服务的 **SigV4 本地代理**入口，不是把 AWS 服务部署到本机。`1.7.0` 指 `mcp-proxy-for-aws-cli` 和 `mcp-proxy-for-aws` 的代理版本，远端服务不由此固定版本。配套 [AWS 技能合集 PR](https://github.com/desirecore/market/pull/226) 单独安装，不是本服务的硬依赖。
+这是 AWS 托管 MCP 服务的 **SigV4 本地代理**入口，不是把 AWS 服务部署到本机。`1.8.0` 指 `mcp-proxy-for-aws-cli` 和 `mcp-proxy-for-aws` 的代理版本，远端服务不由此固定版本。配套 [AWS 技能合集 PR](https://github.com/desirecore/market/pull/226) 单独安装，不是本服务的硬依赖。
 
-This entry connects to the managed AWS MCP Server through a local SigV4 proxy. Version `1.7.0` identifies the two proxy distributions, not the remote service. The companion skill collection is optional and acquired separately.
+This entry connects to the managed AWS MCP Server through a local SigV4 proxy. Version `1.8.0` identifies the two proxy distributions, not the remote service. The companion skill collection is optional and acquired separately.
 
 ## 安装前确认 / Before installation
 
-- 自行准备 Python `>=3.10,<3.15`、uv/uvx 和兼容 stdio 的 DesireCore 客户端；首次获取依赖需要访问 PyPI 与 files.pythonhosted.org，运行需要访问选定 AWS HTTPS 端点。不要自动升级 Python、uv 或客户端。
+- 自行准备 Python `>=3.11,<3.15`（1.8.0 起不再支持 3.10）、uv/uvx 和兼容 stdio 的 DesireCore 客户端；首次获取依赖需要访问 PyPI 与 files.pythonhosted.org，运行需要访问选定 AWS HTTPS 端点。不要自动升级 Python、uv 或客户端。
 - 请求用户在本机私有配置中选择 AWS 身份、Profile、账户与资源操作区域。优先使用现有 SSO/临时凭据和最小权限角色，不申请 root/AdministratorAccess，也不索取密钥、会话 token、凭据文件或完整身份输出到对话。已有凭据不代表用户授权此次使用。
 - 本条目不自动安装 AWS CLI 或发起登录。若用户选择 `aws login`，该流程另需 AWS CLI >=2.32.0；已有 SSO 流程无需因此更换。登录、刷新会话或附加 IAM 策略必须先取得相应授权，不能把命令写成隐含安装步骤。
 - 默认连接 `https://aws-mcp.us-east-1.api.aws/mcp`，资源操作默认区域通过 `AWS_REGION=us-east-1` 元数据明确指定。端点所在区域不等于资源所在区域；开始前说明并确认二者，按官方区域清单调整用户私有连接配置。
 - AWS 的直接远端 OAuth 接入是另一条方案；本条目不宣称已验证 DesireCore 的 AWS OAuth 联调，不在安装中改写其他客户端配置。
 
-Provide Python 3.10–3.14, uv/uvx, a compatible stdio host and network access. Have the user select the identity, profile, account and operational Region privately before using existing credentials. Prefer temporary/SSO credentials and least privilege; never request credential files or keys in chat. Do not automatically install/upgrade tools, sign in, refresh sessions, alter IAM or replace unrelated configurations. The optional `aws login` workflow requires AWS CLI >=2.32.0. Endpoint and operational Regions are distinct. Direct OAuth is not the selected or tested flow here.
+Provide Python 3.11–3.14 (1.8.0 dropped 3.10), uv/uvx, a compatible stdio host and network access. Have the user select the identity, profile, account and operational Region privately before using existing credentials. Prefer temporary/SSO credentials and least privilege; never request credential files or keys in chat. Do not automatically install/upgrade tools, sign in, refresh sessions, alter IAM or replace unrelated configurations. The optional `aws login` workflow requires AWS CLI >=2.32.0. Endpoint and operational Regions are distinct. Direct OAuth is not the selected or tested flow here.
 
 ## 固定制品 / Pinned artifacts
 
 | 发布包 / Distribution | 文件 / File | SHA-256 |
 | --- | --- | --- |
-| `mcp-proxy-for-aws-cli==1.7.0` | `mcp_proxy_for_aws_cli-1.7.0-py3-none-any.whl`（7321 字节 / bytes） | `75f990fc5cab688bba31b67fb6a01832b64f7f097c94503877012c6595f0836e` |
-| `mcp-proxy-for-aws==1.7.0` | `mcp_proxy_for_aws-1.7.0-py3-none-any.whl`（45971 字节 / bytes） | `d7e6c8f45ef89303cb48822e25f91c0234bb28ee987ebb56615cd16a5d044a1b` |
+| `mcp-proxy-for-aws-cli==1.8.0` | `mcp_proxy_for_aws_cli-1.8.0-py3-none-any.whl`（7301 字节 / bytes） | `aa0db82cfdcb0ed1c1e94b6fc7de6d8f2b2e8537a9d8ba489901fbae5363326e` |
+| `mcp-proxy-for-aws==1.8.0` | `mcp_proxy_for_aws-1.8.0-py3-none-any.whl`（46684 字节 / bytes） | `a9dec447aaea7b3b1563b3bc5bb412bb72768dd82c9a41c0ba7194786e554b27` |
 
 下载 URL 与带摘要的默认参数见 [usage.md](usage.md) 和 manifest；默认使用 `uvx --from <CLI wheel + hash> --with <implementation wheel + hash> mcp-proxy-for-aws-cli ...`。CLI 只是元数据包装包；`--with` 同时固定实际代码包，不能只校验包装包后就声称代码也已校验。
 
-`uvx` 在隔离的缓存环境中准备依赖，不是系统级安装。`#sha256=` 是交给 uv 的下载校验信息；摘要不匹配必须失败，不改用无摘要 URL、浮动版本或 `latest`。若宿主或 uv 不支持本条目参数，停止并报告兼容性问题，不静默改写受治理的定义。CLI 的其余 84 条运行依赖声明使用精确版本及条件标记；本记录没有逐个审核它们的所有平台制品或证明无漏洞。
+`uvx` 在隔离的缓存环境中准备依赖，不是系统级安装。`#sha256=` 是交给 uv 的下载校验信息；摘要不匹配必须失败，不改用无摘要 URL、浮动版本或 `latest`。若宿主或 uv 不支持本条目参数，停止并报告兼容性问题，不静默改写受治理的定义。CLI 的其余 83 条运行依赖声明使用精确版本及条件标记；本记录没有逐个审核它们的所有平台制品或证明无漏洞。
 
-The launch definition pins both the metadata-only CLI wrapper and actual implementation wheels by URL and SHA-256. uv prepares an isolated cached environment and checks the URL hashes. A mismatch or unsupported launch contract must stop installation, with no unhashed/latest fallback. The wrapper declares 84 exact-version runtime requirements with environment markers; this review is not a byte-level audit or vulnerability certification of all platform-specific dependency artifacts.
+The launch definition pins both the metadata-only CLI wrapper and actual implementation wheels by URL and SHA-256. uv prepares an isolated cached environment and checks the URL hashes. A mismatch or unsupported launch contract must stop installation, with no unhashed/latest fallback. The wrapper declares 83 exact-version runtime requirements with environment markers; this review is not a byte-level audit or vulnerability certification of all platform-specific dependency artifacts.
 
 ## 登记与连接验证 / Registration and verification
 
@@ -44,6 +44,6 @@ Use DesireCore’s governed service workflow with the exact source and snapshot.
 
 Updates require a fresh review of both artifacts, dependencies and launch compatibility. Removal stops this exact connection and handles only its owned records/environment. Preserve shared caches, other hosts, credentials and cloud resources; revocation and cloud cleanup require separate authorization.
 
-代理为 Apache-2.0；AWS 账户、API、资源及第三方依赖的条款与费用独立，详见 usage。**macOS 补测已运行固定代理，完成独立公开模式握手、工具发现和文档检索/读取，并检查 DesireCore 目录与接入入口；完整集成和账户业务不在这些通过项内，详见 review.md。**
+代理为 Apache-2.0；AWS 账户、API、资源及第三方依赖的条款与费用独立，详见 usage。**此前固定的 1.7.0 已在 macOS 补测中运行，完成独立公开模式握手、工具发现和文档检索/读取，并检查 DesireCore 目录与接入入口；1.8.0 只做了制品、许可与发布源码的静态复核，没有重新运行。完整集成和账户业务不在这些通过项内，详见 review.md。**
 
-The proxy is Apache-2.0; AWS and third-party terms/charges are separate. The macOS follow-up executed the pinned proxy for independent public-mode initialization, tool discovery and document search/read, and checked DesireCore catalog/task entry points. Complete client integration and AWS account operations are separate, unverified claims; see review.md.
+The proxy is Apache-2.0; AWS and third-party terms/charges are separate. The macOS follow-up executed the previously pinned 1.7.0 proxy for independent public-mode initialization, tool discovery and document search/read, and checked DesireCore catalog/task entry points. The 1.8.0 update was reviewed statically (artifacts, licenses and release source) and was not executed again. Complete client integration and AWS account operations are separate, unverified claims; see review.md.
