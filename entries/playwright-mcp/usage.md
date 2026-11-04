@@ -26,4 +26,7 @@
 - `pdf_generate`
 - `content_extract`
 
-共提供 **33** 个工具。
+0.0.84 的 README 共列出 **72** 个工具：默认启用核心自动化与标签页管理 25 个，其余 47 个需用 `--caps=` 开启（`config`、`network`、`storage`、`devtools`、`vision`、`pdf`、`testing`）。`pdf_generate` 对应的 `browser_pdf_save` 需要 `--caps=pdf`。
+
+与 0.0.68 相比：移除了 `browser_install`（浏览器需按 `install.md` 另行安装），`browser_run_code` 更名为 `browser_run_code_unsafe`；新增存储（Cookie、localStorage、sessionStorage）、网络路由、录制与追踪等可选工具。依赖的 Playwright 升级到 `1.65.0-alpha-2026-10-30`。
+
