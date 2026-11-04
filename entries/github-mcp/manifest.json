@@ -2,7 +2,7 @@
   "id": "github-mcp",
   "name": "GitHub MCP",
   "type": "mcp",
-  "version": "0.32.0",
+  "version": "2.0.3",
   "author": "GitHub",
   "description": "代码仓库操作，支持 PR、Issue、代码搜索和仓库管理",
   "tags": [
@@ -22,7 +22,7 @@
     "issue_manage",
     "code_search"
   ],
-  "toolCount": 51,
+  "toolCount": 93,
   "install": {
     "method": "docker",
     "packageName": "ghcr.io/github/github-mcp-server",
