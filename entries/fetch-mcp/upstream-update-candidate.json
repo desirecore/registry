@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "entryId": "fetch-mcp",
+  "listedVersion": "2026.10.28",
+  "observedVersion": "2026.11.4",
+  "metadataUrl": "https://pypi.org/pypi/mcp-server-fetch/json",
+  "reason": "旧版本缺少完整准入与固定制品审核证据",
+  "reviewPassed": false,
+  "findings": {},
+  "note": "仅候选说明，不修改当前 manifest、sidecar、审核结论或安装状态。"
+}
