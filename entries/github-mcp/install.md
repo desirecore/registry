@@ -21,7 +21,7 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=<your-token>
 docker pull ghcr.io/github/github-mcp-server
 ```
 
-连接配置没有固定镜像标签，拉取的是上游最新发行版（目录核对时为 2.0.3）。需要固定版本时可改用 `ghcr.io/github/github-mcp-server:v2.0.3`。
+连接配置没有固定镜像标签，拉取的是上游最新发行版（目录核对时为 2.1.0）。需要固定版本时可改用 `ghcr.io/github/github-mcp-server:v2.1.0`。
 
 ## 验证
 ```bash
