@@ -2,7 +2,7 @@
   "id": "rea-mcp",
   "name": "REA MCP",
   "type": "mcp",
-  "version": "6.4.0",
+  "version": "6.8.0",
   "author": "morluto",
   "description": "REA 逆向工程 MCP 服务：分析本地二进制、JavaScript、托管代码与浏览器；需兼容 Node.js，分析引擎按任务另行配置。",
   "tags": [
@@ -24,7 +24,7 @@
     "browser_inspection",
     "evidence_export"
   ],
-  "toolCount": 170,
+  "toolCount": 229,
   "install": {
     "method": "npx",
     "packageName": "rea-agents",
@@ -32,7 +32,7 @@
     "args": [
       "--yes",
       "--ignore-scripts",
-      "rea-agents@6.4.0",
+      "rea-agents@6.8.0",
       "--mcp"
     ]
   },
@@ -42,7 +42,7 @@
     "args": [
       "--yes",
       "--ignore-scripts",
-      "rea-agents@6.4.0",
+      "rea-agents@6.8.0",
       "--mcp"
     ]
   }
