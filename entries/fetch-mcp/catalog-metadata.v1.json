@@ -25,18 +25,18 @@
   },
   "release": {
     "state": "known",
-    "version": "2026.10.28",
+    "version": "2026.11.4",
     "versionScheme": "calver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-04",
+      "value": "2026-11-06",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-10-28T21:06:32Z",
+      "value": "2026-11-04T21:34:49Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -44,7 +44,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-04",
+      "value": "2026-11-06",
       "precision": "day"
     }
   },

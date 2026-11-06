@@ -2,7 +2,7 @@
   "id": "fetch-mcp",
   "name": "Fetch MCP",
   "type": "mcp",
-  "version": "2026.10.28",
+  "version": "2026.11.4",
   "author": "Anthropic",
   "description": "网页内容获取与转换，将网页转为 Markdown 供 LLM 使用",
   "tags": [
