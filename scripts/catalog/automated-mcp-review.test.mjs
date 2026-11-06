@@ -9,8 +9,13 @@ import { validateRegistry } from './validator.mjs'
 function fixture() {
   const manifest = JSON.parse(readFileSync(new URL('../../entries/rea-mcp/manifest.json', import.meta.url)))
   const catalog = JSON.parse(readFileSync(new URL('../../entries/rea-mcp/catalog-metadata.v1.json', import.meta.url)))
-  manifest.version = '6.5.0'
-  for (const config of [manifest.install, manifest.connection]) config.args = config.args.map(arg => arg.replace('rea-agents@6.4.0', 'rea-agents@6.5.0'))
+  // 从当前条目推导版本与证据路径，条目正常升级后夹具仍成立。
+  const previousVersion = manifest.version
+  const version = previousVersion.replace(/\d+$/, patch => String(Number(patch) + 1))
+  manifest.version = version
+  for (const config of [manifest.install, manifest.connection]) config.args = config.args.map(arg => arg === `rea-agents@${previousVersion}` ? `rea-agents@${version}` : arg)
+  const compliance = catalog.governance.compliance
+  const licenseEvidenceSha256 = Object.fromEntries([compliance.licenseEvidencePath, compliance.noticePath].filter(Boolean).map(path => [path, 'b'.repeat(64)]))
   catalog.release.version = manifest.version
   catalog.provenance.content.ref = manifest.version
   catalog.provenance.content.sha256 = 'a'.repeat(64)
@@ -19,7 +24,7 @@ function fixture() {
   catalog.governance.compliance.reviewedAt = '2026-10-31'
   catalog.timestamps.reviewedAt = { state: 'known', value: '2026-10-31', precision: 'day' }
   const checks = ['publishedIntegrity', 'previousCatalogDigest', 'boundedOrdinaryFiles', 'licenseAndNoticeUnchanged', 'structuredPrerequisitesUnchanged', 'pinnedLaunchSelectors']
-  const receipt = { schemaVersion: 1, reviewer: MCP_PACKAGE_REVIEWER, reviewedAt: '2026-10-31T08:00:00Z', entryId: 'rea-mcp', previousVersion: '6.4.0', version: '6.5.0', packageName: 'rea-agents', ecosystem: 'npm', sourceUrl: catalog.provenance.content.url, artifactUrl: 'https://registry.npmjs.org/rea-agents/-/rea-agents-6.5.0.tgz', contentSha256: 'a'.repeat(64), licenseEvidenceSha256: { LICENSE: 'b'.repeat(64) }, checks: Object.fromEntries(checks.map(key => [key, true])), limitations: ['Source verification only; no runtime/security acceptance'] }
+  const receipt = { schemaVersion: 1, reviewer: MCP_PACKAGE_REVIEWER, reviewedAt: '2026-10-31T08:00:00Z', entryId: 'rea-mcp', previousVersion, version, packageName: 'rea-agents', ecosystem: 'npm', sourceUrl: catalog.provenance.content.url, artifactUrl: `https://registry.npmjs.org/rea-agents/-/rea-agents-${version}.tgz`, contentSha256: 'a'.repeat(64), licenseEvidenceSha256, checks: Object.fromEntries(checks.map(key => [key, true])), limitations: ['Source verification only; no runtime/security acceptance'] }
   return { manifest, catalog, receipt }
 }
 

@@ -7,7 +7,7 @@
   "mcpServers": {
     "rea-mcp": {
       "command": "npx",
-      "args": ["--yes", "--ignore-scripts", "rea-agents@6.4.0", "--mcp"]
+      "args": ["--yes", "--ignore-scripts", "rea-agents@6.8.0", "--mcp"]
     }
   }
 }
@@ -17,9 +17,9 @@
 
 This is a common MCP host configuration example; use the actual host's configuration contract and preserve existing connections. In DesireCore, use its service installation/connection flow. A verified local copy can use absolute launch paths as described in [install.md](install.md).
 
-本地 stdio 连接本身不要求 API key，`authType: none` 不代表绕过宿主的工具授权、系统权限或第三方服务认证。先完成 `initialize`、`notifications/initialized`、`tools/list`；有分页则读取全部页。本轮无目标启动返回服务 `rea`、版本 `6.4.0` 和 170 项工具，正常断开后进程退出。
+本地 stdio 连接本身不要求 API key，`authType: none` 不代表绕过宿主的工具授权、系统权限或第三方服务认证。先完成 `initialize`、`notifications/initialized`、`tools/list`；有分页则读取全部页。6.4.0 的无目标启动曾返回服务 `rea` 和 170 项工具，正常断开后进程退出；6.8.0 包内记录的目录为 229 项工具和 6 个提示词，本次未运行。
 
-Local stdio requires no API key of its own. This does not bypass host consent, OS permissions or provider authentication. Initialize, send the initialized notification, and list tools, including pagination. The target-free macOS check observed server `rea`, version `6.4.0`, and 170 tools, followed by a clean shutdown.
+Local stdio requires no API key of its own. This does not bypass host consent, OS permissions or provider authentication. Initialize, send the initialized notification, and list tools, including pagination. An earlier target-free macOS check of 6.4.0 observed server `rea` and 170 tools with a clean shutdown; the 6.8.0 package records 229 tools and 6 prompts, and 6.8.0 was not executed.
 
 ## 使用边界 / Workflow boundaries
 
@@ -31,9 +31,9 @@ Local stdio requires no API key of its own. This does not bypass host consent, O
 
 Examples of requests, not automatic actions: inspect an authorized JavaScript project with evidence and unknowns; inspect a supplied binary with an already configured Ghidra provider without executing it; or explain the debug endpoint and data scope before observing an authorized browser page.
 
-每次根据目标与任务检查依赖。服务包不会提供全部分析引擎；工具列表也不保证某个工具在当前主机可执行。Hopper、Ghidra、IDA、JEB、JADX/ADB、浏览器和固件工具的主机/目标支持不同；Windows Ghidra 属于上游实验性 P0，只读范围及其他限制见[固定安装指南](https://github.com/morluto/rea/blob/a56f7bb668ab23fec8d33f7af353ac7ed2fe1895/docs/installation.md)。缺依赖时报告缺失项并停止对应操作，不把未知项当作已验证结果。
+每次根据目标与任务检查依赖。服务包不会提供全部分析引擎；工具列表也不保证某个工具在当前主机可执行。Hopper、Ghidra、IDA、JEB、JADX/ADB、浏览器和固件工具的主机/目标支持不同；Windows Ghidra 属于上游实验性 P0，只读范围及其他限制见[固定安装指南](https://github.com/morluto/rea/blob/160d821ac9a0310afcb8d1fc427862dd6508add5/docs/installation.md)。Frida 动态插桩需要原生绑定，本条目关闭安装脚本时不会下载，需要时按上游指南另行准备。缺依赖时报告缺失项并停止对应操作，不把未知项当作已验证结果。
 
-Check prerequisites for each target and task. The package does not include every analysis engine, and a tool inventory does not establish executability on this host. Provider support varies; upstream Windows Ghidra is experimental P0 with read-only limitations. Report missing providers and unknowns instead of inventing results.
+Check prerequisites for each target and task. The package does not include every analysis engine, and a tool inventory does not establish executability on this host. Provider support varies; upstream Windows Ghidra is experimental P0 with read-only limitations. Frida instrumentation needs a native binding that is not downloaded with lifecycle scripts disabled. Report missing providers and unknowns instead of inventing results.
 
 仅处理用户拥有或明确授权分析的目标。执行程序、注入/附加调试、修改分析数据库、写文件、连接设备、安装/卸载 APK、采集敏感网络数据均需对应的明确授权。不要在普通连接检查时调用这些工具。证据、截图、路径、网络内容和输出可能包含敏感信息，分享前应复核；调用的宿主模型及第三方服务适用各自的数据处理边界和费用。
 
