@@ -2,7 +2,7 @@
 
 ## 环境要求
 
-- Node.js >= 18
+- Node.js >= 20（1.5.1 起 `engines.node` 为 `>=20.0.0`）
 - 目标 Electron 应用可以带 `--remote-debugging-port` 启动（见下方「让目标应用开放调试端口」）
 - 首次拉包约 200MB+：该包依赖 `electron` 与 `playwright`（截图走 `chromium.connectOverCDP`），
   `npx` 冷启动可能需要数分钟。**不需要**额外执行 `npx playwright install`——它连接的是目标应用
@@ -45,7 +45,7 @@ electron . --remote-debugging-port=9222
 如果应用在主进程里用 `app.commandLine.appendSwitch('remote-debugging-port', ...)` 控制，
 就按该应用自身的开关（常见做法是仅在非打包态开启）来启用。
 
-**端口不是任意的。** v1.5.0 的端口扫描列表在代码中硬编码，且**不读取任何环境变量**：
+**端口不是任意的。** v1.5.1 的端口扫描列表在代码中硬编码（与 1.5.0 相同），且**不读取任何环境变量**：
 
 ```text
 9222 9223 9224 9225
@@ -76,7 +76,7 @@ CDP 协议**没有任何鉴权**，开放端口等于把渲染进程的完整控
 curl -s http://127.0.0.1:9222/json/version
 
 # 2. 确认 MCP 本身可启动
-npx -y electron-mcp-server@1.5.0 --help
+npx -y electron-mcp-server@1.5.1 --help
 ```
 
 接入 MCP 客户端后，调用 `get_electron_window_info` 应返回窗口标题与 URL。
