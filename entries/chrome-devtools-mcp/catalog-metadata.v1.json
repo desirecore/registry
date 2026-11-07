@@ -1,0 +1,119 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "service",
+    "id": "chrome-devtools-mcp"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "Chrome DevTools MCP",
+        "summary": "连接隔离的 Chrome，供数字员工检查页面结构、控制台、网络和性能。运行设备需安装 Node.js LTS、npm 和 Chrome。",
+        "description": "从市场添加到所选数字员工，使用独立的无头 Chrome 配置进行网页调试。预设关闭 MCP 使用统计与 CrUX 查询。服务本身不需要账号，网站权限仍由用户管理。若 Node.js、npm、Chrome 或连接不可用，先解决缺失条件，再验证网页。"
+      },
+      "en-US": {
+        "name": "Chrome DevTools MCP",
+        "summary": "Connect an agent to an isolated Chrome instance to inspect pages, console messages, network traffic and performance. Requires Node.js LTS, npm and Chrome on the execution device.",
+        "description": "Add from the market to a selected agent. The preset uses an isolated headless Chrome profile and disables MCP usage statistics and CrUX lookups. The server needs no account. Site permissions still apply. Resolve missing Node.js, npm, Chrome or connection prerequisites before reporting browser verification."
+      }
+    },
+    "tags": [
+      "browser",
+      "chrome",
+      "debugging",
+      "mcp",
+      "performance"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.12.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-10-22T13:50:03Z",
+      "precision": "second"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "package",
+      "url": "https://registry.npmjs.org/chrome-devtools-mcp",
+      "ref": "1.12.0",
+      "sha256": "4aade3167c3e781c797d6109ed603a0ca5b8cb363a289e2eaacaa9b0c5d2a360"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "stewardship": "community",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "package/LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "Chrome DevTools",
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "verified": false
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "package/LICENSE",
+      "reviewedRef": "1.12.0",
+      "reviewedAt": "2026-11-07",
+      "reviewedBy": "Registry source and runtime review",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos",
+        "windows",
+        "linux"
+      ]
+    }
+  },
+  "spec": {
+    "kind": "service",
+    "protocol": "mcp",
+    "authType": "none",
+    "capabilities": [
+      "dom_inspection",
+      "console_inspection",
+      "network_inspection",
+      "performance_tracing",
+      "browser_interaction"
+    ]
+  }
+}
