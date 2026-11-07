@@ -6,12 +6,12 @@
   "description": "DesireCore 官方注册表 — 应用、插件、MCP 服务、HTTP API 和第三方外部集成的统一目录",
   "maintainer": "DesireCore Team",
   "repository": "https://github.com/desirecore/registry",
-  "lastUpdated": "2026-11-03",
+  "lastUpdated": "2026-11-07",
   "stats": {
-    "totalEntries": 27,
+    "totalEntries": 28,
     "dockerApps": 8,
     "nativeApps": 3,
-    "mcpServices": 10,
+    "mcpServices": 11,
     "httpApis": 5,
     "externalIntegrations": 1
   },

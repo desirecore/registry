@@ -1,0 +1,61 @@
+{
+  "id": "chrome-devtools-mcp",
+  "name": "Chrome DevTools MCP",
+  "type": "mcp",
+  "version": "1.12.0",
+  "author": "Chrome DevTools",
+  "description": "连接隔离的 Chrome，供数字员工检查页面结构、控制台、网络和性能。运行设备需安装 Node.js LTS、npm 和 Chrome。",
+  "tags": [
+    "browser",
+    "chrome",
+    "debugging",
+    "mcp",
+    "performance"
+  ],
+  "icon": "terminal",
+  "platformSupport": [
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "capabilities": [
+    "dom_inspection",
+    "console_inspection",
+    "network_inspection",
+    "performance_tracing",
+    "browser_interaction"
+  ],
+  "install": {
+    "method": "npx",
+    "packageName": "chrome-devtools-mcp",
+    "command": "npx",
+    "args": [
+      "-y",
+      "chrome-devtools-mcp@1.12.0",
+      "--headless",
+      "--isolated",
+      "--no-usage-statistics",
+      "--no-performance-crux"
+    ],
+    "env": {
+      "CHROME_DEVTOOLS_MCP_NO_CONFIG_DISCOVERY": "1",
+      "CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS": "1"
+    }
+  },
+  "connection": {
+    "transport": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "chrome-devtools-mcp@1.12.0",
+      "--headless",
+      "--isolated",
+      "--no-usage-statistics",
+      "--no-performance-crux"
+    ],
+    "env": {
+      "CHROME_DEVTOOLS_MCP_NO_CONFIG_DISCOVERY": "1",
+      "CHROME_DEVTOOLS_MCP_NO_UPDATE_CHECKS": "1"
+    }
+  }
+}
