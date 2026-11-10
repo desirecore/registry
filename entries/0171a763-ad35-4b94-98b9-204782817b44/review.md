@@ -1,8 +1,20 @@
 # 视频剪辑固定材料审阅与发布边界
 
-独立“视频剪辑”，与既有视频创作/视频导演分开。App PR1与CI修复PR2已合，实际固定源 `e1e5d12ce95854ca7cb02d277f955abb1536c5ac`，main CI41455224007七项真实Runner成功。直接保留FableCut `61bf46babca82214c162c0650e47a81c3530982c`历史、MIT/版权/字体通知，NOTICE.md记录独立fork，无上游背书或产品标志。Node、Chrome for Testing、FFmpeg/ffprobe与字体各自许可独立，不冒MIT-only。
+## 0.1.4 固定材料与修复
 
-## 真实分发身份
+[应用 PR #3](https://github.com/desirecore-agent/video-editing/pull/3) 已正常 squash 合入 `c5bf97f39d8aa28e8e2be1d86fa0043c75b55061`，Git 树与七项 CI 全通过的 head `e11e041a0c435ff42da560cc6155db5733f7d91f` 相同。保留 macOS ARM64/x64、Windows x64、Linux ARM64/x64 实际架构断言和固定依赖准备；ARM 镜像改为同架构标准 macos-15，没有跳过检查或扩大 workflow 权限。
+
+当前 ZIP 为 1,374,283B，SHA-256 `9cbd5072f1c23ebb9848204b3b47cc9b7a11883b8d56dbbbac04e2f8f7d675c8`；130 个 payload / 3,108,852B，releaseDigest `81b20d78b65d4a94212f020888617c6c0651676ce495c94b728358b9c31d3228`。source.ref 固定上述合并源，UUID、内联 definition 与 editor 入口不变。归档不含原生 bins、node_modules、用户数据、凭据或授权。
+
+该版本修复远程编辑后的导出确认同步、持续纯音节拍误报和未提取音频的错误文案，更新授权工作目录交付指导。45 项具名逻辑测试、真实 MCP/PCM WAV、两项材料测试和源外安装/24 工具握手通过。DesireCore 完整原生员工业务回归由主仓 PR #6038 另行跟踪；下文 0.1.3 的历史 GUI 资格不扩展为新版本整链通过。
+
+English: Version 0.1.4 pins the reviewed archive and merged source, with all seven CI checks passing, including five native dependency targets. It fixes export revision synchronization and reference-analysis false positives. Full native employee business acceptance remains separate from these checks and the historical 0.1.3 GUI evidence.
+
+## 历史 0.1.3 来源与资格
+
+独立“视频剪辑”，与既有视频创作/视频导演分开。App PR1与CI修复PR2已合，当时固定源 `e1e5d12ce95854ca7cb02d277f955abb1536c5ac`，main CI41455224007七项真实Runner成功。直接保留FableCut `61bf46babca82214c162c0650e47a81c3530982c`历史、MIT/版权/字体通知，NOTICE.md记录独立fork，无上游背书或产品标志。Node、Chrome for Testing、FFmpeg/ffprobe与字体各自许可独立，不冒MIT-only。
+
+## 历史 0.1.3 分发身份
 
 0.1.3固定资产已在2026-11-02发布到[GitHub Release](https://github.com/desirecore-agent/video-editing/releases/tag/v0.1.3)，实际公网HTTP200下载与准备归档完全相同：1372662B/SHA256 `fa9128606390a17409ff4eba46c13988df17f55cb8bbd3f21c6066cb5f9940b4`。包根app-release.json及130payload/3104880B逐字节与上述提交一致，规范releaseDigest `205ca1f94ae71ce4b86984328ab9914d477fcc9428fd69c6dc5789f93de0e68b`。清单实际worktree生成来源保留，不为了填写Git mergeRef改payload或摘要。归档不含原生bins、node_modules、用户数据、媒体、测试夹具、凭据或授权。源固定pin和归档SHA独立填写，不用releaseDigest代替下载SHA。
 

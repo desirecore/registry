@@ -53,9 +53,9 @@ English: Native applications are independently installed host processes. Their o
 
 English: Video Creation0.3.1 pins a published ZIP, archive hash, release digest and matching studio entrypoint instead of rebuilding source during installation. Verify the inline-manifest reader, normal lifecycle and separate runtime dependencies. Catalog ports do not prove readiness/permission; acquire the Director separately.
 
-[视频剪辑 0.1.0](entries/video-editing/)复用 FableCut 时间线、合成器与 MCP 核心，使用独立产品和 Agent“视频剪辑师”。固定源码与第三方许可、显式原生依赖准备、正式受管安装和同实例 MCP 连接见条目材料。客户端下限选择已测平台版本 10.0.195，安装仍检查真实 capabilities；当前目录平台范围限定 Windows 与 Ubuntu/WSLg，macOS 待验。目录 PR 与产品 PR 的剩余验收/合并门禁未完成前不代表正式上架，从市场安装与关联仍需实际验证。
+[视频剪辑 0.1.4](entries/0171a763-ad35-4b94-98b9-204782817b44/)复用 FableCut 时间线、合成器与 MCP 核心，与独立视频剪辑师分别安装。固定 Release、摘要、受管安装和同实例 MCP 合同见条目；最低客户端 10.0.197 并需实际具备 reader 能力。0.1.4 源码/安装和五目标原生依赖 CI 通过；历史 0.1.3 GUI 证据、当前完整员工业务与正式签名客户端发行分别判断。
 
-English: Video Editing reuses the FableCut core with an independent Video Editor agent. The listing pins source, separates dependency licenses and requires explicit runtime preparation plus normal managed installation. The tested 10.0.195 client floor does not replace capability checks. Scope currently covers Windows and Ubuntu/WSLg; macOS and final product/catalog publication gates remain pending.
+English: Video Editing 0.1.4 pins a reviewed release and retains the FableCut core. The app and Video Editor agent install separately. Verify the actual >=10.0.197 reader and capabilities. Source/installed-delivery and five-target native dependency CI pass; historical 0.1.3 GUI evidence, full current employee acceptance and signed client distribution remain separate facts.
 
 ## 应用与插件（4.2）
 

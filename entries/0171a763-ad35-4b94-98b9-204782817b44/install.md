@@ -1,12 +1,14 @@
 # 视频剪辑：固定材料安装、关联与维护
 
-本条目只发布固定应用材料与运行说明，不包含已安装事实、系统安装器、原生依赖二进制、用户数据、模型额度或预授权。产品UUID/目录ID均为 `0171a763-ad35-4b94-98b9-204782817b44`；源仓库与skill名video-editing不是安装ID。先读取同目录manifest.json/review.md、[固定源运行合同](https://github.com/desirecore-agent/video-editing/blob/e1e5d12ce95854ca7cb02d277f955abb1536c5ac/desirecore/RUNTIME.md)、LICENSE、NOTICE.md和desirecore/runtime-assets.json。
+导出附件须沿当前实例的正常导出/取回能力保存到智能体已有授权工作目录，核实际文件后交付；安装、关联与 MCP 不授予整个应用数据根读取权限。 / Retrieve completed current-instance exports into the Agent's existing authorized workspace and verify the real file before attaching it. Installation, association and MCP do not authorize the application data root.
+
+本条目只发布固定应用材料与运行说明，不包含已安装事实、系统安装器、原生依赖二进制、用户数据、模型额度或预授权。产品UUID/目录ID均为 `0171a763-ad35-4b94-98b9-204782817b44`；源仓库与skill名video-editing不是安装ID。先读取同目录manifest.json/review.md、[固定源运行合同](https://github.com/desirecore-agent/video-editing/blob/c5bf97f39d8aa28e8e2be1d86fa0043c75b55061/desirecore/RUNTIME.md)、LICENSE、NOTICE.md和desirecore/runtime-assets.json。
 
 ## 兼容客户端与官方获取
 
 最低版本预定DesireCore10.0.197；公开196标签源缺少官方UUID目录/manifest内联appRelease读取能力，安装时须核对实际发行源码与能力，不能仅凭同号版本或capability字符串判断兼容。正常安装前检查真实app-authoring-v1的release/runtime-binding与App管理能力；缺失时报告，不改类型绕过。
 
-沿默认官方应用市场获取本UUID条目。唯一材料为 [video-editing-0.1.3.zip](https://github.com/desirecore-agent/video-editing/releases/download/v0.1.3/video-editing-0.1.3.zip)，响应体 **1372662B**，SHA256 `fa9128606390a17409ff4eba46c13988df17f55cb8bbd3f21c6066cb5f9940b4`；来源提交 `e1e5d12ce95854ca7cb02d277f955abb1536c5ac`。ZIP根含app-release.json与130个payload文件/3104880B；releaseDigest `205ca1f94ae71ce4b86984328ab9914d477fcc9428fd69c6dc5789f93de0e68b`。归档SHA、产品Git提交与规范releaseDigest是三种不同事实。客户端正常获取需核验实际响应字节、包根清单、逐文件大小与摘要及真实UUID/版本/入口/placement。definitionSource=manifest直接采用已核验内联definition，不编造definitionPath。不要使用可变main、上游npx/npm服务或源码内嵌草稿清单代替该归档。
+沿默认官方应用市场获取本UUID条目。唯一材料为 [video-editing-0.1.4.zip](https://github.com/desirecore-agent/video-editing/releases/download/v0.1.4/video-editing-0.1.4.zip)，响应体 **1374283B**，SHA256 `9cbd5072f1c23ebb9848204b3b47cc9b7a11883b8d56dbbbac04e2f8f7d675c8`；来源提交 `c5bf97f39d8aa28e8e2be1d86fa0043c75b55061`。ZIP根含app-release.json与130个payload文件/3108852B；releaseDigest `81b20d78b65d4a94212f020888617c6c0651676ce495c94b728358b9c31d3228`。归档SHA、产品Git提交与规范releaseDigest是三种不同事实。客户端正常获取需核验实际响应字节、包根清单、逐文件大小与摘要及真实UUID/版本/入口/placement。definitionSource=manifest直接采用已核验内联definition，不编造definitionPath。不要使用可变main、上游npx/npm服务或源码内嵌草稿清单代替该归档。
 
 应用获取不等于安装完成。委派正常AppManage/AppHost/TaskHost owner完成prepare、实际Bash接纳、运行合同与CAS commit；结果未知先查询原提交，不重复副作用。实际installationId、Actor、revision、generation、材料根和数据根只取平台响应。已有同产品安装沿expectedRevision更新，不因目录重命名另造安装。
 
