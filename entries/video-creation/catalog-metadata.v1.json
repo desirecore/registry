@@ -28,34 +28,37 @@
   },
   "release": {
     "state": "known",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-25",
+      "value": "2026-11-11",
       "precision": "day"
     },
     "releasePublishedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-10",
+      "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-25",
+      "value": "2026-11-11",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-25",
+      "value": "2026-11-11",
       "precision": "day"
     }
   },
   "provenance": {
     "content": {
-      "kind": "git",
-      "url": "https://github.com/desirecore-agent/video-creation.git",
-      "ref": "f44e7f53ba928b77ce30db843a1d17d6c3163d52"
+      "kind": "release",
+      "url": "https://github.com/desirecore-agent/video-creation/releases/download/v0.3.1/video-creation-0.3.1.zip",
+      "ref": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
+      "sha256": "fbc275d47908851080a78265c7e2eefe961e72c9e8d78c73fbfe32caf4aa32f2"
     }
   },
   "governance": {
@@ -78,9 +81,9 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "f44e7f53ba928b77ce30db843a1d17d6c3163d52",
-      "reviewedAt": "2026-10-25",
-      "reviewedBy": "repository-and-runtime-validation (see review.md)",
+      "reviewedRef": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
+      "reviewedAt": "2026-11-11",
+      "reviewedBy": "fixed-release-and-CI-review (see review.md)",
       "upstreamEndorsed": false
     },
     "license": {
@@ -98,7 +101,7 @@
         "linux"
       ]
     },
-    "requiredClientVersion": "10.0.186"
+    "requiredClientVersion": "10.0.197"
   },
   "spec": {
     "kind": "app",
@@ -110,7 +113,7 @@
     },
     "productKind": "application",
     "entrypointKinds": [
-      "agent"
+      "embedded-web"
     ]
   }
 }

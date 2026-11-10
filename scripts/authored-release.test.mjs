@@ -13,6 +13,25 @@ const source = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const temporary = []
 const entryFile = 'entries/desirecore-control/manifest.json'
 const sidecarFile = 'entries/desirecore-control/catalog-metadata.v1.json'
+
+test('official video apps use fixed manifest releases and real embedded workbench entrypoints', () => {
+  for (const [id, entrypoint, serviceRef] of [
+    ['video-creation', 'studio', 'video-creation:studio'],
+    ['0171a763-ad35-4b94-98b9-204782817b44', 'editor', 'video-editing:editor'],
+  ]) {
+    const entry = JSON.parse(readFileSync(join(source, 'entries', id, 'manifest.json'), 'utf8'))
+    const metadata = JSON.parse(readFileSync(join(source, 'entries', id, 'catalog-metadata.v1.json'), 'utf8'))
+    assert.equal(entry.install.method, 'release')
+    assert.equal(entry.source.kind, 'release')
+    assert.match(entry.source.sha256, /^[a-f0-9]{64}$/)
+    assert.equal(entry.appRelease.definitionSource, 'manifest')
+    assert.equal(entry.appRelease.manifestPath, 'app-release.json')
+    assert.match(entry.appRelease.releaseDigest, /^[a-f0-9]{64}$/)
+    assert.deepEqual(entry.entrypoints, [{ id: entrypoint, name: entry.entrypoints[0].name, kind: 'embedded-web', serviceRef }])
+    assert.deepEqual(metadata.provenance.content, entry.source)
+    assert.deepEqual(metadata.spec.entrypointKinds, ['embedded-web'])
+  }
+})
 afterEach(() => { for (const root of temporary.splice(0)) rmSync(root, { recursive: true, force: true }) })
 
 function mutate(root, file, change) {
