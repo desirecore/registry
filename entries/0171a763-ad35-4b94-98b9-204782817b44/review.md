@@ -1,5 +1,13 @@
 # 视频剪辑固定材料审阅与发布边界
 
+## 0.1.5 固定发布与导出输入修正
+
+[应用 PR #4](https://github.com/desirecore-agent/video-editing/pull/4) 补齐 0.1.4 的实际内容同步遗漏：导出采用本次应用的服务文档与修订，并保留并发草稿、项目身份和原 job owner。25 项具名导出/撤销、两项材料及源外安装/24 工具握手通过。[准确 head CI](https://github.com/desirecore-agent/video-editing/actions/runs/42889144785) 七项成功，第四轮实际运行 darwin-arm64；之前三轮未获 runner 的记录保留。合入提交 `2367b9d0ccf3276438a2c6a33cdd7843997f4dad` 与被测 head 的 Git 树相同。
+
+[公开 v0.1.5 归档](https://github.com/desirecore-agent/video-editing/releases/tag/v0.1.5) 实际下载为 1,372,757B / SHA `bf05cba666f7abd01ff56bbaa76136536cfd2fda2694edf0e3d913949eef1fec`，130 payload 文件 / 3,111,044B，releaseDigest `c1bdb5c167f47a35e78347e5daa36c02d3717498e1a96da39f86592a86099174`。完整 DesireCore 原生业务另行验收。
+
+English: 0.1.5 uses the exact refreshed service document and preserves concurrent human drafts and project switches. All seven CI checks passed, including an actual ARM64 runner on attempt four. The public ZIP matches the reviewed bytes and merged source; complete native employee acceptance remains separate.
+
 ## 0.1.4 固定材料与修复
 
 [应用 PR #3](https://github.com/desirecore-agent/video-editing/pull/3) 已正常 squash 合入 `c5bf97f39d8aa28e8e2be1d86fa0043c75b55061`，Git 树与七项 CI 全通过的 head `e11e041a0c435ff42da560cc6155db5733f7d91f` 相同。保留 macOS ARM64/x64、Windows x64、Linux ARM64/x64 实际架构断言和固定依赖准备；ARM 镜像改为同架构标准 macos-15，没有跳过检查或扩大 workflow 权限。

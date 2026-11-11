@@ -2,7 +2,7 @@
   "id": "0171a763-ad35-4b94-98b9-204782817b44",
   "name": "视频剪辑",
   "type": "native-app",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "desirecore-agent",
   "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
   "shortDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
@@ -49,9 +49,9 @@
   },
   "source": {
     "kind": "release",
-    "url": "https://github.com/desirecore-agent/video-editing/releases/download/v0.1.4/video-editing-0.1.4.zip",
-    "ref": "c5bf97f39d8aa28e8e2be1d86fa0043c75b55061",
-    "sha256": "9cbd5072f1c23ebb9848204b3b47cc9b7a11883b8d56dbbbac04e2f8f7d675c8"
+    "url": "https://github.com/desirecore-agent/video-editing/releases/download/v0.1.5/video-editing-0.1.5.zip",
+    "ref": "2367b9d0ccf3276438a2c6a33cdd7843997f4dad",
+    "sha256": "bf05cba666f7abd01ff56bbaa76136536cfd2fda2694edf0e3d913949eef1fec"
   },
   "stewardship": "pointer",
   "availability": "installable",
@@ -73,7 +73,7 @@
   "compliance": {
     "licenseEvidencePath": "LICENSE",
     "noticePath": "NOTICE.md",
-    "reviewedRef": "c5bf97f39d8aa28e8e2be1d86fa0043c75b55061",
+    "reviewedRef": "2367b9d0ccf3276438a2c6a33cdd7843997f4dad",
     "reviewedAt": "2026-11-11",
     "reviewedBy": "fixed-source-and-bounded-runtime-review (see review.md)",
     "upstreamEndorsed": false
@@ -88,7 +88,7 @@
   ],
   "appRelease": {
     "schemaVersion": 1,
-    "releaseDigest": "81b20d78b65d4a94212f020888617c6c0651676ce495c94b728358b9c31d3228",
+    "releaseDigest": "c1bdb5c167f47a35e78347e5daa36c02d3717498e1a96da39f86592a86099174",
     "manifestPath": "app-release.json",
     "definitionSource": "manifest",
     "requiredCapabilities": [
