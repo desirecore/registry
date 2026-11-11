@@ -1,5 +1,13 @@
 # 固定源审阅边界
 
+## 0.3.2 固定运行时修复
+
+[应用 PR #20](https://github.com/desirecore-agent/video-creation/pull/20) 修复精简 FFmpeg 仅通过版本检查、却不能混音和导出的误判。固定源 `dae13711e5a340647574f2b73d2aea24e6995ab0` 与被测 head 树一致；core（含类型）及 Linux 实际运行 CI 通过。macOS ARM64 实际精简 PATH、空缓存的固定 SHA 回退通过，回退副本执行 5 项真实运行 smoke；18 项定向测试通过。
+
+[公开 0.3.2 归档](https://github.com/desirecore-agent/video-creation/releases/tag/v0.3.2) 实际下载 5,020,403B，SHA `bfa4fbe51d3bbed9a2fd54f0805bdfb14f658ca30025793b8f3fdd746983d933`，215 文件 / 9,682,993B，releaseDigest `3e9db34f598b4f4ae4d74958cc4039e2d13be113e8f539043687ba780be66ca2`。只指向公开固定包，不改变 studio 入口及权限。完整 DesireCore 原生验收另记。
+
+English: 0.3.2 detects extraction-only FFmpeg and verifies the pinned application copy where supported. Source checks, Linux runtime CI, the actual macOS ARM64 cold-cache fallback and a five-check runtime smoke passed. The public ZIP matches the reviewed archive; full native employee acceptance is separate.
+
 ## 0.3.1 固定发布材料
 
 固定源码51aa4088ff6eea92c88213b6fc36c5e24d8a23d9由应用PR #19合入；发布head的core（含类型）与Linux真实运行门禁均成功。当前目录改为已发布ZIP、归档SHA、appRelease与studio/embedded-web入口一致的指针，消除源码重建与旧manage/agent目录不匹配。215个payload文件逐项核验，保留原MIT/来源/第三方许可；没有用户数据或原生依赖二进制。

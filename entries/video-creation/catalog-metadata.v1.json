@@ -28,7 +28,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -39,7 +39,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-11-10",
+      "value": "2026-11-11",
       "precision": "day"
     },
     "reviewedAt": {
@@ -56,9 +56,9 @@
   "provenance": {
     "content": {
       "kind": "release",
-      "url": "https://github.com/desirecore-agent/video-creation/releases/download/v0.3.1/video-creation-0.3.1.zip",
-      "ref": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
-      "sha256": "fbc275d47908851080a78265c7e2eefe961e72c9e8d78c73fbfe32caf4aa32f2"
+      "url": "https://github.com/desirecore-agent/video-creation/releases/download/v0.3.2/video-creation-0.3.2.zip",
+      "ref": "dae13711e5a340647574f2b73d2aea24e6995ab0",
+      "sha256": "bfa4fbe51d3bbed9a2fd54f0805bdfb14f658ca30025793b8f3fdd746983d933"
     }
   },
   "governance": {
@@ -81,7 +81,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
+      "reviewedRef": "dae13711e5a340647574f2b73d2aea24e6995ab0",
       "reviewedAt": "2026-11-11",
       "reviewedBy": "fixed-release-and-CI-review (see review.md)",
       "upstreamEndorsed": false
