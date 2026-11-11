@@ -2,7 +2,7 @@
   "id": "video-creation",
   "name": "视频创作",
   "type": "native-app",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "desirecore-agent",
   "description": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。",
   "shortDesc": "可编辑影片、原创动效和带版本时点的真实画面审片；与视频导演协作并保留人工修改。",
@@ -47,9 +47,9 @@
   },
   "source": {
     "kind": "release",
-    "url": "https://github.com/desirecore-agent/video-creation/releases/download/v0.3.1/video-creation-0.3.1.zip",
-    "ref": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
-    "sha256": "fbc275d47908851080a78265c7e2eefe961e72c9e8d78c73fbfe32caf4aa32f2"
+    "url": "https://github.com/desirecore-agent/video-creation/releases/download/v0.3.2/video-creation-0.3.2.zip",
+    "ref": "dae13711e5a340647574f2b73d2aea24e6995ab0",
+    "sha256": "bfa4fbe51d3bbed9a2fd54f0805bdfb14f658ca30025793b8f3fdd746983d933"
   },
   "stewardship": "pointer",
   "availability": "installable",
@@ -71,7 +71,7 @@
   "compliance": {
     "licenseEvidencePath": "LICENSE",
     "noticePath": "THIRD_PARTY_NOTICES.md",
-    "reviewedRef": "51aa4088ff6eea92c88213b6fc36c5e24d8a23d9",
+    "reviewedRef": "dae13711e5a340647574f2b73d2aea24e6995ab0",
     "reviewedAt": "2026-11-11",
     "reviewedBy": "fixed-release-and-CI-review (see review.md)",
     "upstreamEndorsed": false
@@ -86,7 +86,7 @@
   ],
   "appRelease": {
     "schemaVersion": 1,
-    "releaseDigest": "9e920eb96caec2ca4fb470e0acacb4afa503644b415dc9d7e2f3af3f4370fec1",
+    "releaseDigest": "3e9db34f598b4f4ae4d74958cc4039e2d13be113e8f539043687ba780be66ca2",
     "manifestPath": "app-release.json",
     "definitionSource": "manifest",
     "requiredCapabilities": [

@@ -4,7 +4,7 @@
 
 ## 准备固定材料
 
-从 manifest.source.url 下载 video-creation-0.3.1.zip（5,024,341 字节），先核归档 SHA-256 `fbc275d47908851080a78265c7e2eefe961e72c9e8d78c73fbfe32caf4aa32f2`。解压根的 app-release.json 发布摘要须为 `9e920eb96caec2ca4fb470e0acacb4afa503644b415dc9d7e2f3af3f4370fec1`；再逐项核215个payload文件的大小与摘要。源码关联提交为51aa4088ff6eea92c88213b6fc36c5e24d8a23d9，入口必须为studio/embedded-web/video-creation:studio，与目录完全一致。
+从 manifest.source.url 下载 video-creation-0.3.2.zip（5,020,403 字节），先核归档 SHA-256 `bfa4fbe51d3bbed9a2fd54f0805bdfb14f658ca30025793b8f3fdd746983d933`。解压根的 app-release.json 发布摘要须为 `3e9db34f598b4f4ae4d74958cc4039e2d13be113e8f539043687ba780be66ca2`；再逐项核215个payload文件的大小与摘要。源码关联提交为dae13711e5a340647574f2b73d2aea24e6995ab0，入口必须为studio/embedded-web/video-creation:studio，与目录完全一致。
 
 归档已经包含构建后的UI和完整运行依赖许可，不包含node_modules、原生依赖、用户工程、身份、凭据或安装ledger。正式安装直接使用该固定材料；只在材料根按RUNTIME.md准备prod依赖，不重新构建UI或生成另一份清单。不要从可变main、旧源码包或上游原版替代，也不篡改清单迁就不匹配。
 
@@ -18,6 +18,8 @@
 
 在平台返回的固定材料根准备prod依赖，并在明确候选home中setup-runtime；浏览器与FFmpeg可能需首次下载。通过原owner执行候选start命令并保存实际terminalId、端口及身份路径/api/desirecore/runtime-identity。正式commit前由原owner关闭候选，确认精确进程及端口退出。正式启动使用平台登记的数据根与注入的PORT，核当前release/revision/generation的binding和实际页面；激活available、安装核验记录或HTTP200单项不等于完整可用。
 
+0.3.2 的 setup-runtime 检查实际混音滤镜和 H.264/AAC 编码器，精简系统 FFmpeg 会触发支持平台的固定应用副本回退。候选根与正式根不同时，按 AppAuthoring.release_history 的实际 currentData.dataRoot 在正式根准备，再经原 owner 正常停止并重开已有进程。 / Prepare the actual registered data root and restart through its original runtime owner. The pinned application FFmpeg takes precedence if the system build lacks required features.
+
 视频导演单独从市场安装。只从真实安装结果读Agent ID，沿正式配置和弱关联流程接线；不把显示名、仓库slug或个人ID写进公共包。顶层AppHost使用有限桥，交接需宿主真实确认；影片iframe不获得平台权限。
 
 ## 更新和卸载
@@ -28,4 +30,4 @@
 
 卸载先停止该精确安装，使用正式卸载入口；数据合同默认保留数据。作品与素材不属于release文件，不能随材料清理顺手删除。目录本身不删除或更改用户数据。
 
-English: Download the pinned 0.3.1 release ZIP and verify its archive hash, root manifest digest and every payload file. Do not rebuild a different source snapshot during installation. Require the manifest-inline release reader (client floor10.0.197), actual authoring capabilities and normal owner admission/runtime/CAS lifecycle. Prepare production/native dependencies explicitly. Use verified current-job downloads into the Agent's existing authorized workspace for attachments; no application-data permission is implied. Preserve human edits/data and query uncertain submissions before retrying.
+English: Download the pinned 0.3.2 release ZIP and verify its archive hash, root manifest digest and every payload file. Do not rebuild a different source snapshot during installation. Require the manifest-inline release reader (client floor10.0.197), actual authoring capabilities and normal owner admission/runtime/CAS lifecycle. Prepare production/native dependencies explicitly. Use verified current-job downloads into the Agent's existing authorized workspace for attachments; no application-data permission is implied. Preserve human edits/data and query uncertain submissions before retrying.

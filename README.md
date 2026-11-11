@@ -49,9 +49,9 @@ DesireCore 客户端启动时会克隆此仓库，并定期同步更新。用户
 
 English: Native applications are independently installed host processes. Their outward MCP protocol does not make them internal service packages. Pinned artifacts or fixed Git source, explicit client/skill compatibility and App lifecycle receipts are required; catalog publication alone cannot upgrade an older client. Control remains a single application entry without a Docker or MCP duplicate; each application's placement policy controls whether users may associate an agent.
 
-[视频创作 0.3.1](entries/video-creation/)固定已发布ZIP、归档摘要、appRelease和studio页面入口，通过现有作者与运行合同安装，不再在安装时重建另一份源码快照。需要manifest内联定义reader（客户端下限10.0.197）和明确的独立运行依赖准备；实际端口、健康与权限取原owner回执。视频导演单独从Agent市场获取，目录发布不更新已有安装。
+[视频创作 0.3.2](entries/video-creation/)固定已发布ZIP、归档摘要、appRelease和studio页面入口，通过现有作者与运行合同安装，不再在安装时重建另一份源码快照。需要manifest内联定义reader（客户端下限10.0.197）和明确的独立运行依赖准备；实际端口、健康与权限取原owner回执。视频导演单独从Agent市场获取，目录发布不更新已有安装。
 
-English: Video Creation0.3.1 pins a published ZIP, archive hash, release digest and matching studio entrypoint instead of rebuilding source during installation. Verify the inline-manifest reader, normal lifecycle and separate runtime dependencies. Catalog ports do not prove readiness/permission; acquire the Director separately.
+English: Video Creation 0.3.2 pins a published ZIP, archive hash, release digest and matching studio entrypoint instead of rebuilding source during installation. Verify the inline-manifest reader, normal lifecycle and separate runtime dependencies. Catalog ports do not prove readiness/permission; acquire the Director separately.
 
 [视频剪辑 0.1.5](entries/0171a763-ad35-4b94-98b9-204782817b44/)复用 FableCut 时间线、合成器与 MCP 核心，与独立视频剪辑师分别安装。固定 Release、摘要、受管安装和同实例 MCP 合同见条目；最低客户端 10.0.197 并需实际具备 reader 能力。0.1.5 源码/安装检查通过，五目标原生依赖 CI 以应用 PR #4 的准确 head 为准；历史 0.1.3 GUI 证据、当前完整员工业务与正式签名客户端发行分别判断。
 
