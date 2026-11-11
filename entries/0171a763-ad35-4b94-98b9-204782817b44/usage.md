@@ -1,8 +1,8 @@
 # 视频剪辑使用
 
-0.1.4 在导出前等待保存并同步当前服务 revision，同修订确认正常通过，未保存草稿或项目变化仍拒绝导出。参考分析区分无音轨与未请求提取，持续纯音不作为可靠节拍。完整员工业务仍须独立复验，历史 GUI 证据不自动扩展。 / Version 0.1.4 synchronizes the server revision before export while retaining local-draft and identity guards. Reference analysis distinguishes disabled extraction from absent audio and suppresses unreliable steady-tone tempo. Historical GUI checks do not qualify the new complete employee workflow.
+0.1.5 在导出前保存并核对原本地输入，再以本次实际同步的服务文档和 revision 准入；刷新中新增的人工草稿/项目切换不被覆盖，后续新编辑仍拒绝导出。参考分析区分无音轨与未请求提取，持续纯音不作为可靠节拍。完整员工业务仍须独立复验，历史 GUI 证据不自动扩展。 / Version 0.1.5 fences the saved local input and admits the exact refreshed server document, preserving concurrent human drafts and project switches. Later edits still refuse export. Reference analysis distinguishes disabled extraction from absent audio and suppresses unreliable steady-tone tempo. Historical GUI checks do not qualify the new complete employee workflow.
 
-从已安装应用的“剪辑工作台”打开或新建工程，组织视频、音频、图片、标题和叠加层，使用时间线完成裁剪、分割、轨道编排、声音与调色。界面跟随 DesireCore 明暗主题；窄窗口通过 Preview / Media / Inspector 切换主任务区域。部分上游控件保留英文标签。[固定源编辑手册](https://github.com/desirecore-agent/video-editing/blob/c5bf97f39d8aa28e8e2be1d86fa0043c75b55061/docs/editor-guide.md)说明实际编辑与 MCP 合同。
+从已安装应用的“剪辑工作台”打开或新建工程，组织视频、音频、图片、标题和叠加层，使用时间线完成裁剪、分割、轨道编排、声音与调色。界面跟随 DesireCore 明暗主题；窄窗口通过 Preview / Media / Inspector 切换主任务区域。部分上游控件保留英文标签。[固定源编辑手册](https://github.com/desirecore-agent/video-editing/blob/2367b9d0ccf3276438a2c6a33cdd7843997f4dad/docs/editor-guide.md)说明实际编辑与 MCP 合同。
 
 视频剪辑师可协助素材组织、时间线与声音处理，也可自主编写 HTML/SVG/Canvas/WebGL 原创动效并按工程实际支持的素材/组件流程加入作品，不要求作品局限于字幕或模板。人工编辑、草稿和锁遵循原工程合同；保存和 MCP 修改携带当前 projectId/baseRevision，遇到冲突先保留草稿、重新读取当前修订，不盲覆盖。
 
