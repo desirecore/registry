@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "entryId": "rea-mcp",
+  "listedVersion": "6.8.0",
+  "observedVersion": "6.9.0",
+  "metadataUrl": "https://registry.npmjs.org/rea-agents/latest",
+  "reason": "制品超过自动核验下载预算",
+  "reviewPassed": false,
+  "findings": {},
+  "note": "仅候选说明，不修改当前 manifest、sidecar、审核结论或安装状态。"
+}
