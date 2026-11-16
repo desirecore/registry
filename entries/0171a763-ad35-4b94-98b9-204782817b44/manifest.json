@@ -2,11 +2,11 @@
   "id": "0171a763-ad35-4b94-98b9-204782817b44",
   "name": "视频剪辑",
   "type": "native-app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "desirecore-agent",
   "description": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
   "shortDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。",
-  "fullDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。需要包含新应用目录读取能力的 DesireCore 10.0.197 或更新版本、Node.js >=22，及显式准备的固定浏览器和 FFmpeg/ffprobe。公开196标签源不含该reader；安装时须核对实际发行源码与能力，版本号本身不足以证明支持。历史 0.1.3 限定功能已在 macOS 源码 GUI、Windows 未签 GUI 和 Ubuntu/WSLg 源码 GUI 实测；不扩展为正式签名安装器、官方 Linux 包、裸机 GPU 或模型自主规划质量。模型及可选媒体服务的许可、账号与费用另计，不默认调用付费生成。",
+  "fullDesc": "多轨视频剪辑、声音与原创动效；与独立视频剪辑师协作，保留人工编辑。复用 FableCut 时间线、浏览器合成器与 MCP 核心，界面跟随 DesireCore 明暗主题。支持宿主传递界面语言的客户端可在设置中切换简体中文和英文。需要包含新应用目录读取能力的 DesireCore 10.0.197 或更新版本、Node.js >=22，及显式准备的固定浏览器和 FFmpeg/ffprobe。公开196标签源不含该reader；安装时须核对实际发行源码与能力，版本号本身不足以证明支持。历史 0.1.3 限定功能已在 macOS 源码 GUI、Windows 未签 GUI 和 Ubuntu/WSLg 源码 GUI 实测；不扩展为正式签名安装器、官方 Linux 包、裸机 GPU 或模型自主规划质量。模型及可选媒体服务的许可、账号与费用另计，不默认调用付费生成。",
   "tags": [
     "video",
     "editing",
@@ -36,7 +36,7 @@
     },
     "configNeeded": [
       "客户端 >=10.0.197，且实际包含官方 UUID 应用目录与 manifest 内联 appRelease reader；核对 app-authoring-v1 release/runtime-binding 与正常应用管理能力。公开196标签源不包含该reader。",
-      "从固定 Release 下载并核验 source.sha256，根 app-release.json 和130个文件逐项核验；由正常应用获取及 AppManage/AppHost/TaskHost 流程安装，不用可变main或npm命令替代。",
+      "从固定 Release 下载并核验 source.sha256，根 app-release.json 和132个文件逐项核验；由正常应用获取及 AppManage/AppHost/TaskHost 流程安装，不用可变main或npm命令替代。",
       "显式执行固定材料中的 setup-runtime，准备Node >=22、浏览器、FFmpeg/ffprobe；这些二进制不包含在 ZIP，遵循各自许可，所需系统库和原sandbox前提不可跳过。",
       "7777 是源码fallback对应的可调默认约定，不是当前端口或已安装事实。真实owner选择可用PORT并注入原启动契约，不结束其它进程。",
       "独立安装视频剪辑师，关联只设置入口偏好。MCP须另行授权连接同一个当前release/安装/instance/generation/dataRoot；版本号、能力字符串或目录不替代真实就绪观测。"
@@ -49,9 +49,9 @@
   },
   "source": {
     "kind": "release",
-    "url": "https://github.com/desirecore-agent/video-editing/releases/download/v0.1.5/video-editing-0.1.5.zip",
-    "ref": "2367b9d0ccf3276438a2c6a33cdd7843997f4dad",
-    "sha256": "bf05cba666f7abd01ff56bbaa76136536cfd2fda2694edf0e3d913949eef1fec"
+    "url": "https://github.com/desirecore-agent/video-editing/releases/download/v0.1.6/video-editing-0.1.6.zip",
+    "ref": "5fb826972970d45778a5be44c38d5110bc1cf054",
+    "sha256": "e0a0302392a681542cff4136740619c4569714138bb5643d5add4561e7c03d9d"
   },
   "stewardship": "pointer",
   "availability": "installable",
@@ -73,8 +73,8 @@
   "compliance": {
     "licenseEvidencePath": "LICENSE",
     "noticePath": "NOTICE.md",
-    "reviewedRef": "2367b9d0ccf3276438a2c6a33cdd7843997f4dad",
-    "reviewedAt": "2026-11-11",
+    "reviewedRef": "5fb826972970d45778a5be44c38d5110bc1cf054",
+    "reviewedAt": "2026-11-16",
     "reviewedBy": "fixed-source-and-bounded-runtime-review (see review.md)",
     "upstreamEndorsed": false
   },
@@ -88,7 +88,7 @@
   ],
   "appRelease": {
     "schemaVersion": 1,
-    "releaseDigest": "c1bdb5c167f47a35e78347e5daa36c02d3717498e1a96da39f86592a86099174",
+    "releaseDigest": "925f795843df1b8b8f75c45d016a4af9dfbd22e20b0083361939f9bdef7f7f3f",
     "manifestPath": "app-release.json",
     "definitionSource": "manifest",
     "requiredCapabilities": [
