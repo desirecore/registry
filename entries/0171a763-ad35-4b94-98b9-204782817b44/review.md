@@ -1,5 +1,13 @@
 # 视频剪辑固定材料审阅与发布边界
 
+## 0.1.6 固定发布与工作台界面语言
+
+[应用 PR #5](https://github.com/desirecore-agent/video-editing/pull/5) 让主工作台跟随 DesireCore 设置的简体中文与英文。宿主更新语言时保留工程、已打开面板和命名。旧宿主未提供语言时显示简体中文。42 项定向回归与[精确 head 的七项 CI](https://github.com/desirecore-agent/video-editing/actions/runs/43822190831)通过，合入提交与受测提交同树。Chromium 验证了两组相反的浏览器和宿主语言，通过测试桥发送宿主语言。完整官方市场原生 GUI 验收在目录发布后进行。
+
+[公开 v0.1.6 归档](https://github.com/desirecore-agent/video-editing/releases/tag/v0.1.6) 实际下载 1404652B，SHA-256 `e0a0302392a681542cff4136740619c4569714138bb5643d5add4561e7c03d9d`，固定源 `5fb826972970d45778a5be44c38d5110bc1cf054`。清单含 132 项 / 3160249B，releaseDigest `925f795843df1b8b8f75c45d016a4af9dfbd22e20b0083361939f9bdef7f7f3f`。
+
+English: Version 0.1.6 follows the DesireCore interface setting while retaining the current editing project and panels. All seven source and native dependency checks passed for the reviewed tree. The public archive matches the installed material identity. Clean official-market native GUI verification follows publication.
+
 ## 0.1.5 固定发布与导出输入修正
 
 [应用 PR #4](https://github.com/desirecore-agent/video-editing/pull/4) 补齐 0.1.4 的实际内容同步遗漏：导出采用本次应用的服务文档与修订，并保留并发草稿、项目身份和原 job owner。25 项具名导出/撤销、两项材料及源外安装/24 工具握手通过。[准确 head CI](https://github.com/desirecore-agent/video-editing/actions/runs/42889144785) 七项成功，第四轮实际运行 darwin-arm64；之前三轮未获 runner 的记录保留。合入提交 `2367b9d0ccf3276438a2c6a33cdd7843997f4dad` 与被测 head 的 Git 树相同。
